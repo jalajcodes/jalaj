@@ -1,13 +1,13 @@
 module.exports = {
   siteMetadata: {
-    title: 'Tania Rascia',
+    title: 'Jalaj Gupta',
     author: {
-      name: 'Tania Rascia',
+      name: 'Jalaj Gupta',
     },
     pathPrefix: '/',
-    siteUrl: 'https://www.taniarascia.com',
+    siteUrl: 'https://www.jalaj.dev',
     description:
-      'Software engineer and open source creator. This is my digital garden.',
+      'Fullstack Web and Mobile Developer. This is my portfolio and personal blog.',
   },
   plugins: [
     // ===================================================================================
@@ -19,10 +19,10 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'Tania Rascia',
-        short_name: 'Tania Rascia',
+        name: 'Jalaj Gupta',
+        short_name: 'Jalaj Gupta',
         description:
-          'Software engineer and open source creator. This is my digital garden.',
+          'Fullstack Web and Mobile Developer. This is my portfolio and personal blog.',
         start_url: '/',
         background_color: 'white',
         theme_color: '#5183f5',
@@ -60,6 +60,15 @@ module.exports = {
       resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
+          {
+            resolve: 'gatsby-remark-normalize-paths',
+            options: {
+              pathFields: ['thumbnail'],
+            },
+          },
+          {
+            resolve: `gatsby-remark-relative-images`,
+          },
           {
             resolve: 'gatsby-remark-images',
             options: {

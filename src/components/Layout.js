@@ -18,7 +18,7 @@ export default function Layout({ children }) {
       <div className="site-wrapper">
         <Nav />
         <main className="main-area">{children}</main>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   )

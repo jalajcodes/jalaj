@@ -1,20 +1,20 @@
 import React, { useMemo } from 'react'
 import { Link, graphql } from 'gatsby'
 import Helmet from 'react-helmet'
-import { motion } from 'framer-motion'
+import { motion, useMotionValue, useTransform } from 'framer-motion'
 
 import Layout from '../components/Layout'
-import Posts from '../components/Posts'
-import Lists from '../components/Lists'
-import Projects from '../components/Projects'
+// import Posts from '../components/Posts'
+// import Lists from '../components/Lists'
+// import Projects from '../components/Projects'
 import SEO from '../components/SEO'
 
 import { getSimplifiedPosts } from '../utils/helpers'
 import config from '../utils/config'
 
-import projects from '../data/projects'
-import interviews from '../data/interviews'
-import speaking from '../data/speaking'
+// import projects from '../data/projects'
+// import interviews from '../data/interviews'
+// import speaking from '../data/speaking'
 
 export default function BlogIndex({ data }) {
   const latest = data.latest.edges
@@ -35,31 +35,13 @@ export default function BlogIndex({ data }) {
     <Layout>
       <Helmet title={config.siteTitle} />
       <SEO />
-      <div className="homepage__wrapper">
-        <motion.div
-          initial={{ y: '-50vw', opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5, type: 'spring' }}
-          className="homepage__intro"
-        >
+      <div className="container homepage__wrapper">
+        <div className="homepage__intro">
           <div>Hello there!</div>
           <div>I am Jalaj</div>A Fullstack Web Developer{''}
-          <motion.span
-            animate={{
-              opacity: [1, 0, 0, 0, 1, 0, 0, 0, 1],
-              transition: { duration: 2.5, yoyo: Infinity },
-            }}
-          >
-            |
-          </motion.span>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ y: '-50vw', opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5, type: 'spring' }}
-          className="homepage__svg"
-        >
+        <div className="homepage__svg">
           <svg
             id="e4bbe722-77af-4dff-9d23-13f94132c30a"
             data-name="Layer 1"
@@ -260,7 +242,7 @@ export default function BlogIndex({ data }) {
               fill="#d0cde1"
             />
           </svg>
-        </motion.div>
+        </div>
       </div>
 
       {/* <section className="small lead">
