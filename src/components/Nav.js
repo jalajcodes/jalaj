@@ -13,7 +13,7 @@ export default function Nav() {
     burger.classList.toggle('opened')
     burger.setAttribute('aria-expanded', burger.classList.contains('opened'))
     // links.current.classList.toggle('show')
-    setShowMenu((prev) => !prev)
+    setShowMenu(!showMenu)
 
     // if (showMenu) {
     //   links.current.classList.add('show')

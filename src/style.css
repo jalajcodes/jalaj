@@ -415,10 +415,12 @@ a code:hover {
   background-color: var(--navbar-bg);
   padding: 0.8rem 0;
   transform: translateX(100vw);
-  transition: transform 0.3s ease-in;
+  transition: all 0.3s ease-in;
+  opacity: 0;
 }
 
 .navbar__links.show {
+  opacity: 1;
   transform: translateX(0);
 }
 
