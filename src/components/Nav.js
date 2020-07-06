@@ -2,11 +2,6 @@ import React, { useState, useRef } from 'react'
 import { Link } from 'gatsby'
 // import { motion } from 'framer-motion'
 
-//todo
-// 1. fix error coming from Posts.js
-// 2. Learn how to persist state b/w pages
-// 3. how to fix navbar in the bottom (inspect bruskowski)
-
 export default function Nav() {
   const [showMenu, setShowMenu] = useState(false)
   const links = useRef(null)
