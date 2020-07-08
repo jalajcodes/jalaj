@@ -8,11 +8,13 @@ export default function Posts({ data, tags }) {
     <div className={tags ? 'grid posts with-tags' : 'grid posts'}>
       {data.map((node) => {
         return (
-          <Link to={node.slug} className="row" key={node.id}>
+          <div key={node.id} className="row">
             <div className="cell">
               <time>{node.date}</time>
             </div>
-            <div className="cell">{node.title}</div>
+            <div className="cell">
+              <Link to={node.slug}>{node.title}</Link>
+            </div>
             {tags && (
               <div className="cell tags">
                 {node.tags &&
@@ -27,7 +29,7 @@ export default function Posts({ data, tags }) {
                   ))}
               </div>
             )}
-          </Link>
+          </div>
         )
       })}
     </div>

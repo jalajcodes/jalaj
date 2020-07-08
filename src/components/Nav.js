@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'gatsby'
 import { myContext } from '../utils/provider'
+import { buildStyleProperty } from '../../node_modules/stylefire/lib/index'
 
 export default function Nav({ hideNav }) {
   // const [showMenu, setShowMenu] = useState(false)
@@ -9,10 +10,12 @@ export default function Nav({ hideNav }) {
   const hamburgerToggle = (e, context) => {
     // console.log(e.currentTarget)
     const burger = e.currentTarget
+    context.slideMenu()
+
     burger.classList.toggle('opened')
+
     burger.setAttribute('aria-expanded', burger.classList.contains('opened'))
     // links.current.classList.toggle('show')
-    context.slideMenu()
   }
 
   return (
@@ -50,11 +53,7 @@ export default function Nav({ hideNav }) {
             </Link>
 
             <Link activeClassName="navbar__links--active" to="/projects">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                data-name="Layer 1"
-                viewBox="0 0 24 24"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path
                   fill="currentColor"
                   d="M17,6.06a3,3,0,0,0-1.15,5.77A2,2,0,0,1,14,13.06H10a3.91,3.91,0,0,0-2,.56V7.88a3,3,0,1,0-2,0v8.36a3,3,0,1,0,2.16.05A2,2,0,0,1,10,15.06h4a4,4,0,0,0,3.91-3.16A3,3,0,0,0,17,6.06Zm-10-2a1,1,0,1,1-1,1A1,1,0,0,1,7,4.06Zm0,16a1,1,0,1,1,1-1A1,1,0,0,1,7,20.06Zm10-10a1,1,0,1,1,1-1A1,1,0,0,1,17,10.06Z"
@@ -134,7 +133,7 @@ export default function Nav({ hideNav }) {
           </div>
           <div className="navbar__hamburger">
             <button
-              className="menu"
+              className={'menu' + (context.showMenu ? ' opened' : '')}
               onClick={(e) => hamburgerToggle(e, context)}
               aria-label="Main Menu"
             >

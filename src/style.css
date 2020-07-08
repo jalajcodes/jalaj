@@ -279,7 +279,6 @@ a.patreon:hover {
   overflow-x: hidden;
   overflow-y: hidden;
   margin-bottom: 40px;
-  height: calc(100vh - 68px);
 }
 .homepage__wrapper {
   display: flex;
@@ -395,16 +394,11 @@ a code:hover {
                     Navbar
 //////////////////////////////////////////////////////*/
 
-/* main {
-  margin-top: 7rem;
-} */
-
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: var(--navbar-bg);
-  /* height: 60px; */
   box-shadow: 0 3px 13px rgba(100, 110, 140, 0.1),
     0 2px 4px rgba(100, 110, 140, 0.15);
   z-index: 999999;
@@ -415,7 +409,6 @@ a code:hover {
 }
 .navbar__logo {
   background-color: #000;
-  /* padding: 0.1rem; */
 }
 
 .navbar--hidden {
@@ -750,6 +743,9 @@ tbody tr:nth-child(even) {
 
 .posts {
   width: 100%;
+}
+.posts a {
+  border-bottom: none;
 }
 
 @media screen and (min-width: 800px) {
