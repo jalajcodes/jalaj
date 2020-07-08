@@ -1,7 +1,5 @@
 import React from 'react'
 
-import NavbarWrapper from './src/components/NavbarWrapper'
+import Provider from './src/utils/provider'
 
-// export const wrapPageElement = ({ element, props }) => {
-//   return <NavbarWrapper {...props}>{element}</NavbarWrapper>
-// }
+export const wrapRootElement = Provider

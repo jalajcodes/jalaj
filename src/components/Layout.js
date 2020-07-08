@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Helmet from 'react-helmet'
 import { throttle } from '../utils/helpers'
 
-import favicon from '../../content/thumbnails/favicon.png'
+// import favicon from '../../content/thumbnails/favicon.png'
 
 import Nav from './Nav'
 // import Footer from './Footer'
@@ -16,7 +16,10 @@ export default function Layout({ children }) {
   useEffect(() => {
     if (typeof window != undefined) {
       prevScrollPos = window.pageYOffset
-      window.onscroll = throttle(handleIt, 500)
+      window.onscroll = throttle(handleIt, 500, {
+        leading: false,
+        trailing: false,
+      })
     }
   }, [])
   const handleIt = () => {
@@ -32,7 +35,11 @@ export default function Layout({ children }) {
   return (
     <>
       <Helmet>
-        <link rel="shortcut icon" type="image/png" href={favicon} />
+        <link
+          rel="shortcut icon"
+          type="image/png"
+          href="https://s2.googleusercontent.com/s2/favicons?domain=jalaj.funcity.org"
+        />
       </Helmet>
       <Nav hideNav={hideNav} />
       <div
