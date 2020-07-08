@@ -3,7 +3,7 @@ import { Link } from 'gatsby'
 import { myContext } from '../utils/provider'
 
 export default function Nav({ hideNav }) {
-  const [showMenu, setShowMenu] = useState(false)
+  // const [showMenu, setShowMenu] = useState(false)
   // const links = useRef(null)
 
   const hamburgerToggle = (e, context) => {

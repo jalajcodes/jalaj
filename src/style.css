@@ -279,6 +279,7 @@ a.patreon:hover {
   overflow-x: hidden;
   overflow-y: hidden;
   margin-bottom: 40px;
+  height: calc(100vh - 68px);
 }
 .homepage__wrapper {
   display: flex;
