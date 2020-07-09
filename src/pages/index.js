@@ -8,7 +8,7 @@ import SEO from '../components/SEO'
 
 import config from '../utils/config'
 
-export default function BlogIndex() {
+export default function BlogIndex({ location }) {
   return (
     <Layout location={location}>
       <Helmet title={config.siteTitle} />
