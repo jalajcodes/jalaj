@@ -1,14 +1,14 @@
-import React, { useMemo } from 'react'
-import { Link, graphql } from 'gatsby'
+import React from 'react'
+// import { Link, graphql } from 'gatsby'
 import Helmet from 'react-helmet'
-import { motion, useMotionValue, useTransform } from 'framer-motion'
+// import { motion, useMotionValue, useTransform } from 'framer-motion'
 
 import Layout from '../components/Layout'
 import SEO from '../components/SEO'
 
 import config from '../utils/config'
 
-export default function BlogIndex({ data }) {
+export default function BlogIndex() {
   return (
     <Layout>
       <Helmet title={config.siteTitle} />
