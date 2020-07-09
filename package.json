@@ -36,6 +36,7 @@
     "react-use-flexsearch": "^0.1.1"
   },
   "devDependencies": {
+    "@hot-loader/react-dom": "^16.13.0",
     "eslint": "^7.3.1",
     "eslint-config-react-app": "^5.2.1",
     "gatsby-plugin-manifest": "^2.4.14",
@@ -43,6 +44,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/codewithjalaj/portfolio"
+    "url": "https://github.com/codewithjalaj/jalaj"
   }
 }

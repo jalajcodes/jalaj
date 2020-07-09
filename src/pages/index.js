@@ -10,7 +10,7 @@ import config from '../utils/config'
 
 export default function BlogIndex() {
   return (
-    <Layout>
+    <Layout location={location}>
       <Helmet title={config.siteTitle} />
       <SEO />
       <div className="container homepage__wrapper">
