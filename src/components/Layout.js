@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Helmet from 'react-helmet'
 import { throttle } from '../utils/helpers'
 
-// import favicon from '../../content/thumbnails/favicon.png'
+import favicon from '../../content/thumbnails/react.png'
 
 import Nav from './Nav'
 // import Footer from './Footer'
@@ -38,7 +38,8 @@ export default function Layout({ children }) {
         <link
           rel="shortcut icon"
           type="image/png"
-          href="https://s2.googleusercontent.com/s2/favicons?domain=jalaj.funcity.org"
+          href={favicon}
+          // href="https://s2.googleusercontent.com/s2/favicons?domain=jalaj.funcity.org"
         />
       </Helmet>
       <Nav hideNav={hideNav} />
