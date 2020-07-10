@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { copyToClipboard } from '../utils/helpers'
 
 const overlayVariant = {
   visible: { opacity: 1 },
@@ -34,29 +35,55 @@ const Modal = ({ showModal, setShowModal }) => {
       setShowModal(false)
     }
   }
+  function handleClick(e) {
+    copyToClipboard('jalaj799@gmail.com')
+    setShowModal(false)
+  }
 
   return (
     <AnimatePresence exitBeforeEnter onExitComplete={() => setShowModal(false)}>
       {showModal && (
         <>
           <motion.div
-            onClick={() => setShowModal(false)}
+            // onClick={() => setShowModal(false)}
             className="overlay"
             variants={overlayVariant}
             initial="hidden"
             animate="visible"
             exit="exit"
-          ></motion.div>
-          <motion.div
-            className="modal"
-            variants={modalVariant}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
           >
-            <p>Hello?</p>
-            <p>I am Live!</p>
+            {/* <div className="modal-wrapper"> */}
+            <motion.div
+              className="modal"
+              variants={modalVariant}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              role="dialog"
+              aria-labelledby="modalTitle"
+              aria-describedby="modalDescription"
+            >
+              <p className="modal-header" id="modalTitle">
+                Got something to ask? Email me 😁
+              </p>
+              <p className="modal-body" id="modalDescription">
+                jalaj799@gmail.com
+              </p>
+              <a
+                type="button"
+                class="modal-button"
+                onClick={handleClick}
+                aria-label="Close modal"
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Copy & Close
+              </a>
+            </motion.div>
           </motion.div>
+          {/* </div> */}
         </>
       )}
     </AnimatePresence>

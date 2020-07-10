@@ -7,7 +7,7 @@ import SEO from '../components/SEO'
 
 import config from '../utils/config'
 
-export default function PageTemplate({ data }) {
+export default function PageTemplate() {
   const post = data.markdownRemark
 
   return (

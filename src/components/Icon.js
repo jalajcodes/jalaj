@@ -26,8 +26,8 @@ function Icon({ setIsLoading }) {
         <motion.svg
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 1.5 } }}
-          width="300"
-          height="300"
+          width="185"
+          height="186"
           viewBox="0 0 185 186"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -62,10 +62,10 @@ function Icon({ setIsLoading }) {
               />
               <motion.path
                 stroke-width="8"
-                initial={{ pathLength: 0, strokeWidth: 6 }}
+                initial={{ pathLength: 0, strokeWidth: 4 }}
                 animate={{
                   pathLength: 1,
-                  transition: { duration: 2 },
+                  transition: { duration: 2, ease: [0.76, 0, 0.24, 1] },
                 }}
                 id="hexagon"
                 d="M93.6466 9.88738C92.7211 9.3386 91.5725 9.32753 90.6365 9.85835L21.52 49.0579C20.5805 49.5907 20 50.5874 20 51.6674V131.911C20 132.97 20.5587 133.951 21.4699 134.492L90.6534 175.513C91.5789 176.061 92.7275 176.072 93.6634 175.542L162.78 136.342C163.719 135.809 164.3 134.813 164.3 133.733V53.4889C164.3 52.4295 163.741 51.4487 162.83 50.9084L93.6466 9.88738Z"

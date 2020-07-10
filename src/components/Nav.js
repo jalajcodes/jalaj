@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'gatsby'
+import { motion } from 'framer-motion'
 import { myContext } from '../utils/provider'
 import Modal from './Modal'
 
@@ -12,6 +13,7 @@ export default function Nav({ hideNav }) {
   const hamburgerToggle = (e, context) => {
     // console.log(e.currentTarget)
     const burger = e.currentTarget
+
     context.slideMenu()
 
     burger.classList.toggle('opened')

@@ -1,7 +1,7 @@
 import React from 'react'
 // import { Link, graphql } from 'gatsby'
 import Helmet from 'react-helmet'
-// import { motion, useMotionValue, useTransform } from 'framer-motion'
+import { motion, useMotionValue, useTransform } from 'framer-motion'
 
 import Layout from '../components/Layout'
 import SEO from '../components/SEO'
@@ -14,10 +14,18 @@ export default function BlogIndex({ location }) {
       <Helmet title={config.siteTitle} />
       <SEO />
       <div className="container homepage__wrapper">
-        <div className="homepage__intro">
+        <motion.div
+          initial={{ opacity: 0, y: '50px' }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 1.5, delay: 1 },
+          }}
+          className="homepage__intro"
+        >
           <div>Hello there!</div>
           <div>I am Jalaj</div>A Fullstack Web Developer{''}
-        </div>
+        </motion.div>
 
         <div className="homepage__svg">
           <svg

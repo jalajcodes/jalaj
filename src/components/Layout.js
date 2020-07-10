@@ -22,7 +22,6 @@ export default function Layout({ children, location }) {
     if (typeof window != undefined) {
       prevScrollPos = window.pageYOffset
       window.onscroll = throttle(handleIt, 500, {
-        leading: false,
         trailing: false,
       })
     }
@@ -47,6 +46,8 @@ export default function Layout({ children, location }) {
           // href="https://s2.googleusercontent.com/s2/favicons?domain=jalaj.funcity.org"
         />
       </Helmet>
+
+      {/* Show Preloader until isLoading is true and we're on Homepage  */}
       {isLoading && isHome ? (
         <Icon setIsLoading={setIsLoading} />
       ) : (
