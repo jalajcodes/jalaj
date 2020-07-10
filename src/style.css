@@ -1210,11 +1210,12 @@ a.tag-notes:hover {
   padding: 40px 20px;
   border-radius: 10px;
   text-align: center;
+  overflow: hidden;
   z-index: 2;
   background: rgb(42, 42, 43);
   background: radial-gradient(circle, var(--dark-bg) 0%, var(--navbar-bg) 100%);
   background-repeat: no-repeat;
-  box-shadow: 0 0 20px 20px var(--dark-font-color);
+  /* box-shadow: 0 0 20px 20px var(--dark-font-color); */
 }
 .modal p {
   color: var(--light-green);
@@ -1228,23 +1229,22 @@ a.tag-notes:hover {
 }
 .modal-body {
   font-family: 'Quicksand', sans-serif;
-  font-size: 3rem;
-  margin-top: 20px;
+  font-size: 2rem;
+  margin-top: 40px;
 }
 .modal-button {
   color: #03e9f4;
   display: inline-block;
   font-size: 24px;
   letter-spacing: 4px;
-  margin: 20px 40px;
-  padding: 24px 30px;
-  position: relative;
+  margin-top: 20px;
+  padding: 10px 10px;
+  /* position: relative; */
   overflow: hidden;
   text-decoration: none;
   text-transform: uppercase;
   transition: 0.5s;
   cursor: pointer;
-  /* -webkit-box-reflect: below 1px linear-gradient(transparent, #0005); */
 }
 
 .modal-button:hover {
@@ -1345,6 +1345,16 @@ a.tag-notes:hover {
 @media screen and (min-width: 800px) {
   .modal {
     max-width: 600px;
+  }
+
+  .modal-body {
+    font-size: 3rem;
+  }
+
+  .modal-button {
+    margin: 20px 40px;
+    padding: 24px 30px;
+    /* position: relative; */
   }
 }
 

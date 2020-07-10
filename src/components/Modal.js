@@ -71,7 +71,7 @@ const Modal = ({ showModal, setShowModal }) => {
               </p>
               <a
                 type="button"
-                class="modal-button"
+                className="modal-button"
                 onClick={handleClick}
                 aria-label="Close modal"
               >
