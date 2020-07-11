@@ -36,7 +36,8 @@ const Modal = ({ showModal, setShowModal }) => {
     }
   }
   function handleClick(e) {
-    copyToClipboard('jalaj799@gmail.com')
+    let email = e.target.previousSibling.textContent
+    copyToClipboard(email)
     setShowModal(false)
   }
 
@@ -45,7 +46,7 @@ const Modal = ({ showModal, setShowModal }) => {
       {showModal && (
         <>
           <motion.div
-            // onClick={() => setShowModal(false)}
+            onClick={() => setShowModal(false)}
             className="overlay"
             variants={overlayVariant}
             initial="hidden"
@@ -60,6 +61,7 @@ const Modal = ({ showModal, setShowModal }) => {
               animate="visible"
               exit="hidden"
               role="dialog"
+              onClick={(e) => e.stopPropagation()}
               aria-labelledby="modalTitle"
               aria-describedby="modalDescription"
             >

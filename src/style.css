@@ -1213,8 +1213,10 @@ a.tag-notes:hover {
   overflow: hidden;
   z-index: 2;
   background: rgb(42, 42, 43);
-  background: radial-gradient(circle, var(--dark-bg) 0%, var(--navbar-bg) 100%);
+  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg'),
+    radial-gradient(circle, var(--dark-bg) 0%, var(--navbar-bg) 100%);
   background-repeat: no-repeat;
+  background-size: cover;
   /* box-shadow: 0 0 20px 20px var(--dark-font-color); */
 }
 .modal p {
@@ -1229,7 +1231,7 @@ a.tag-notes:hover {
 }
 .modal-body {
   font-family: 'Quicksand', sans-serif;
-  font-size: 2rem;
+  font-size: 1.7rem;
   margin-top: 40px;
 }
 .modal-button {
@@ -1245,6 +1247,7 @@ a.tag-notes:hover {
   text-transform: uppercase;
   transition: 0.5s;
   cursor: pointer;
+  border: 2px solid var(--light-green);
 }
 
 .modal-button:hover {
