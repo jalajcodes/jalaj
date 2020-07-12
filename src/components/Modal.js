@@ -68,9 +68,9 @@ const Modal = ({ showModal, setShowModal }) => {
               <p className="modal-header" id="modalTitle">
                 Got something to ask? Email me 😁
               </p>
-              <p className="modal-body" id="modalDescription">
+              <div className="modal-body" id="modalDescription">
                 jalaj799@gmail.com
-              </p>
+              </div>
               <a
                 type="button"
                 className="modal-button"
