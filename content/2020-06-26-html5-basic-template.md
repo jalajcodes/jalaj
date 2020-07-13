@@ -2,7 +2,7 @@
 date: 2020-06-26
 title: 'Basic HTML5 Skeleton File'
 template: post
-thumbnail: '../thumbnails/react.png'
+thumbnail: './thumbnails/react.png'
 slug: basic-html5-file
 categories:
   - Design
