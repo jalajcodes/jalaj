@@ -36,7 +36,6 @@ export default function BlogIndex({ location }) {
             height="653.40956"
             viewBox="0 0 921.71991 653.40956"
           >
-            <title>hacker_mindset</title>
             <ellipse
               cx="85.34394"
               cy="578.40956"
