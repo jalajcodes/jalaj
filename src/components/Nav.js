@@ -37,8 +37,8 @@ export default function Nav() {
     let currentScrollPos = window.pageYOffset
 
     if (Math.abs(lastScrollPos - fromTop) <= MY_OFFSET) {
-      setShrinkNav(true)
-      // return
+      setShrinkNav(false)
+      return
     }
 
     if (fromTop < MY_OFFSET) {
