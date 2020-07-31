@@ -16,7 +16,7 @@ export default function Nav() {
   let lastScrollPos = 0
 
   useEffect(() => {
-    if (typeof window != undefined) {
+    if (typeof window !== `undefined`) {
       prevScrollPos = window.pageYOffset
       document.addEventListener(
         'scroll',
@@ -25,7 +25,7 @@ export default function Nav() {
     }
 
     return () => {
-      if (typeof window != undefined) {
+      if (typeof window !== `undefined`) {
         document.removeEventListener(
           'scroll',
           throttle(handleNavigationShowHide, 50)
@@ -77,7 +77,10 @@ export default function Nav() {
             className={
               'navbar' +
               (hideNav ? ' navbar--hidden' : '') +
-              (window.scrollY && shrinkNav ? ' navbar--shrink' : '')
+              ((typeof window !== `undefined` ? window.scrollY : null) &&
+              shrinkNav
+                ? ' navbar--shrink'
+                : '')
             }
           >
             {/* <div className="navbar__logo"> */}
