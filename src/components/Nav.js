@@ -1,66 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'gatsby'
-// import { motion } from 'framer-motion'
-import { throttle } from '../utils/helpers'
+import { motion } from 'framer-motion'
 
 import { myContext } from '../utils/provider'
 import Modal from './Modal'
 
-export default function Nav() {
-  const [hideNav, setHideNav] = useState(false)
-  const [shrinkNav, setShrinkNav] = useState(false)
+export default function Nav({ hideNav }) {
   const [showModal, setShowModal] = useState(false)
-
-  const MY_OFFSET = 25
-  let prevScrollPos
-  let lastScrollPos = 0
-
-  useEffect(() => {
-    if (typeof window !== `undefined`) {
-      prevScrollPos = window.pageYOffset
-      document.addEventListener(
-        'scroll',
-        throttle(handleNavigationShowHide, 50)
-      )
-    }
-
-    return () => {
-      if (typeof window !== `undefined`) {
-        document.removeEventListener(
-          'scroll',
-          throttle(handleNavigationShowHide, 50)
-        )
-      }
-    }
-  }, [])
-
-  const handleNavigationShowHide = () => {
-    const maxScroll = document.body.clientHeight - window.innerHeight
-    const fromTop = window.scrollY
-    let currentScrollPos = window.pageYOffset
-
-    if (Math.abs(lastScrollPos - fromTop) <= MY_OFFSET) {
-      setShrinkNav(false)
-      return
-    }
-
-    if (fromTop < MY_OFFSET) {
-      setShrinkNav(true)
-      setHideNav(false)
-    } else if (
-      (maxScroll > 0 &&
-        prevScrollPos > currentScrollPos &&
-        prevScrollPos <= maxScroll) ||
-      (maxScroll <= 0 && prevScrollPos > currentScrollPos) ||
-      (prevScrollPos <= 0 && currentScrollPos <= 0)
-    ) {
-      setHideNav(false)
-      setShrinkNav(true)
-    } else {
-      setHideNav(true)
-    }
-    prevScrollPos = currentScrollPos
-  }
 
   const hamburgerToggle = (e, context) => {
     const burger = e.currentTarget
@@ -73,21 +19,12 @@ export default function Nav() {
     <myContext.Consumer>
       {(context) => (
         <>
-          <nav
-            className={
-              'navbar' +
-              (hideNav ? ' navbar--hidden' : '') +
-              ((typeof window !== `undefined` ? window.scrollY : null) &&
-              shrinkNav
-                ? ' navbar--shrink'
-                : '')
-            }
-          >
-            {/* <div className="navbar__logo"> */}
-            <Link to="/" className="brand">
-              &lt;JJ&gt;
-            </Link>
-            {/* </div> */}
+          <nav className={'navbar' + (hideNav ? ' navbar--hidden' : '')}>
+            <div className="navbar__logo">
+              <Link to="/" className="brand">
+                &lt;JJ&gt;
+              </Link>
+            </div>
             <div
               // ref={links}
               className={
