@@ -24,11 +24,14 @@ export default function Nav() {
       )
     }
 
-    return () =>
-      document.removeEventListener(
-        'scroll',
-        throttle(handleNavigationShowHide, 50)
-      )
+    return () => {
+      if (typeof window != undefined) {
+        document.removeEventListener(
+          'scroll',
+          throttle(handleNavigationShowHide, 50)
+        )
+      }
+    }
   }, [])
 
   const handleNavigationShowHide = () => {
