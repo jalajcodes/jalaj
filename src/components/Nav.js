@@ -8,18 +8,18 @@ import Modal from './Modal'
 export default function Nav({ hideNav }) {
   const [showModal, setShowModal] = useState(false)
 
-  const hamburgerToggle = (e, context) => {
-    const burger = e.currentTarget
-    context.slideMenu()
-    burger.classList.toggle('opened')
-    burger.setAttribute('aria-expanded', burger.classList.contains('opened'))
-  }
+  // const hamburgerToggle = (e, context) => {
+  //   const burger = e.currentTarget
+  //   context.slideMenu()
+  //   burger.classList.toggle('opened')
+  //   burger.setAttribute('aria-expanded', burger.classList.contains('opened'))
+  // }
 
   return (
     <myContext.Consumer>
       {(context) => (
         <>
-          <nav className={'navbar' + (hideNav ? ' navbar--hidden' : '')}>
+          <nav className={'navbar'}>
             <div className="navbar__logo">
               <Link to="/" className="brand">
                 &lt;J&gt;
@@ -27,11 +27,7 @@ export default function Nav({ hideNav }) {
             </div>
             <div
               // ref={links}
-              className={
-                'navbar__links' +
-                (context.showMenu ? ' navbar__links--show' : '') +
-                (hideNav ? ' navbar__links--hidden' : '')
-              }
+              className={'navbar__links'}
             >
               <Link activeClassName="navbar__links--active" to="/">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -136,10 +132,10 @@ export default function Nav({ hideNav }) {
                 </svg>
               </a>
             </div>
-            <div className="navbar__hamburger">
+            {/* <div className="navbar__hamburger">
               <button
-                className={'menu' + (context.showMenu ? ' opened' : '')}
-                onClick={(e) => hamburgerToggle(e, context)}
+                className={'menu'}
+                // onClick={(e) => hamburgerToggle(e, context)}
                 aria-label="Main Menu"
               >
                 <svg
@@ -159,7 +155,7 @@ export default function Nav({ hideNav }) {
                   />
                 </svg>
               </button>
-            </div>
+            </div> */}
           </nav>
           <Modal showModal={showModal} setShowModal={setShowModal} />
         </>
