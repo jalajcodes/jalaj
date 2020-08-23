@@ -15,25 +15,6 @@ export default function Layout({ children, location }) {
   }
   const [isLoading, setIsLoading] = useState(isHome)
 
-  const [hideNav, setHideNav] = useState(false)
-  let prevScrollPos = 0
-
-  useEffect(() => {
-    if (typeof window != undefined) {
-      prevScrollPos = window.pageYOffset
-      window.onscroll = throttle(handleIt, 700, { trailing: false })
-    }
-  }, [])
-  const handleIt = () => {
-    let currentScrollPos = window.pageYOffset
-    if (prevScrollPos > currentScrollPos) {
-      setHideNav(false)
-    } else {
-      setHideNav(true)
-    }
-    prevScrollPos = currentScrollPos
-  }
-
   return (
     <>
       <Helmet>
@@ -51,7 +32,7 @@ export default function Layout({ children, location }) {
       ) : (
         <>
           <div className="site-wrapper">
-            <Nav hideNav={hideNav} />
+            <Nav />
             <main className="main-area">{children}</main>
           </div>
         </>
