@@ -22,7 +22,7 @@ export default function Nav({ hideNav }) {
           <nav className={'navbar' + (hideNav ? ' navbar--hidden' : '')}>
             <div className="navbar__logo">
               <Link to="/" className="brand">
-                &lt;JJ&gt;
+                &lt;J&gt;
               </Link>
             </div>
             <div

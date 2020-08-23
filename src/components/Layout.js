@@ -21,9 +21,7 @@ export default function Layout({ children, location }) {
   useEffect(() => {
     if (typeof window != undefined) {
       prevScrollPos = window.pageYOffset
-      window.onscroll = throttle(handleIt, 500, {
-        trailing: false,
-      })
+      window.onscroll = throttle(handleIt, 700, { trailing: false })
     }
   }, [])
   const handleIt = () => {
