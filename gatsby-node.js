@@ -9,7 +9,7 @@ const createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
   const blogPage = path.resolve('./src/templates/post.js')
-  const pagePage = path.resolve('./src/templates/page.js')
+  // const pagePage = path.resolve('./src/templates/page.js')
   const tagPage = path.resolve('./src/templates/tag.js')
 
   const result = await graphql(
@@ -40,7 +40,7 @@ const createPages = async ({ graphql, actions }) => {
 
   const all = result.data.allMarkdownRemark.edges
   const posts = all.filter((post) => post.node.frontmatter.template === 'post')
-  const pages = all.filter((post) => post.node.frontmatter.template === 'page')
+  //   const pages = all.filter((post) => post.node.frontmatter.template === 'page')
   const tagSet = new Set()
 
   // =====================================================================================
@@ -58,7 +58,7 @@ const createPages = async ({ graphql, actions }) => {
     }
 
     createPage({
-      path: post.node.fields.slug,
+      path: `/blog/${post.node.fields.slug}`,
       component: blogPage,
       context: {
         slug: post.node.fields.slug,
@@ -72,15 +72,15 @@ const createPages = async ({ graphql, actions }) => {
   // Pages
   // =====================================================================================
 
-  pages.forEach((page) => {
-    createPage({
-      path: page.node.fields.slug,
-      component: pagePage,
-      context: {
-        slug: page.node.fields.slug,
-      },
-    })
-  })
+  // pages.forEach((page) => {
+  //   createPage({
+  //     path: page.node.fields.slug,
+  //     component: pagePage,
+  //     context: {
+  //       slug: page.node.fields.slug,
+  //     },
+  //   })
+  // })
 
   // =====================================================================================
   // Tags
@@ -111,9 +111,9 @@ const createNode = ({ node, actions, getNode }) => {
     const parsedFilePath = path.parse(fileNode.relativePath)
 
     if (Object.prototype.hasOwnProperty.call(node.frontmatter, 'slug')) {
-      slug = `/${node.frontmatter.slug}/`
+      slug = `${node.frontmatter.slug}/`
     } else {
-      slug = `/${parsedFilePath.dir}/`
+      slug = `${parsedFilePath.dir}/`
     }
 
     createNodeField({

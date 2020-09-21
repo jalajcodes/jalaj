@@ -2,7 +2,6 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
-import Layout from '../components/Layout'
 import Sidebar from '../components/Sidebar'
 import Suggested from '../components/Suggested'
 import SEO from '../components/SEO'
@@ -14,7 +13,7 @@ export default function PostTemplate({ data, pageContext }) {
   const { previous, next } = pageContext
 
   return (
-    <Layout>
+    <>
       <Helmet title={`${post.frontmatter.title} | ${config.siteTitle}`} />
       <SEO postPath={post.fields.slug} postNode={post} postSEO />
       <header className="article-header medium">
@@ -29,7 +28,7 @@ export default function PostTemplate({ data, pageContext }) {
       <section>
         <Suggested previous={previous} next={next} />
       </section>
-    </Layout>
+    </>
   )
 }
 

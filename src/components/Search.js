@@ -4,7 +4,7 @@ import { useFlexSearch } from 'react-use-flexsearch'
 
 import Posts from './Posts'
 
-export default function Search({ posts }) {
+export default function Search({ posts, location }) {
   const [query, setQuery] = useState('')
   const { localSearchPages } = useStaticQuery(graphql`
     query {
@@ -32,12 +32,12 @@ export default function Search({ posts }) {
       <section>
         {query ? (
           results.length > 0 ? (
-            <Posts data={results} tags />
+            <Posts location={location} data={results} tags />
           ) : (
             <p>Sorry, nothing matched that search.</p>
           )
         ) : (
-          <Posts data={posts} tags />
+          <Posts location={location} data={posts} tags />
         )}
       </section>
     </>

@@ -2,14 +2,13 @@ import React, { useMemo } from 'react'
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
-import Layout from '../components/Layout'
 import Guides from '../components/Guides'
 import SEO from '../components/SEO'
 
 import { getSimplifiedPosts } from '../utils/helpers'
 import config from '../utils/config'
 
-export default function BlogIndex({ data }) {
+export default function GuidesPage({ data }) {
   const posts = data.allMarkdownRemark.edges
   const simplifiedPosts = useMemo(
     () => getSimplifiedPosts(posts, { thumbnails: true }),
@@ -17,7 +16,7 @@ export default function BlogIndex({ data }) {
   )
 
   return (
-    <Layout>
+    <>
       <Helmet title={`Guides | ${config.siteTitle}`} />
       <SEO />
       <section>
@@ -25,7 +24,7 @@ export default function BlogIndex({ data }) {
         <p className="subtitle">The missing instruction manuals of the web.</p>
         <Guides data={simplifiedPosts} />
       </section>
-    </Layout>
+    </>
   )
 }
 

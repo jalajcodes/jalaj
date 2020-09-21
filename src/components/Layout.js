@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Helmet from 'react-helmet'
-import { throttle } from '../utils/helpers'
-import favicon from '../../content/thumbnails/react.png'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import Nav from './Nav'
 import '../style.css'
 import '../new-moon.css'
 import Icon from './Icon'
+import Transition from './transition'
 
 export default function Layout({ children, location }) {
   let isHome = false
@@ -15,28 +15,38 @@ export default function Layout({ children, location }) {
   }
   const [isLoading, setIsLoading] = useState(isHome)
 
+  // eventListener for rubberband animation
+  window.onanimationend = (e) => {
+    // console.log({
+    //   // logging the full event will kill the page
+    //   target: e.target,
+    //   type: e.type,
+    //   animationName: e.animationName,
+    // })
+    if (e.animationName === 'rubberBand') {
+      e.target.classList.remove('blast')
+      e.target.classList.remove('animated')
+      e.target.classList.remove('rubberBand')
+    }
+  }
+
   return (
     <>
       <Helmet>
-        <link
-          rel="shortcut icon"
-          type="image/png"
-          href={favicon}
-          // href="https://s2.googleusercontent.com/s2/favicons?domain=jalaj.funcity.org"
-        />
+        <title>Jalaj Gupta</title>
       </Helmet>
-
       {/* Show Preloader until isLoading is true and we're on Homepage  */}
-      {isLoading && isHome ? (
-        <Icon setIsLoading={setIsLoading} />
-      ) : (
-        <>
-          <div className="site-wrapper">
-            <Nav />
-            <main className="main-area">{children}</main>
-          </div>
-        </>
-      )}
+      <AnimatePresence exitBeforeEnter>
+        {isLoading && isHome && <Icon setIsLoading={setIsLoading} />}
+        <motion key="homepage">
+          <Transition location={location}>
+            <div className="site-wrapper">
+              <Nav />
+              <main className="main-area">{children}</main>
+            </div>
+          </Transition>
+        </motion>
+      </AnimatePresence>
     </>
   )
 }

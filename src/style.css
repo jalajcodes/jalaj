@@ -12,9 +12,7 @@
   --link-color: #5183f5;
   --light-green: #21e6c1;
   --dark-bg: #061621;
-  --navbar-bg: #21313c;
-  /* --dark-bg: #272343;
-  --navbar-bg: #221f3b; */
+  --navbar-bg: #061118;
 }
 
 /* Reset */
@@ -1519,8 +1517,8 @@ a.tag-notes:hover {
   padding: 10px;
   height: 100%;
   width: 100%;
-  border: solid 3px var(--light-green);
-  background-color: rgba(249, 243, 237, 0.13);
+  /* border: solid 3px var(--light-green); */
+  /* background-color: rgba(249, 243, 237, 0.13); */
   display: grid;
   place-items: center;
 }
@@ -1531,21 +1529,21 @@ a.tag-notes:hover {
   align-items: center;
 }
 
-.front > img {
+/* .front > img {
   width: 150px;
 }
 .left > img {
   height: 70% !important;
-}
+} */
 .back {
   transform: translateZ(-100px) rotateY(180deg);
   display: flex;
   align-items: center;
 }
 
-.back > img {
+/* .back > img {
   width: 150px;
-}
+} */
 
 .right {
   transform: rotateY(-270deg) translateX(100px);
@@ -1555,10 +1553,10 @@ a.tag-notes:hover {
   flex-direction: column;
   padding: 5px;
 }
-
+/*
 .right > img {
   width: 150px;
-}
+} */
 
 .left {
   transform: rotateY(270deg) translateX(-100px);
@@ -1566,10 +1564,10 @@ a.tag-notes:hover {
   display: flex;
   align-items: center;
 }
-
+/*
 .left > img {
   width: 150px;
-}
+} */
 
 .top {
   transform: rotateX(-270deg) translateY(-100px);
@@ -1577,10 +1575,10 @@ a.tag-notes:hover {
   display: flex;
   align-items: center;
 }
-
+/*
 .top > img {
   width: 150px;
-}
+} */
 
 .bottom {
   transform: rotateX(270deg) translateY(100px);
@@ -1588,10 +1586,10 @@ a.tag-notes:hover {
   display: flex;
   align-items: center;
 }
-
+/*
 .bottom > img {
   width: 150px;
-}
+} */
 
 @keyframes rotate {
   from {
@@ -1608,27 +1606,27 @@ a.tag-notes:hover {
 }
 
 /* adding hover effect */
-.skill-cube:hover .front {
+.skill-cube .front {
   transform: translateZ(200px);
 }
 
-.skill-cube:hover .back {
+.skill-cube .back {
   transform: translateZ(-200px) rotateY(180deg);
 }
 
-.skill-cube:hover .right {
+.skill-cube .right {
   transform: rotateY(-270deg) translateZ(100px) translateX(100px);
 }
 
-.skill-cube:hover .left {
+.skill-cube .left {
   transform: rotateY(270deg) translateZ(100px) translateX(-100px);
 }
 
-.skill-cube:hover .top {
+.skill-cube .top {
   transform: rotateX(-270deg) translateZ(100px) translateY(-100px);
 }
 
-.skill-cube:hover .bottom {
+.skill-cube .bottom {
   transform: rotateX(270deg) translateZ(100px) translateY(100px);
 }
 

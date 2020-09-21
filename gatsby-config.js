@@ -1,109 +1,107 @@
 module.exports = {
-  siteMetadata: {
-    title: 'Jalaj Gupta',
-    author: {
-      name: 'Jalaj Gupta',
-    },
-    pathPrefix: '/',
-    siteUrl: 'https://www.jalaj.dev',
-    description:
-      'Fullstack Web and Mobile Developer. This is my portfolio and personal blog.',
-  },
-  plugins: [
-    // ===================================================================================
-    // Meta
-    // ===================================================================================
+	siteMetadata: {
+		title: 'Jalaj Gupta',
+		author: {
+			name: 'Jalaj Gupta',
+		},
+		pathPrefix: '/',
+		siteUrl: 'https://www.jalaj.dev',
+		description: 'Fullstack Web and Mobile Developer. This is my portfolio and personal blog.',
+	},
+	plugins: [
+		// ===================================================================================
+		// Meta
+		// ===================================================================================
 
-    'gatsby-plugin-react-helmet',
-    'gatsby-plugin-netlify',
-    {
-      resolve: 'gatsby-plugin-manifest',
-      options: {
-        name: 'Jalaj Gupta',
-        short_name: 'Jalaj Gupta',
-        description:
-          'Fullstack Web and Mobile Developer. This is my portfolio and personal blog.',
-        start_url: '/',
-        background_color: 'white',
-        theme_color: '#5183f5',
-        display: 'minimal-ui',
-        icon: `static/logo.png`,
-      },
-    },
+		'gatsby-plugin-react-helmet',
+		'gatsby-plugin-netlify',
+		{
+			resolve: 'gatsby-plugin-manifest',
+			options: {
+				name: 'Jalaj Gupta',
+				short_name: 'Jalaj Gupta',
+				description: 'Fullstack Web and Mobile Developer. This is my portfolio and personal blog.',
+				start_url: '/',
+				background_color: 'white',
+				theme_color: '#5183f5',
+				display: 'minimal-ui',
+				icon: `static/logo.png`,
+			},
+		},
 
-    // ===================================================================================
-    // Images and static
-    // ===================================================================================
+		// ===================================================================================
+		// Images and static
+		// ===================================================================================
 
-    'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'posts',
-        path: `${__dirname}/content/`,
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'assets',
-        path: `${__dirname}/static/`,
-      },
-    },
+		'gatsby-plugin-sharp',
+		'gatsby-transformer-sharp',
+		{
+			resolve: 'gatsby-source-filesystem',
+			options: {
+				name: 'posts',
+				path: `${__dirname}/content/`,
+			},
+		},
+		{
+			resolve: 'gatsby-source-filesystem',
+			options: {
+				name: 'assets',
+				path: `${__dirname}/static/`,
+			},
+		},
 
-    // ===================================================================================
-    // Markdown
-    // ===================================================================================
+		// ===================================================================================
+		// Markdown
+		// ===================================================================================
 
-    {
-      resolve: 'gatsby-transformer-remark',
-      options: {
-        plugins: [
-          {
-            resolve: 'gatsby-remark-normalize-paths',
-            options: {
-              pathFields: ['thumbnail'],
-            },
-          },
-          {
-            resolve: `gatsby-remark-relative-images`,
-          },
-          {
-            resolve: 'gatsby-remark-images',
-            options: {
-              classPrefix: 'language-',
-              inlineCodeMarker: null,
-              aliases: {},
-              showLineNumbers: true,
-              noInlineHighlight: true,
-              prompt: {
-                user: 'root',
-                host: 'localhost',
-                global: true,
-              },
-            },
-          },
-          'gatsby-remark-prismjs',
-        ],
-      },
-    },
+		{
+			resolve: 'gatsby-transformer-remark',
+			options: {
+				plugins: [
+					{
+						resolve: 'gatsby-remark-normalize-paths',
+						options: {
+							pathFields: ['thumbnail'],
+						},
+					},
+					{
+						resolve: `gatsby-remark-relative-images`,
+					},
+					{
+						resolve: 'gatsby-remark-images',
+						options: {
+							classPrefix: 'language-',
+							inlineCodeMarker: null,
+							aliases: {},
+							showLineNumbers: true,
+							noInlineHighlight: true,
+							prompt: {
+								user: 'root',
+								host: 'localhost',
+								global: true,
+							},
+						},
+					},
+					'gatsby-remark-prismjs',
+				],
+			},
+		},
 
-    // ===================================================================================
-    // Search
-    // ===================================================================================
+		// ===================================================================================
+		// Search
+		// ===================================================================================
 
-    {
-      resolve: 'gatsby-plugin-local-search',
-      options: {
-        name: 'pages',
-        engine: 'flexsearch',
-        engineOptions: {
-          encode: 'icase',
-          tokenize: 'forward',
-          async: false,
-        },
-        query: `
+		{
+			resolve: 'gatsby-plugin-local-search',
+			options: {
+				name: 'pages',
+				engine: 'flexsearch',
+				engineOptions: {
+					encode: 'icase',
+					tokenize: 'forward',
+					async: false,
+				},
+				query: `
           {
             allMarkdownRemark(filter: { frontmatter: { template: { eq: "post" } } }) {
               nodes {
@@ -119,29 +117,29 @@ module.exports = {
             }
           }
         `,
-        ref: 'id',
-        index: ['title', 'body', 'tags'],
-        store: ['id', 'slug', 'title', 'tags', 'date'],
-        normalizer: ({ data }) =>
-          data.allMarkdownRemark.nodes.map((node) => ({
-            id: node.id,
-            slug: `/${node.frontmatter.slug}`,
-            title: node.frontmatter.title,
-            body: node.rawMarkdownBody,
-            tags: node.frontmatter.tags,
-            date: node.frontmatter.date,
-          })),
-      },
-    },
+				ref: 'id',
+				index: ['title', 'body', 'tags'],
+				store: ['id', 'slug', 'title', 'tags', 'date'],
+				normalizer: ({ data }) =>
+					data.allMarkdownRemark.nodes.map((node) => ({
+						id: node.id,
+						slug: `/${node.frontmatter.slug}`,
+						title: node.frontmatter.title,
+						body: node.rawMarkdownBody,
+						tags: node.frontmatter.tags,
+						date: node.frontmatter.date,
+					})),
+			},
+		},
 
-    {
-      resolve: `gatsby-plugin-nprogress`,
-      options: {
-        // Setting a color is optional.
-        color: `tomato`,
-        // Disable the loading spinner.
-        showSpinner: true,
-      },
-    },
-  ],
-}
+		{
+			resolve: `gatsby-plugin-nprogress`,
+			options: {
+				// Setting a color is optional.
+				color: `tomato`,
+				// Disable the loading spinner.
+				showSpinner: true,
+			},
+		},
+	],
+};

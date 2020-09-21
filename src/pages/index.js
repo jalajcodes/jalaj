@@ -1,47 +1,58 @@
-import React, { useEffect, useRef } from 'react'
-// import { Link, graphql } from 'gatsby'
+import React from 'react'
 import Helmet from 'react-helmet'
-import {
-  motion,
-  useMotionValue,
-  useTransform,
-  AnimatePresence,
-} from 'framer-motion'
+import { motion } from 'framer-motion'
 
-import Layout from '../components/Layout'
 import SEO from '../components/SEO'
+import { characterAnimate } from '../utils/helpers'
 
 import config from '../utils/config'
 
-export default function BlogIndex({ location }) {
-  const handleEnter = (e) => {
-    e.target.classList.add('blast')
-    e.target.classList.add('animated')
-    e.target.classList.add('rubberBand')
-  }
+const home = {
+  initial: {
+    opacity: 0,
+    y: '-2vw',
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      when: 'beforeChildren',
+      staggerChildren: 0.2,
+    },
+  },
+}
 
+export default function HomePage({ location }) {
   return (
-    <Layout location={location}>
+    <>
       <Helmet title={config.siteTitle} />
       <SEO />
-      <AnimatePresence>
-        <div className="container homepage__wrapper" exit={{ x: '100vw' }}>
-          <div className="homepage__intro">
-            <div
-              onMouseEnter={handleEnter}
-              // onMouseLeave={handleLeave}
-              className="homepage__intro-greeting"
-            >
-              Hello!
-            </div>
-            <div className="homepage__intro-name">I am Jalaj</div>
-            <div className="homepage__intro-profession">
-              Fullstack Web Developer
-            </div>
-            {''}
-          </div>
-        </div>
-      </AnimatePresence>
-    </Layout>
+      <div className="container homepage__wrapper">
+        <motion.div
+          key="1"
+          initial="initial"
+          animate="animate"
+          variants={home}
+          className="homepage__intro"
+        >
+          <motion.div variants={home} className="homepage__intro-greeting">
+            <span onMouseEnter={characterAnimate}>H</span>
+            <span onMouseEnter={characterAnimate}>e</span>
+            <span onMouseEnter={characterAnimate}>l</span>
+            <span onMouseEnter={characterAnimate}>l</span>
+            <span onMouseEnter={characterAnimate}>o</span>
+            <span onMouseEnter={characterAnimate}>!</span>
+          </motion.div>
+          <motion.div variants={home} className="homepage__intro-name">
+            I am Jalaj
+          </motion.div>
+          <motion.div variants={home} className="homepage__intro-profession">
+            Fullstack Web Developer
+          </motion.div>
+          {''}
+        </motion.div>
+      </div>
+    </>
   )
 }

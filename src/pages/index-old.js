@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { Link, graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
-import Layout from '../components/Layout'
 import Posts from '../components/Posts'
 import Lists from '../components/Lists'
 import Projects from '../components/Projects'
@@ -15,7 +14,7 @@ import projects from '../data/projects'
 import interviews from '../data/interviews'
 import speaking from '../data/speaking'
 
-export default function BlogIndex({ data }) {
+export default function IndexPage({ data }) {
   const latest = data.latest.edges
   const popular = data.popular.edges
   const simplifiedLatest = useMemo(() => getSimplifiedPosts(latest), [latest])
@@ -31,7 +30,7 @@ export default function BlogIndex({ data }) {
   )
 
   return (
-    <Layout>
+    <>
       <Helmet title={config.siteTitle} />
       <SEO />
       <section className="small lead">
@@ -88,7 +87,7 @@ export default function BlogIndex({ data }) {
           Subscribe to the email list
         </a>
       </Section>
-    </Layout>
+    </>
   )
 }
 

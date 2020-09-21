@@ -74,3 +74,9 @@ export function copyToClipboard(str) {
     document.getSelection().addRange(selected)
   }
 }
+
+export const characterAnimate = (e) => {
+  e.target.classList.add('blast')
+  e.target.classList.add('animated')
+  e.target.classList.add('rubberBand')
+}

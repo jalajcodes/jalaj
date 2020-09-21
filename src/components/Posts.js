@@ -3,7 +3,7 @@ import { Link } from 'gatsby'
 
 import { slugify } from '../utils/helpers'
 
-export default function Posts({ data, tags }) {
+export default function Posts({ data, tags, location }) {
   return (
     <div className={tags ? 'grid posts with-tags' : 'grid posts'}>
       {data.map((node) => {
@@ -13,7 +13,7 @@ export default function Posts({ data, tags }) {
               <time>{node.date}</time>
             </div>
             <div className="cell">
-              <Link to={node.slug}>{node.title}</Link>
+              <Link to={`/blog/${node.slug}`}>{node.title}</Link>
             </div>
             {tags && (
               <div className="cell tags">

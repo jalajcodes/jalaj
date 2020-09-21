@@ -2,19 +2,18 @@ import React, { useMemo } from 'react'
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
-import Layout from '../components/Layout'
 import Search from '../components/Search'
 import SEO from '../components/SEO'
 
 import { getSimplifiedPosts } from '../utils/helpers'
 import config from '../utils/config'
 
-export default function BlogIndex({ data }) {
+export default function BlogIndex({ data, location }) {
   const posts = data.allMarkdownRemark.edges
   const simplifiedPosts = useMemo(() => getSimplifiedPosts(posts), [posts])
 
   return (
-    <Layout>
+    <>
       <Helmet title={`Blog | ${config.siteTitle}`} />
       <SEO />
       <section>
@@ -22,9 +21,9 @@ export default function BlogIndex({ data }) {
         <p className="subtitle">
           Articles, tutorials, snippets, musings, and everything else.
         </p>
-        <Search posts={simplifiedPosts} />
+        <Search location={location} posts={simplifiedPosts} />
       </section>
-    </Layout>
+    </>
   )
 }
 

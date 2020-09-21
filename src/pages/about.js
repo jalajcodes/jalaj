@@ -1,18 +1,61 @@
 import React from 'react'
-import Layout from '../components/Layout'
+import { characterAnimate } from '../utils/helpers'
 import javascriptImg from '../../content/thumbnails/javascript.webp'
 import htmlImg from '../../content/thumbnails/html.webp'
 import cssImg from '../../content/thumbnails/css.webp'
 import reactImg from '../../content/thumbnails/react.webp'
 import nodeImg from '../../content/thumbnails/node.webp'
-import typescriptImg from '../../content/thumbnails/typescript.webp'
+import graphqlImg from '../../content/thumbnails/graphql.webp'
 
-function About() {
+function About({ location }) {
   return (
-    <Layout>
+    <>
       <div className="about__main">
         <div className="about__main-col">
-          <h2 className="about__heading">About Me</h2>
+          <h2 className="about__heading">
+            <span
+              className="blast animated rubberBand"
+              onMouseEnter={characterAnimate}
+            >
+              A
+            </span>
+            <span
+              className="blast animated rubberBand"
+              onMouseEnter={characterAnimate}
+            >
+              b
+            </span>
+            <span
+              className="blast animated rubberBand"
+              onMouseEnter={characterAnimate}
+            >
+              o
+            </span>
+            <span
+              className="blast animated rubberBand"
+              onMouseEnter={characterAnimate}
+            >
+              u
+            </span>
+            <span
+              className="blast animated rubberBand"
+              onMouseEnter={characterAnimate}
+            >
+              t
+            </span>{' '}
+            <span
+              className="blast animated rubberBand"
+              onMouseEnter={characterAnimate}
+            >
+              M
+            </span>
+            <span
+              className="blast animated rubberBand"
+              onMouseEnter={characterAnimate}
+            >
+              e
+            </span>
+          </h2>
           <div className="about__main-text">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
             quaerat, delectus aliquid eum quia illo molestiae, veniam, nostrum
@@ -46,12 +89,12 @@ function About() {
               <img src={nodeImg} alt="node.js" />
             </div>
             <div className="right">
-              <img src={typescriptImg} alt="typescript" />
+              <img src={graphqlImg} alt="typescript" />
             </div>
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   )
 }
 
