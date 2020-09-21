@@ -37,7 +37,14 @@ export default function Layout({ children, location }) {
       </Helmet>
       {/* Show Preloader until isLoading is true and we're on Homepage  */}
       <AnimatePresence exitBeforeEnter>
-        {isLoading && isHome && <Icon setIsLoading={setIsLoading} />}
+        {isLoading && isHome && (
+          <motion.div
+            className="loader"
+            exit={{ opacity: 0, scale: 0, duration: 1 }}
+          >
+            <Icon setIsLoading={setIsLoading} />
+          </motion.div>
+        )}
         {!isLoading && (
           <motion key="homepage">
             <Transition location={location}>
