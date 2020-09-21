@@ -38,14 +38,16 @@ export default function Layout({ children, location }) {
       {/* Show Preloader until isLoading is true and we're on Homepage  */}
       <AnimatePresence exitBeforeEnter>
         {isLoading && isHome && <Icon setIsLoading={setIsLoading} />}
-        <motion key="homepage">
-          <Transition location={location}>
-            <div className="site-wrapper">
-              <Nav />
-              <main className="main-area">{children}</main>
-            </div>
-          </Transition>
-        </motion>
+        {!isLoading && (
+          <motion key="homepage">
+            <Transition location={location}>
+              <div className="site-wrapper">
+                <Nav />
+                <main className="main-area">{children}</main>
+              </div>
+            </Transition>
+          </motion>
+        )}
       </AnimatePresence>
     </>
   )
