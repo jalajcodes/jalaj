@@ -7,9 +7,12 @@ const Transition = ({ location, children }) => {
   const variants = {
     initial: {
       opacity: 0,
+      x: 100,
     },
     enter: {
       opacity: 1,
+      x: 0,
+      y: 0,
       transition: {
         duration: duration,
         delay: duration,
@@ -18,6 +21,7 @@ const Transition = ({ location, children }) => {
     },
     exit: {
       opacity: 0,
+      y: 200,
       transition: { duration: duration },
     },
   }

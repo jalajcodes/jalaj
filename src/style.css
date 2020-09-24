@@ -286,6 +286,8 @@ a.patreon:hover {
 .homepage__wrapper {
   display: flex;
   flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
   height: 100vh;
 }
 
@@ -347,7 +349,7 @@ a.patreon:hover {
   .homepage__wrapper {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
   }
 

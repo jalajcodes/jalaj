@@ -9,7 +9,11 @@ export default function Nav() {
 
   return (
     <>
-      <nav className="navbar">
+      <motion.nav
+        initial={{ opacity: 0, x: -80 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="navbar"
+      >
         <div className="navbar__logo">
           <Link to="/" className="brand">
             &lt;J&gt;
@@ -119,7 +123,7 @@ export default function Nav() {
             </svg>
           </a>
         </div>
-      </nav>
+      </motion.nav>
       <Modal showModal={showModal} setShowModal={setShowModal} />
     </>
   )

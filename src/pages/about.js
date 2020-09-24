@@ -74,22 +74,28 @@ function About({ location }) {
         <div className="skill-cube">
           <div className="cube">
             <div className="front">
-              <img src={javascriptImg} alt="javascript" />
+              JAVASCRIPT
+              {/* <img src={javascriptImg} alt="javascript" /> */}
             </div>
             <div className="back">
-              <img src={htmlImg} alt="html" />
+              HTML
+              {/* <img src={htmlImg} alt="html" /> */}
             </div>
             <div className="top">
-              <img src={cssImg} alt="css" />
+              CSS
+              {/* <img src={cssImg} alt="css" /> */}
             </div>
             <div className="bottom">
-              <img src={reactImg} alt="react.js" />
+              REACT
+              {/* <img src={reactImg} alt="react.js" /> */}
             </div>
             <div className="left">
-              <img src={nodeImg} alt="node.js" />
+              NODE.JS
+              {/* <img src={nodeImg} alt="node.js" /> */}
             </div>
             <div className="right">
-              <img src={graphqlImg} alt="typescript" />
+              GRAPHQL
+              {/* <img src={graphqlImg} alt="graphql" /> */}
             </div>
           </div>
         </div>

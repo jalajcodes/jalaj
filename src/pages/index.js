@@ -28,30 +28,33 @@ export default function HomePage({ location }) {
     <>
       <Helmet title={config.siteTitle} />
       <SEO />
-      <div className="container homepage__wrapper">
-        <motion.div
-          key="1"
-          initial="initial"
-          animate="animate"
-          variants={home}
-          className="homepage__intro"
-        >
-          <motion.div variants={home} className="homepage__intro-greeting">
-            <span onMouseEnter={characterAnimate}>H</span>
-            <span onMouseEnter={characterAnimate}>e</span>
-            <span onMouseEnter={characterAnimate}>l</span>
-            <span onMouseEnter={characterAnimate}>l</span>
-            <span onMouseEnter={characterAnimate}>o</span>
-            <span onMouseEnter={characterAnimate}>!</span>
+      <div>
+        <div className="container homepage__wrapper">
+          <motion.div
+            key="1"
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={home}
+            className="homepage__intro"
+          >
+            <motion.div variants={home} className="homepage__intro-greeting">
+              <span onMouseEnter={characterAnimate}>H</span>
+              <span onMouseEnter={characterAnimate}>e</span>
+              <span onMouseEnter={characterAnimate}>l</span>
+              <span onMouseEnter={characterAnimate}>l</span>
+              <span onMouseEnter={characterAnimate}>o</span>
+              <span onMouseEnter={characterAnimate}>!</span>
+            </motion.div>
+            <motion.div variants={home} className="homepage__intro-name">
+              I am Jalaj
+            </motion.div>
+            <motion.div variants={home} className="homepage__intro-profession">
+              Fullstack Web Developer
+            </motion.div>
+            {''}
           </motion.div>
-          <motion.div variants={home} className="homepage__intro-name">
-            I am Jalaj
-          </motion.div>
-          <motion.div variants={home} className="homepage__intro-profession">
-            Fullstack Web Developer
-          </motion.div>
-          {''}
-        </motion.div>
+        </div>
       </div>
     </>
   )
