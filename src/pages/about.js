@@ -1,60 +1,19 @@
 import React from 'react'
-import { characterAnimate } from '../utils/helpers'
-import javascriptImg from '../../content/thumbnails/javascript.webp'
-import htmlImg from '../../content/thumbnails/html.webp'
-import cssImg from '../../content/thumbnails/css.webp'
-import reactImg from '../../content/thumbnails/react.webp'
-import nodeImg from '../../content/thumbnails/node.webp'
-import graphqlImg from '../../content/thumbnails/graphql.webp'
+import CharacterAnimate from '../components/CharacterAnimate'
+// import javascriptImg from '../../content/thumbnails/javascript.webp'
+// import htmlImg from '../../content/thumbnails/html.webp'
+// import cssImg from '../../content/thumbnails/css.webp'
+// import reactImg from '../../content/thumbnails/react.webp'
+// import nodeImg from '../../content/thumbnails/node.webp'
+// import graphqlImg from '../../content/thumbnails/graphql.webp'
 
 function About({ location }) {
   return (
     <>
       <div className="about__main">
         <div className="about__main-col">
-          <h2 className="about__heading">
-            <span
-              className="blast animated rubberBand"
-              onMouseEnter={characterAnimate}
-            >
-              A
-            </span>
-            <span
-              className="blast animated rubberBand"
-              onMouseEnter={characterAnimate}
-            >
-              b
-            </span>
-            <span
-              className="blast animated rubberBand"
-              onMouseEnter={characterAnimate}
-            >
-              o
-            </span>
-            <span
-              className="blast animated rubberBand"
-              onMouseEnter={characterAnimate}
-            >
-              u
-            </span>
-            <span
-              className="blast animated rubberBand"
-              onMouseEnter={characterAnimate}
-            >
-              t
-            </span>{' '}
-            <span
-              className="blast animated rubberBand"
-              onMouseEnter={characterAnimate}
-            >
-              M
-            </span>
-            <span
-              className="blast animated rubberBand"
-              onMouseEnter={characterAnimate}
-            >
-              e
-            </span>
+          <h2 className="about__heading animated blast rubberband">
+            <CharacterAnimate>About Me!</CharacterAnimate>
           </h2>
           <div className="about__main-text">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
@@ -72,9 +31,9 @@ function About({ location }) {
           </button>
         </div>
         <div className="skill-cube">
-          <div className="cube">
+          <div className="cube" style={{ fontFamily: 'cursive' }}>
             <div className="front">
-              JAVASCRIPT
+              JavaScript
               {/* <img src={javascriptImg} alt="javascript" /> */}
             </div>
             <div className="back">
@@ -86,15 +45,15 @@ function About({ location }) {
               {/* <img src={cssImg} alt="css" /> */}
             </div>
             <div className="bottom">
-              REACT
+              React.js
               {/* <img src={reactImg} alt="react.js" /> */}
             </div>
             <div className="left">
-              NODE.JS
+              Node.js
               {/* <img src={nodeImg} alt="node.js" /> */}
             </div>
             <div className="right">
-              GRAPHQL
+              GraphQL
               {/* <img src={graphqlImg} alt="graphql" /> */}
             </div>
           </div>

@@ -3,11 +3,11 @@ import Helmet from 'react-helmet'
 import { motion } from 'framer-motion'
 
 import SEO from '../components/SEO'
-import { characterAnimate } from '../utils/helpers'
 
 import config from '../utils/config'
+import CharacterAnimate from '../components/CharacterAnimate'
 
-const home = {
+const homeIntro = {
   initial: {
     opacity: 0,
     y: '-2vw',
@@ -24,6 +24,12 @@ const home = {
 }
 
 export default function HomePage({ location }) {
+  const style = {
+    fontFamily: 'Righteous',
+    fontWeight: 800,
+    textShadow: '0px 0px 10px green',
+  }
+
   return (
     <>
       <Helmet title={config.siteTitle} />
@@ -35,21 +41,22 @@ export default function HomePage({ location }) {
             initial="initial"
             animate="animate"
             exit="exit"
-            variants={home}
+            variants={homeIntro}
             className="homepage__intro"
           >
-            <motion.div variants={home} className="homepage__intro-greeting">
-              <span onMouseEnter={characterAnimate}>H</span>
-              <span onMouseEnter={characterAnimate}>e</span>
-              <span onMouseEnter={characterAnimate}>l</span>
-              <span onMouseEnter={characterAnimate}>l</span>
-              <span onMouseEnter={characterAnimate}>o</span>
-              <span onMouseEnter={characterAnimate}>!</span>
+            <motion.div
+              variants={homeIntro}
+              className="homepage__intro-greeting"
+            >
+              Hello!
             </motion.div>
-            <motion.div variants={home} className="homepage__intro-name">
-              I am Jalaj
+            <motion.div variants={homeIntro}>
+              I am <CharacterAnimate style={style}>Jalaj</CharacterAnimate>
             </motion.div>
-            <motion.div variants={home} className="homepage__intro-profession">
+            <motion.div
+              variants={homeIntro}
+              className="homepage__intro-profession"
+            >
               Fullstack Web Developer
             </motion.div>
             {''}

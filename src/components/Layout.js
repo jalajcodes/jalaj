@@ -16,17 +16,19 @@ export default function Layout({ children, location }) {
   const [isLoading, setIsLoading] = useState(isHome)
 
   // eventListener for rubberband animation
-  window.onanimationend = (e) => {
-    // console.log({
-    //   // logging the full event will kill the page
-    //   target: e.target,
-    //   type: e.type,
-    //   animationName: e.animationName,
-    // })
-    if (e.animationName === 'rubberBand') {
-      e.target.classList.remove('blast')
-      e.target.classList.remove('animated')
-      e.target.classList.remove('rubberBand')
+  if (typeof window !== 'undefined') {
+    window.onanimationend = (e) => {
+      // console.log({
+      //   // logging the full event will kill the page
+      //   target: e.target,
+      //   type: e.type,
+      //   animationName: e.animationName,
+      // })
+      if (e.animationName === 'rubberBand') {
+        e.target.classList.remove('blast')
+        e.target.classList.remove('animated')
+        e.target.classList.remove('rubberBand')
+      }
     }
   }
 
@@ -39,14 +41,14 @@ export default function Layout({ children, location }) {
       <AnimatePresence exitBeforeEnter>
         {isLoading && isHome && <Icon setIsLoading={setIsLoading} />}
         {!isLoading && (
-          <motion key="homepage">
+          <motion.div key="homepage">
             <Nav />
             <Transition location={location}>
               <div className="site-wrapper">
                 <main className="main-area">{children}</main>
               </div>
             </Transition>
-          </motion>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
