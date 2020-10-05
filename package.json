@@ -14,7 +14,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "framer-motion": "^2.6.15",
+    "framer-motion": "^2.7.5",
     "gatsby": "^2.23.3",
     "gatsby-image": "^2.4.8",
     "gatsby-plugin-local-search": "^1.1.1",
