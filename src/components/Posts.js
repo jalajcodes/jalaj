@@ -1,21 +1,10 @@
 import React from 'react'
 import { Link } from 'gatsby'
+import Img from 'gatsby-image'
 
-import { slugify } from '../utils/helpers'
+// import { slugify } from '../utils/helpers'
 
-export default function Posts({ data, tags, location }) {
-  return (
-    <div className={tags ? 'grid posts with-tags' : 'grid posts'}>
-      {data.map((node) => {
-        return (
-          <div key={node.id} className="row">
-            <div className="cell">
-              <time>{node.date}</time>
-            </div>
-            <div className="cell">
-              <Link to={`/blog/${node.slug}`}>{node.title}</Link>
-            </div>
-            {tags && (
+/* {tags && (
               <div className="cell tags">
                 {node.tags &&
                   node.tags.map((tag) => (
@@ -28,7 +17,22 @@ export default function Posts({ data, tags, location }) {
                     </Link>
                   ))}
               </div>
-            )}
+            )} */
+
+export default function Posts({ data, location }) {
+  console.log('Posts.js ==>', data)
+  return (
+    <div className="posts-grid">
+      {data.map((node) => {
+        return (
+          <div key={node.id} className="post">
+            <div className="post-thumbnail">
+              <Img fluid={node.thumbnail} alt={node.title} />
+            </div>
+            <div className="post-details">
+              <time>{node.date}</time>
+              <Link to={`/blog/${node.slug}`}>{node.title}</Link>
+            </div>
           </div>
         )
       })}

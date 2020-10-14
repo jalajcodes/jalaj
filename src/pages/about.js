@@ -12,7 +12,7 @@ function About({ location }) {
     <>
       <div className="about__main">
         <div className="about__main-col">
-          <h2 className="about__heading animated blast rubberband">
+          <h2 className="about__heading">
             <CharacterAnimate>About Me!</CharacterAnimate>
           </h2>
           <div className="about__main-text">

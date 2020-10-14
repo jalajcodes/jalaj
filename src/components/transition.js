@@ -18,7 +18,7 @@ const Transition = ({ location, children }) => {
     },
     exit: {
       opacity: 0,
-      y: 200,
+      y: 30,
       transition: { duration: duration },
     },
   }

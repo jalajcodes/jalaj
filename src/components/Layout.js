@@ -18,12 +18,12 @@ export default function Layout({ children, location }) {
   // eventListener for rubberband animation
   if (typeof window !== 'undefined') {
     window.onanimationend = (e) => {
-      // console.log({
-      //   // logging the full event will kill the page
-      //   target: e.target,
-      //   type: e.type,
-      //   animationName: e.animationName,
-      // })
+      /* console.log({
+         // logging the full event kills the page 🤣
+         target: e.target,
+         type: e.type,
+         animationName: e.animationName,
+       }) */
       if (e.animationName === 'rubberBand') {
         e.target.classList.remove('blast')
         e.target.classList.remove('animated')

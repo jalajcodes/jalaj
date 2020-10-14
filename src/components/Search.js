@@ -32,12 +32,12 @@ export default function Search({ posts, location }) {
       <section>
         {query ? (
           results.length > 0 ? (
-            <Posts location={location} data={results} tags />
+            <Posts location={location} data={results} />
           ) : (
             <p>Sorry, nothing matched that search.</p>
           )
         ) : (
-          <Posts location={location} data={posts} tags />
+          <Posts location={location} data={posts} />
         )}
       </section>
     </>

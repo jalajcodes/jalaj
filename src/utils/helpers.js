@@ -3,10 +3,12 @@ export function getSimplifiedPosts(posts, options = {}) {
     id: post.node.id,
     date: post.node.frontmatter.date,
     slug: post.node.fields.slug,
+    excerpt: post.node.excerpt,
+    timeToRead: post.node.timeToRead,
     tags: post.node.frontmatter.tags,
     title: post.node.frontmatter.title,
     ...(options.thumbnails && {
-      thumbnail: post.node.frontmatter.thumbnail.childImageSharp.fixed,
+      thumbnail: post.node.frontmatter.thumbnail.childImageSharp.fluid,
     }),
   }))
 }
@@ -75,7 +77,7 @@ export function copyToClipboard(str) {
   }
 }
 
-export const characterAnimate = (e) => {
+export function characterAnimate(e) {
   e.target.classList.add('blast')
   e.target.classList.add('animated')
   e.target.classList.add('rubberBand')

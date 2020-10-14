@@ -7,17 +7,23 @@ import SEO from '../components/SEO'
 
 import { getSimplifiedPosts } from '../utils/helpers'
 import config from '../utils/config'
+import CharacterAnimate from '../components/CharacterAnimate'
 
 export default function BlogIndex({ data, location }) {
   const posts = data.allMarkdownRemark.edges
-  const simplifiedPosts = useMemo(() => getSimplifiedPosts(posts), [posts])
+  const simplifiedPosts = useMemo(
+    () => getSimplifiedPosts(posts, { thumbnails: true }),
+    [posts]
+  )
 
   return (
     <>
       <Helmet title={`Blog | ${config.siteTitle}`} />
       <SEO />
       <section>
-        <h1>Blog</h1>
+        <h1>
+          <CharacterAnimate>Blog</CharacterAnimate>
+        </h1>
         <p className="subtitle">
           Articles, tutorials, snippets, musings, and everything else.
         </p>
@@ -36,6 +42,8 @@ export const pageQuery = graphql`
       edges {
         node {
           id
+          excerpt
+          timeToRead
           fields {
             slug
           }
@@ -43,6 +51,13 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             tags
+            thumbnail {
+              childImageSharp {
+                fluid {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
           }
         }
       }

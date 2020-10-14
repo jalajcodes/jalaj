@@ -12,7 +12,7 @@ const homeIntro = {
     opacity: 0,
     y: '-2vw',
   },
-  animate: {
+  final: {
     opacity: 1,
     y: 0,
     transition: {
@@ -39,8 +39,7 @@ export default function HomePage({ location }) {
           <motion.div
             key="1"
             initial="initial"
-            animate="animate"
-            exit="exit"
+            animate="final"
             variants={homeIntro}
             className="homepage__intro"
           >
