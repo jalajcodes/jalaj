@@ -82,3 +82,54 @@ export function characterAnimate(e) {
   e.target.classList.add('animated')
   e.target.classList.add('rubberBand')
 }
+
+export function devEasterMessage(url) {
+  // https://stackoverflow.com/questions/26283936/stylized-console-logging
+  // Create a new `Image` instance
+  var image = new Image()
+
+  // Actually loads the image
+  image.src = url
+
+  console.clear()
+  console.log(
+    '%c     JALAJ',
+    'width:1000px;text-align:center;font-weight:bold;font-size:50px;color:red;text-shadow:3px 3px 0 rgb(217,31,38),6px 6px 0 rgb(226,91,14),9px 9px 0 rgb(245,221,8),12px 12px 0 rgb(5,148,68),15px 15px 0 rgb(2,135,206),18px 18px 0 rgb(4,77,145),21px 21px 0 rgb(42,21,113)'
+  )
+  console.log(
+    '%c 👋 Oh, Hi there, Curious Person!',
+    'color: #21e6c1; font-size:24px;'
+  )
+  console.log(
+    `%c      ✨ Like what you see? We could work together!
+
+      🐛 Found a bug? Please, let me know by e-mail, twitter, github issue...
+
+      📬 Find me here: https://twitter.com/jalajcodes
+
+      Let the debug begin!
+
+      Bonus: 👇 A Cat gif for you! 👇
+    `,
+    'font-size:16px'
+  )
+
+  image.onload = function () {
+    // Inside here we already have the dimensions of the loaded image
+    var style = [
+      // Hacky way of forcing image's viewport using `font-size` and `line-height`
+      'font-size: 1px;',
+      'line-height: ' + this.height + 'px;',
+      // // Hacky way of forcing a middle/center anchor point for the image
+      'padding: ' + this.height * 0.5 + 'px ' + this.width * 0.5 + 'px;',
+      // // Set image dimensions
+      // 'background-size: ' + this.width + 'px ' + this.height + 'px;',
+
+      // Set image URL
+      'background: url(' + url + ');',
+      'background-repeat: no-repeat;',
+    ].join(' ')
+
+    console.log('%c ', style)
+  }
+}

@@ -20,7 +20,6 @@ import Img from 'gatsby-image'
             )} */
 
 export default function Posts({ data, location }) {
-  console.log('Posts.js ==>', data)
   return (
     <div className="posts-grid">
       {data.map((node) => {
