@@ -17,7 +17,7 @@ export default function Layout({ children, location }) {
   const [isLoading, setIsLoading] = useState(isHome)
 
   useEffect(() => {
-    devEasterMessage('https://cataas.com/cat/gif')
+    devEasterMessage('https://placekitten.com/200/200')
   }, [])
 
   // eventListener for rubberband animation

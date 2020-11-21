@@ -33,7 +33,9 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^6.1.0",
-    "react-use-flexsearch": "^0.1.1"
+    "react-intersection-observer": "^8.30.3",
+    "react-use-flexsearch": "^0.1.1",
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -46,6 +48,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/codewithjalaj/jalaj"
+    "url": "https://github.com/jalajcodes/jalaj"
   }
 }
