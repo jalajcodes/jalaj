@@ -1,19 +1,59 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import styled from 'styled-components'
+
+// const Frame1 = styled(motion.div)`
+//   position: fixed;
+//   width: 100%;
+//   height: 100vh;
+//   left: 0;
+//   top: 0;
+//   /* bottom: 0; */
+//   /* right: 0; */
+//   background-color: green;
+//   z-index: 10;
+// `
+
+// const Frame2 = styled(Frame1)`
+//   background-color: pink;
+// `
+// const Frame3 = styled(Frame1)`
+//   background-color: purple;
+// `
+// const Frame4 = styled(Frame1)`
+//   background-color: orange;
+// `
+// const frameVariants = {
+//   initial: {
+//     x: '-130%',
+//     skew: '45deg',
+//   },
+//   enter: {
+//     x: '100%',
+//     skew: '0deg',
+//     transition: {
+//       duration: 1,
+//     },
+//   },
+// }
 
 const Transition = ({ location, children }) => {
   const duration = 0.5
 
   const variants = {
     initial: {
+      y: -30,
       opacity: 0,
     },
     enter: {
       opacity: 1,
+
+      y: 0,
       transition: {
         duration: duration,
         delay: duration,
-        when: 'beforeChildren',
+        // when: 'afterChildren',
+        staggerChildren: 0.2,
       },
     },
     exit: {
@@ -24,14 +64,19 @@ const Transition = ({ location, children }) => {
   }
 
   return (
-    <AnimatePresence>
+    <AnimatePresence exitBeforeEnter>
       <motion.div
+        layoutId="123"
         key={location ? location.pathname : Math.floor(Math.random() + 100)}
         variants={variants}
         initial="initial"
         animate="enter"
         exit="exit"
       >
+        {/* <Frame1 variants={frameVariants}></Frame1>
+        <Frame2 variants={frameVariants}></Frame2>
+        <Frame3 variants={frameVariants}></Frame3>
+        <Frame4 variants={frameVariants}></Frame4> */}
         {children}
       </motion.div>
     </AnimatePresence>

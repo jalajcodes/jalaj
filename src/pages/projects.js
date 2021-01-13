@@ -3,7 +3,7 @@ import React from 'react'
 function Projects({ location }) {
   return (
     <>
-      <div>Projects</div>
+      <h2 className="about__heading">Projects</h2>
     </>
   )
 }

@@ -3,16 +3,16 @@ import { Link, graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
 import Posts from '../components/Posts'
-import Lists from '../components/Lists'
-import Projects from '../components/Projects'
+// import Lists from '../components/Lists'
+// import Projects from '../components/Projects'
 import SEO from '../components/SEO'
 
 import { getSimplifiedPosts } from '../utils/helpers'
 import config from '../utils/config'
 
-import projects from '../data/projects'
-import interviews from '../data/interviews'
-import speaking from '../data/speaking'
+// import projects from '../data/projects'
+// import interviews from '../data/interviews'
+// import speaking from '../data/speaking'
 
 export default function IndexPage({ data }) {
   const latest = data.latest.edges
@@ -65,7 +65,7 @@ export default function IndexPage({ data }) {
       <Section title="Popular">
         <Posts data={simplifiedPopular} tags />
       </Section>
-      <Section title="Projects">
+      {/* <Section title="Projects">
         <Projects data={projects} />
       </Section>
       <Section title="Interviews &amp; Podcasts" className="medium">
@@ -73,7 +73,7 @@ export default function IndexPage({ data }) {
       </Section>
       <Section title="Speaking" className="medium">
         <Lists data={speaking} />
-      </Section>
+      </Section> */}
       <Section title="Newsletter" className="small">
         <p>
           Every now and then I'll send out an email when I've created something

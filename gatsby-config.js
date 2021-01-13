@@ -5,7 +5,7 @@ module.exports = {
       name: 'Jalaj Gupta',
     },
     pathPrefix: '/',
-    siteUrl: 'https://www.jalaj.dev',
+    siteUrl: 'https://www.jalaj.codes',
     description:
       'Fullstack Web and Mobile Developer. This is my portfolio and personal blog.',
   },
@@ -168,6 +168,10 @@ module.exports = {
         // Disable the loading spinner.
         showSpinner: true,
       },
+    },
+
+    {
+      resolve: `gatsby-plugin-styled-components`,
     },
   ],
 }

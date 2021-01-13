@@ -22,7 +22,7 @@ export default function BlogIndex({ data, location }) {
       <SEO />
       <section>
         <h1>
-          <CharacterAnimate>Blog</CharacterAnimate>
+          <CharacterAnimate text="Blog" />
         </h1>
         <p className="subtitle">
           Articles, tutorials, snippets, musings, and everything else.

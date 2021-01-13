@@ -71,16 +71,29 @@ const createPages = async ({ graphql, actions }) => {
   // =====================================================================================
   // Pages
   // =====================================================================================
+  const projects = [
+    {
+      title: 'Project #1',
+      slug: 'project-1',
+    },
+    {
+      title: 'Project #2',
+      slug: 'project-2',
+    },
+  ]
+  const projectTemplate = path.resolve('./src/templates/project.js')
 
-  // pages.forEach((page) => {
-  //   createPage({
-  //     path: page.node.fields.slug,
-  //     component: pagePage,
-  //     context: {
-  //       slug: page.node.fields.slug,
-  //     },
-  //   })
-  // })
+  projects.forEach((project, index) => {
+    const next = projects[index === projects.length - 1 ? 0 : index + 1]
+    createPage({
+      path: `/projects/${project.slug}`,
+      component: projectTemplate,
+      context: {
+        ...project,
+        next,
+      },
+    })
+  })
 
   // =====================================================================================
   // Tags
