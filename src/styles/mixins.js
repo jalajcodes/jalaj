@@ -2,11 +2,11 @@ import { css } from 'styled-components'
 
 export const mixins = {
   button: css`
-    color: var(--light-green);
+    color: var(--brand);
     margin-top: 40px;
     align-self: flex-start;
     background: none;
-    border: 2px solid var(--light-green);
+    border: 2px solid var(--brand);
     font: inherit;
     line-height: 1;
     padding: 1rem 2rem;
@@ -15,8 +15,13 @@ export const mixins = {
     transition: 0.25s;
 
     &:hover {
-      box-shadow: 0 0.5em 0.5em -0.4em var(--light-green);
+      box-shadow: 0 0.5em 0.5em -0.4em var(--brand);
       transform: translateY(-0.25em);
+    }
+
+    &:focus,
+    &:active {
+      outline: none;
     }
   `,
   modalButton: css`
@@ -33,7 +38,7 @@ export const mixins = {
     text-transform: uppercase;
     transition: 0.5s;
     cursor: pointer;
-    border: 2px solid var(--light-green);
+    border: 2px solid var(--brand);
 
     &:hover {
       background: #03e9f4;

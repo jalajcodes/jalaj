@@ -42,18 +42,17 @@ const Transition = ({ location, children }) => {
 
   const variants = {
     initial: {
-      y: -30,
       opacity: 0,
+      y: -30,
     },
     enter: {
       opacity: 1,
-
       y: 0,
       transition: {
         duration: duration,
         delay: duration,
-        // when: 'afterChildren',
         staggerChildren: 0.2,
+        when: 'beforeChildren',
       },
     },
     exit: {
@@ -73,10 +72,6 @@ const Transition = ({ location, children }) => {
         animate="enter"
         exit="exit"
       >
-        {/* <Frame1 variants={frameVariants}></Frame1>
-        <Frame2 variants={frameVariants}></Frame2>
-        <Frame3 variants={frameVariants}></Frame3>
-        <Frame4 variants={frameVariants}></Frame4> */}
         {children}
       </motion.div>
     </AnimatePresence>

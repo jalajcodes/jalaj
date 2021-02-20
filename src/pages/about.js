@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect, useContext } from 'react'
 import CharacterAnimate from '../components/CharacterAnimate'
-import SkillGrid from '../components/SkillGrid'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
+import Canvas from '../utils/canvas'
+import { ThemeContext } from 'gatsby-plugin-theme-switcher'
 
-const AboutWrapper = styled.div`
+const AboutWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,35 +25,50 @@ const AboutDetail = styled.div`
 
   .get-resume {
     ${({ theme }) => theme.mixins.button}
+    font-size: calc(1rem + 1vw);
   }
 
   .about-text {
-    font-size: 1.2rem;
+    font-size: calc(1rem + 1vw);
     opacity: 0.9;
   }
 
   .about-heading {
-    color: var(--light-green);
-    letter-spacing: 1.5px;
+    color: var(--brand);
+    letter-spacing: 0.7rem;
     font-weight: 900;
     font-family: Righteous, sans-serif;
-    font-size: 4rem;
+    font-size: calc(6rem + 1.5vw);
   }
 `
 
 const textVariant = {
   hidden: {
     opacity: 0,
-    y: 10,
+    scaleX: 0,
+    transformOrigin: '0 0',
   },
   visible: {
     opacity: 1,
-    y: 0,
+    scaleX: 1,
     transition: {
-      // delay: 0.7,
-      duration: 0.3,
-      staggerChildren: 0.1,
-      when: 'beforeChildren',
+      delay: 1.4,
+      duration: 0.7,
+    },
+  },
+}
+const textVariant2 = {
+  hidden: {
+    opacity: 0,
+    skewY: '-10deg',
+    transformOrigin: '100% 0',
+  },
+  visible: {
+    opacity: 1,
+    skewY: '0deg',
+    transition: {
+      delay: 2,
+      duration: 0.7,
     },
   },
 }
@@ -67,53 +83,50 @@ function About({ location }) {
   //               times: [0, 0.3, 0.4, 0.5, 0.65, 0.75, 1],
   //             },
   //           }}
+  const { theme } = useContext(ThemeContext)
+
+  useEffect(() => {
+    new Canvas(theme === 'theme-dark' ? '#E0250C' : '#21E6C1')
+    return () => {
+      let el = document.querySelector('canvas')
+      el.parentNode.removeChild(el)
+    }
+  }, [theme])
 
   return (
     <>
-      <AboutWrapper>
+      <AboutWrapper layoutId="item" className="canvasContainer">
         <AboutDetail>
           <h2 className="about-heading">
             <CharacterAnimate text="About Me!" />
           </h2>
-          <motion.div
+          <motion.span
             variants={textVariant}
             initial="hidden"
             animate="visible"
             className="about-text"
           >
-            <motion.span variants={textVariant}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
-            </motion.span>
-            <motion.span variants={textVariant}>
-              quaerat, delectus aliquid eum quia illo molestiae, veniam, nostrum
-            </motion.span>
-            <motion.span variants={textVariant}>
-              distinctio enim excepturi in deleniti! Ex rem cupiditate voluptas
-            </motion.span>
-            <motion.span variants={textVariant}>
-              ducimus, ab voluptatum! Dolores, laboriosam. Omnis nulla labore ad{' '}
-            </motion.span>
-            <motion.span variants={textVariant}>
-              voluptatibus aut debitis fuga expedita, earum harum odit numquam
-            </motion.span>
-            <motion.span variants={textVariant}>
-              non cupiditate nisi perspiciatis sapiente minus rerum sunt
-            </motion.span>
-            <motion.span variants={textVariant}>
-              dignissimos suscipit reprehenderit asperiores quia beatae velit
-            </motion.span>
-            <motion.span variants={textVariant}>
-              incidunt. Minus quidem assumenda similique voluptatem molestiae
-            </motion.span>
-            <motion.span variants={textVariant}>
-              accusamus aspernatur
-            </motion.span>
-          </motion.div>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
+            quaerat, delectus aliquid eum quia illo molestiae, veniam, nostrum
+            distinctio enim excepturi in deleniti! Ex rem cupiditate voluptas
+            ducimus, ab voluptatum! Dolores, laboriosam. Omnis nulla labore ad{' '}
+          </motion.span>
+          <motion.span
+            variants={textVariant2}
+            initial="hidden"
+            animate="visible"
+            className="about-text"
+          >
+            voluptatibus aut debitis fuga expedita, earum harum odit numquam non
+            cupiditate nisi perspiciatis sapiente minus rerum sunt dignissimos
+            suscipit reprehenderit asperiores quia beatae velit incidunt. Minus
+            quidem assumenda similique voluptatem molestiae accusamus aspernatur
+          </motion.span>
           <button className="get-resume">
             Resume <span className="about-button__arrow">&rarr;</span>
           </button>
         </AboutDetail>
-        <div>{/* <SkillGrid /> */}</div>
+        {/* <div><SkillGrid /></div> */}
       </AboutWrapper>
     </>
   )

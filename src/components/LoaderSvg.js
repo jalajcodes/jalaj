@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import styled from 'styled-components'
 
 const LoaderContainer = styled(motion.div)`
-  background-color: var(--dark-bg);
+  background-color: var(--bg);
   width: 100%;
   height: 100%;
   position: fixed;

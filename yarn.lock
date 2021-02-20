@@ -6708,6 +6708,14 @@ gatsby-plugin-styled-components@^3.5.0:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
+gatsby-plugin-theme-switcher@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-theme-switcher/-/gatsby-plugin-theme-switcher-1.0.0.tgz#bff70a59c50356d4170526ca7b5467fe5f85bb45"
+  integrity sha512-nWSHL2CIVE/T+SSKl4IQ3RaT3NYUpAz2u8wCztabk6tLZ4UqS6csgG2fZhul6fK5xZ0xI430EwJqIhhamhL43A==
+  dependencies:
+    prop-types "^15.7.2"
+    terser "^4.8.0"
+
 gatsby-plugin-transition-link@^1.20.5:
   version "1.20.5"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-transition-link/-/gatsby-plugin-transition-link-1.20.5.tgz#c4e8ca7b69dee029436b67964f8915f2a46090ee"
@@ -13052,7 +13060,7 @@ source-map-resolve@^0.5.0:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@^0.5.17, source-map-support@^0.5.19, source-map-support@~0.5.12:
+source-map-support@^0.5.17, source-map-support@^0.5.19, source-map-support@~0.5.12, source-map-support@~0.5.19:
   version "0.5.19"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.19.tgz#a98b62f86dcaf4f67399648c085291ab9e8fed61"
   integrity sha512-Wonm7zOCIJzBGQdB+thsPar0kYuCIzYvxZwlBa87yi/Mdjv7Tip2cyVbLj5o0cFPN4EVkuTwb3GDDyUx2DGnGw==
@@ -13065,7 +13073,7 @@ source-map-url@^0.4.0:
   resolved "https://registry.yarnpkg.com/source-map-url/-/source-map-url-0.4.0.tgz#3e935d7ddd73631b97659956d55128e87b5084a3"
   integrity sha1-PpNdfd1zYxuXZZlW1VEo6HtQhKM=
 
-source-map@0.7.3, source-map@^0.7.3:
+source-map@0.7.3, source-map@^0.7.3, source-map@~0.7.2:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
   integrity sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==
@@ -13749,7 +13757,7 @@ terser-webpack-plugin@^2.3.8:
     terser "^4.6.12"
     webpack-sources "^1.4.3"
 
-terser@^4.1.2, terser@^4.6.12:
+terser@^4.1.2, terser@^4.6.12, terser@^4.8.0:
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/terser/-/terser-4.8.0.tgz#63056343d7c70bb29f3af665865a46fe03a0df17"
   integrity sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==
@@ -13757,6 +13765,15 @@ terser@^4.1.2, terser@^4.6.12:
     commander "^2.20.0"
     source-map "~0.6.1"
     source-map-support "~0.5.12"
+
+terser@^5.6.0-beta:
+  version "5.6.0-beta"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-5.6.0-beta.tgz#26b1fcfbb4cce1b85eb5afd435e5a35b6dd1ac8e"
+  integrity sha512-XqPZwi17FkFr42a6eGITU4ZHPixz1ZmuM9URQ/waMwxHenKjrxPndHtnuhNJ399P8tWFQuzZTTdN4ce3e2s28Q==
+  dependencies:
+    commander "^2.20.0"
+    source-map "~0.7.2"
+    source-map-support "~0.5.19"
 
 text-table@0.2.0, text-table@^0.2.0:
   version "0.2.0"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Helmet from 'react-helmet'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, AnimateSharedLayout } from 'framer-motion'
 import Nav from './Nav'
 import styled, { ThemeProvider } from 'styled-components'
 import { GlobalStyles } from '../styles'
@@ -8,6 +8,7 @@ import Loader from './LoaderSvg'
 import Transition from './Transition'
 import { devEasterMessage } from '../utils/helpers'
 import { theme } from '../styles/theme'
+import ThemeToggle from './ThemeToggle'
 
 const SiteWrapper = styled.div`
   display: flex;
@@ -47,20 +48,22 @@ export default function Layout({ children, location }) {
         />
       </Helmet>
 
-      {/* Show Preloader until isLoading is true && we're on Homepage  */}
       <ThemeProvider theme={theme}>
-        <GlobalStyles />
         <AnimatePresence exitBeforeEnter>
           {isLoading && isHome && <Loader setIsLoading={setIsLoading} />}
           {!isLoading && (
             <motion.div key="layout" style={{ overflowY: 'hidden' }}>
               <Nav />
+              <ThemeToggle />
               <Transition location={location}>
-                <SiteWrapper>{children}</SiteWrapper>
+                <AnimateSharedLayout type="crossfade">
+                  <SiteWrapper>{children}</SiteWrapper>
+                </AnimateSharedLayout>
               </Transition>
             </motion.div>
           )}
         </AnimatePresence>
+        <GlobalStyles />
       </ThemeProvider>
     </>
   )

@@ -103,7 +103,7 @@ export function devEasterMessage(url) {
 
       Let the debug begin!
 
-      Bonus: 👇 A Cat image for you! 👇
+      Bonus: 👇 A Cute Cat pic for you! 👇
     `,
     'font-size:16px'
   )

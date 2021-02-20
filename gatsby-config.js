@@ -30,6 +30,14 @@ module.exports = {
         icon: `static/logo.png`,
       },
     },
+    {
+      resolve: 'gatsby-plugin-theme-switcher',
+      options: {
+        defaultDarkTheme: 'theme-dark',
+        defaultLightTheme: 'theme-light',
+        minify: true,
+      },
+    },
 
     // ===================================================================================
     // Images and static

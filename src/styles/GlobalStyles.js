@@ -2,25 +2,6 @@ import { createGlobalStyle } from 'styled-components'
 import PrismStyles from './PrismStyles'
 
 const GlobalStyles = createGlobalStyle`
-  /* Global variables */
-
-  :root {
-    /* --font-color: #495057; */
-    --font-color: #f1f3f5;
-    --heading-color: #343a40;
-    --dark-font-color: #212529;
-    --light-font-color: #868e96;
-    --light-background: #f1f3f5;
-    --scrollbar-bg: rgba(100, 110, 140, 0.25);
-    --border: #d6d9de;
-    --link-color: #5183f5;
-    --light-green: #21e6c1;
-    --dark-bg: #061621;
-    --navbar-bg: #061118;
-  }
-
-  /* Reset */
-
   *,
   *::before,
   *::after {
@@ -35,18 +16,45 @@ const GlobalStyles = createGlobalStyle`
     font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial,
       'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI', Roboto,
       'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    color: var(--font-color);
-    font-weight: 400;
-    font-size: 1rem;
+    ${'' /* font-weight: 400; */}
+    font-size: 62.5%;
     line-height: 1.6;
   }
 
   body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: var(--bg);
+    color: var(--font-color);
+    font-size: 1.6rem;
     margin: 0;
-    background-color: var(--dark-bg);
     overflow-x: hidden;
     overflow-y: visible;
-    font-family: 'Quicksand', sans-serif;
+    transition: background .45s ease-out;
+  }
+
+    .theme-dark {
+    --font-color: #ffffff;
+    --heading-color: #343a40;
+    --dark-font-color: #212529;
+    --light-font-color: #868e96;
+    --light-background: #f1f3f5;
+    --scrollbar-bg: rgba(100, 110, 140, 0.25);
+    --border: #d6d9de;
+    --link-color: #5183f5;
+    --brand: #21e6c1;
+    --brand2: #E0250C;
+    --bg: #061621;
+    --nav-bg: #061118;
+  }
+
+  .theme-light {
+    --bg: #E8FEF1;
+    --nav-bg: #061118;
+    ${'' /* --nav-bg: #2F4858; */}
+    --brand: #E0250C;
+    --brand2: #21E6C1;
+    --font-color: var(--nav-bg);
+    --light-background: #f1f3f5;
   }
 
   article {
@@ -206,6 +214,17 @@ const GlobalStyles = createGlobalStyle`
     border-radius: 10px;
   }
 
+  /* Canvas */
+  canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    height: 100vh;
+    width: 100vw;
+    z-index: -10;
+}
+
   /* Sidebar */
 
   aside {
@@ -322,11 +341,6 @@ a {
   text-decoration: none;
   font-weight: 500;
 }
-
-/* a:hover {
-  border-bottom: 2px solid var(--link-color);
-  color: var(--heading-color);
-} */
 
 a code {
   border-bottom: 2px solid var(--link-color);
@@ -697,11 +711,7 @@ a.tag-notes:hover {
 
 .blast {
   display: inline-block;
-}
-.blast {
-  display: inline-block;
-  -webkit-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
+  opacity: 0;
 }
 
 .animated {
@@ -751,6 +761,50 @@ a.tag-notes:hover {
 .rubberBand {
   animation-name: rubberBand;
 }
+
+.bounceIn {
+  animation: bounce 1s both;
+}
+
+@keyframes bounce {
+	0%,
+	20%,
+	40%,
+	60%,
+	80%,
+	to {
+		-webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+		animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
+	0% {
+		opacity: 0;
+		-webkit-transform: scale3d(0.3, 0.3, 0.3);
+		transform: scale3d(0.3, 0.3, 0.3);
+	}
+	20% {
+		-webkit-transform: scale3d(1.1, 1.1, 1.1);
+		transform: scale3d(1.1, 1.1, 1.1);
+	}
+	40% {
+		-webkit-transform: scale3d(0.9, 0.9, 0.9);
+		transform: scale3d(0.9, 0.9, 0.9);
+	}
+	60% {
+		opacity: 1;
+		-webkit-transform: scale3d(1.03, 1.03, 1.03);
+		transform: scale3d(1.03, 1.03, 1.03);
+	}
+	80% {
+		-webkit-transform: scale3d(0.97, 0.97, 0.97);
+		transform: scale3d(0.97, 0.97, 0.97);
+	}
+	to {
+		opacity: 1;
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1);
+	}
+}
+
 
   ${PrismStyles}
 `

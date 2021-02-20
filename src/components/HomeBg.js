@@ -5,6 +5,11 @@ import { motion } from 'framer-motion'
 const HomeBgWrapper = styled(motion.div)`
   /* position: absolute; */
   align-self: flex-end;
+  position: absolute;
+  /* bottom: -10px; */
+  right: 0;
+  z-index: -1;
+  width: 800px;
   /* bottom: 0; */
   /* right */
 
@@ -24,13 +29,15 @@ const HomeBg = () => {
   return (
     <HomeBgWrapper variants={homeBgVariants} initial="initial" animate="final">
       <motion.svg
-        width="826"
-        height="487"
+        width="100%"
+        height="100%"
+        // width="826"
+        // height="487"
         viewBox="0 0 826 487"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <g id="headerimage 1" clip-path="url(#clip0)">
+        <g id="headerimage 1" clipPath="url(#clip0)">
           <g id="Layer 2">
             <g id="Layer 3">
               <g id="Lamp">
@@ -38,8 +45,8 @@ const HomeBg = () => {
                   id="Body"
                   d="M711.428 99.9924L729.259 81.014C729.972 80.2549 730.819 79.6527 731.752 79.2419C732.684 78.8311 733.683 78.6196 734.692 78.6196C735.701 78.6196 736.7 78.8311 737.633 79.2419C738.565 79.6527 739.412 80.2549 740.125 81.014V81.014L787.599 131.534C790.478 134.6 792.096 138.756 792.098 143.089V477.725"
                   stroke="#CBCBCB"
-                  stroke-width="8"
-                  stroke-miterlimit="10"
+                  strokeWidth="8"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Lamp Base"
@@ -102,7 +109,7 @@ const HomeBg = () => {
                   fill="#89C5CC"
                 />
               </g>
-              <path
+              <motion.path
                 id="Vector"
                 d="M155.922 125.079C161.379 125.046 166.675 124.297 170.415 118.605C177.751 107.426 188.961 97.391 201.51 108.742C208.753 115.299 203.306 128.783 209.543 135.271C215.055 141.007 222.065 140.061 224.884 149.581C229.033 163.587 215.955 175.859 211.761 187.973C208.241 198.136 216.161 202.008 219.722 209.929C222.47 216.033 221.055 222.576 218.064 228.414C212.792 238.705 201.105 246.994 203.811 260.321C206.071 271.445 208.173 281.36 198.948 289.788C192.622 295.567 180.887 300.835 181.776 311.532C182.092 315.317 184.554 318.542 185.231 322.276C186.299 328.18 182.703 333.93 178.527 337.985C169.024 347.209 160.668 355.908 153.559 367.51C150.516 372.471 138.338 383.665 143.205 390.445C134.361 378.123 125.002 366.173 116.973 353.219C110.362 342.566 100.395 326.981 107.178 313.859C109.29 309.778 113.212 306.735 114.287 302.22C116.231 294.066 108.7 286.511 105.897 279.57C101.501 268.676 104.729 256.029 112.47 247.853C116.135 243.984 120.112 239.728 120.651 234.266C121.238 228.304 117.722 222.744 116.128 217.242C114.689 212.109 113.71 206.842 113.205 201.511C112.828 197.793 112.68 193.99 113.501 190.351C115.067 183.432 120.922 179.585 125.257 174.679C135.577 162.988 130.154 149.252 134.663 135.669C138.726 123.479 147.522 125.13 155.922 125.079Z"
                 fill="#1D7E8E"
@@ -112,50 +119,50 @@ const HomeBg = () => {
                   id="Vector_2"
                   d="M142.124 404.346C138.291 357.625 141.811 310.535 149.923 264.523C157.664 220.625 167.823 176.582 183.236 134.972C188.295 121.206 194.069 107.75 200.532 94.666"
                   stroke="#00A09D"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_3"
                   d="M235.199 157.315C213.551 165.448 192.988 176.538 174.026 190.308C169.218 193.797 166.549 194.863 162.545 199.353"
                   stroke="#00A09D"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_4"
                   d="M152.293 249.406C173.123 235.109 196.491 225.514 220.95 221.214"
                   stroke="#00A09D"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_5"
                   d="M144.086 309.677C163.517 291.811 186.822 279.369 211.901 273.473"
                   stroke="#00A09D"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_6"
                   d="M163.618 197.811C162.095 173.026 156.345 148.742 146.648 126.146"
                   stroke="#00A09D"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_7"
                   d="M152.56 247.367C142.701 224.969 128.625 204.961 111.203 188.583"
                   stroke="#00A09D"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_8"
                   d="M142.801 311.39C141.439 304.478 139.07 297.836 135.781 291.702C131.959 284.582 126.958 278.266 121.865 272.114C118.202 267.679 114.472 263.306 110.676 258.995"
                   stroke="#00A09D"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
               </g>
               <path
@@ -168,50 +175,50 @@ const HomeBg = () => {
                   id="Vector_10"
                   d="M135.274 410.776C131.973 376.322 123.295 342.672 111.418 310.498C100.085 279.811 86.9932 249.343 70.4053 221.429C64.9454 212.188 59.0062 203.278 52.6152 194.739"
                   stroke="#1D7E8E"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_11"
                   d="M35.6152 245.288C52.3761 248.001 68.7346 253.019 84.2802 260.215C88.2194 262.042 90.2972 262.407 93.7865 265.085"
                   stroke="#1D7E8E"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_12"
                   d="M107.737 299.882C90.7659 292.578 72.5655 289.059 54.2637 289.544"
                   stroke="#1D7E8E"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_13"
                   d="M121.532 342.394C105.113 332.295 86.5906 326.701 67.6328 326.116"
                   stroke="#1D7E8E"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_14"
                   d="M92.8076 264.128C90.6889 245.925 91.7014 227.465 95.7955 209.647"
                   stroke="#1D7E8E"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_15"
                   d="M107.279 298.443C111.518 280.744 119.125 264.159 129.63 249.712"
                   stroke="#1D7E8E"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
                 <path
                   id="Vector_16"
                   d="M122.688 343.447C122.776 338.233 123.63 333.066 125.219 328.133C127.063 322.404 129.869 317.089 132.774 311.876C134.856 308.12 136.992 304.399 139.183 300.711"
                   stroke="#1D7E8E"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
               </g>
               <path
@@ -451,7 +458,12 @@ const HomeBg = () => {
                 d="M322.583 246.005C321.591 241.233 317.304 239.684 313.612 240.159C311.5 240.437 289.799 244.985 272.867 247.199C263.855 248.379 225.387 253.366 220.002 253.611C241.195 280.604 323.332 249.61 322.583 246.005Z"
                 fill="white"
               />
-              <path
+              <motion.path
+                initial={{ x: 0 }}
+                animate={{
+                  x: '-10px',
+                  transition: { yoyo: Infinity, duration: 3 },
+                }}
                 id="Vector_64"
                 d="M537.909 290.735C527.544 290.212 517.21 291.984 506.969 293.752C503.734 294.307 500.309 296.218 502.744 300.328C504.084 302.586 506.866 303.25 509.349 303.55C520.05 304.854 531.044 303.411 541.8 303.429"
                 fill="#0B2D4E"
@@ -468,14 +480,13 @@ const HomeBg = () => {
               />
               <motion.path
                 initial={{
-                  transformBox: 'fill-box',
-                  originY: '100%',
+                  transformbox: 'fill-box',
+                  origin: '100%',
                   skewY: -8,
                 }}
                 animate={{
-                  transformBox: 'fill-box',
                   skewY: 8,
-                  originY: '100%',
+                  origin: '100%',
                   transition: { duration: 2, yoyo: Infinity },
                 }}
                 id="cat-tail"
@@ -621,8 +632,8 @@ const HomeBg = () => {
                 id="Vector_94"
                 d="M335.106 39.5681C335.045 36.4848 333.118 33.8618 331.648 31.2022C329.385 26.9982 328.46 22.1289 329.01 17.32C329.319 14.5251 330.228 11.843 331.665 9.48049C333.102 7.11795 335.031 5.13807 337.301 3.69348C338.97 2.63011 340.823 1.93607 342.75 1.65295C344.676 1.36984 346.637 1.50348 348.514 2.04588C352.021 3.10897 354.871 5.96213 358.275 6.95581C365.899 9.17332 373.729 2.57194 380.966 0.986446C388.15 -0.595399 395.83 1.97647 399.422 9.65554C400.837 12.6877 401.462 16.1948 403.313 18.9128C406.404 23.4538 412.352 24.9552 414.811 29.9565C418.83 38.1251 410.845 50.0711 406.782 56.4204"
                 stroke="#0B2D4E"
-                stroke-width="3"
-                stroke-miterlimit="10"
+                strokeWidth="3"
+                strokeMiterlimit="10"
               />
               <path
                 id="Vector_95"

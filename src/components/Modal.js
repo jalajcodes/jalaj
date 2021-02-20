@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { copyToClipboard } from '../utils/helpers'
 import styled from 'styled-components'
+import modalBg from '../../content/thumbnails/pat.svg'
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -31,24 +32,25 @@ const ModalContainer = styled(motion.div)`
   overflow: hidden;
   z-index: 2;
   background: rgb(42, 42, 43);
-  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg'),
-    radial-gradient(circle, var(--dark-bg) 0%, var(--navbar-bg) 100%);
+  background: ${`url(${modalBg}), radial-gradient(circle, var(--bg) 0%, var(--nav-bg) 100%)`};
+  /* background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg'),
+    radial-gradient(circle, var(--bg) 0%, var(--nav-bg) 100%); */
   background-repeat: no-repeat;
   background-size: cover;
 
   p {
-    color: var(--light-green);
+    color: var(--brand);
     font-weight: bold;
     font-family: Righteous, sans-serif;
   }
 
   .modal-header {
     text-transform: uppercase;
-    border-bottom: 3px solid var(--light-green);
+    border-bottom: 3px solid var(--brand);
     display: inline-block;
   }
   .modal-body {
-    color: var(--light-green);
+    color: var(--brand);
     /* font-family: 'Quicksand', sans-serif; */
     font-size: 1.7rem;
   }

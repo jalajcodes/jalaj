@@ -10,17 +10,17 @@ const Navbar = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--navbar-bg);
+  background: var(--nav-bg);
   position: absolute;
   z-index: 10;
   top: 0;
   width: 100%;
   font-family: Quicksand;
-  transition: all 0.4s ease-out;
+  transition: background 0.5s ease-out;
 
   a {
     border-radius: 0.3rem;
-    color: var(--light-green);
+    color: var(--brand);
     border-bottom: none;
     font-weight: 400;
   }
@@ -32,20 +32,19 @@ const Navbar = styled(motion.nav)`
   }
 
   .navbar__links--active {
-    color: var(--light-green);
+    color: var(--brand);
   }
 
   .navbar__links--active svg {
-    color: var(--light-green);
+    color: var(--brand);
   }
 
   a svg {
     cursor: pointer;
-    color: var(--light-font-color);
+    color: var(--light-background);
   }
 
   @media (min-width: 800px) {
-    background-color: var(--navbar-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,10 +71,10 @@ const NavbarLogo = styled.div`
   align-items: center;
 
   a.brand {
-    font-size: 2.6rem;
+    font-size: calc(2.6rem + 1.2vw);
     font-family: 'Righteous', sans-serif;
     font-weight: 600;
-    color: #21e6c1;
+    color: var(--brand);
     padding: 0 10px;
   }
 
@@ -97,11 +96,11 @@ const NavbarLinks = styled.div`
   justify-content: space-evenly;
   position: fixed;
   bottom: 0;
-  background-color: var(--navbar-bg);
+  background-color: var(--nav-bg);
   padding: 0.8rem 0;
-  z-index: 100;
+  z-index: 10;
   opacity: 1;
-  transition: all 0.4s ease-in;
+  transition: background 0.5s ease-out;
 
   a {
     position: relative;
@@ -118,7 +117,7 @@ const NavbarLinks = styled.div`
     letter-spacing: 2px;
     font-size: 10px;
     opacity: 0;
-    transition: opacity 0.2s ease-in;
+    /* transition: opacity 0.2s ease-in; */
   }
 
   a:hover::after {
@@ -146,7 +145,7 @@ const NavbarLinks = styled.div`
 
   a:hover svg {
     opacity: 0;
-    transition: opacity 0.4s ease-out;
+    transition: opacity 0.3s ease-out;
   }
 
   @media (min-width: 800px) {
@@ -157,7 +156,8 @@ const NavbarLinks = styled.div`
     text-align: center;
     padding-top: 33px;
     position: static;
-    transition: none;
+    background-color: unset;
+    transition: background 0.5s ease-out;
     transform: translateX(0);
     opacity: 1;
 
@@ -179,7 +179,7 @@ const NavbarLinks = styled.div`
       letter-spacing: 2px;
       font-size: 10px;
       opacity: 0;
-      transition: opacity 0.2s ease-in;
+      /* transition: opacity 0.2s ease-in; */
     }
 
     a:hover::after {
@@ -206,7 +206,6 @@ const NavbarLinks = styled.div`
     }
     a:hover svg {
       opacity: 0;
-      transition: opacity 0.4s ease-out;
     }
   }
 `
@@ -217,10 +216,10 @@ const NavbarSocial = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  transition: background 0.5s ease-out;
 
   a {
     margin-bottom: 10px;
-  transition: all 1s ease;
   }
 
   a svg {
@@ -229,11 +228,12 @@ const NavbarSocial = styled.div`
   }
 
   a:hover svg {
-    color: var(--light-green);
+    color: var(--brand);
   }
 
   @media (max-width: 800px) {
     display: none;
+    transition: background 0.5s ease-out;
   }
 `
 
@@ -244,8 +244,11 @@ export default function Nav() {
     <>
       <Navbar
         initial={{ opacity: 0, x: -80 }}
-        animate={{ opacity: 1, x: 0 }}
-        // className="navbar"
+        animate={{
+          opacity: 1,
+          x: 0,
+          transition: { duration: 0.5, ease: 'easeOut' },
+        }}
       >
         <NavbarLogo>
           <Link to="/" className="brand">
@@ -272,15 +275,17 @@ export default function Nav() {
               )
             }
             return (
-              <Link
-                key={item.name}
-                activeClassName="navbar__links--active"
-                to={item.urlPath}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path fill="currentColor" d={item.path} />
-                </svg>
-              </Link>
+              <>
+                <Link
+                  key={item.name}
+                  activeClassName="navbar__links--active"
+                  to={item.urlPath}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="currentColor" d={item.path} />
+                  </svg>
+                </Link>
+              </>
             )
           })}
         </NavbarLinks>

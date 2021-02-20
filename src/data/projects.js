@@ -1,68 +1,59 @@
 export default [
   {
-    icon: '📝',
-    title: 'TakeNote',
-    path: 'https://takenote.dev',
-    source: 'https://github.com/taniarascia/takenote',
-    description: 'A free, open source notes app for the web.',
+    id: 'c',
+    category: 'Pizza',
+    title: '5 Food Apps Delivering the Best of Your City',
+    pointOfInterest: 200,
+    backgroundColor: '#814A0E',
+    p1: 'lorem',
   },
-  {
-    icon: '🎮',
-    title: 'Chip8.js',
-    path: 'https://taniarascia.github.io/chip8/',
-    source: 'https://github.com/taniarascia/chip8/',
-    description:
-      'A Chip-8 emulator written in JavaScript for terminal and the browser.',
-  },
-  {
-    icon: '🌙',
-    title: 'New Moon',
-    path: 'https://taniarascia.github.io/new-moon/',
-    source: 'https://github.com/taniarascia/new-moon/',
-    description:
-      'The optimized dark theme for web development. Your new favorite theme.',
-  },
-  {
-    icon: '🔱',
-    title: 'MVC.js',
-    path: 'https://taniarascia.github.io/mvc/',
-    source: 'https://github.com/taniarascia/mvc/',
-    description: 'A simple Todo MVC application in JavaScript.',
-  },
-  {
-    icon: '🏺',
-    title: 'Laconia',
-    path: 'https://laconia.dev',
-    source: 'https://github.com/taniarascia/laconia/',
-    description:
-      'A modern PHP MVC framework written without libraries or frameworks.',
-  },
-  {
-    icon: '⛏️',
-    title: ' Primitive',
-    path: 'https://taniarascia.github.io/primitive/',
-    source: 'https://github.com/taniarascia/primitive/',
-    description:
-      'A minimalist front-end design toolkit built for developing responsive web apps.',
-  },
-  {
-    icon: '🐍',
-    title: 'Snek.js',
-    source: 'https://github.com/taniarascia/snek/',
-    description:
-      'A terminal-based Snake implementation written in JavaScript (Node.js).',
-  },
-  {
-    icon: '📦',
-    title: 'Webpack Boilerplate',
-    source: 'https://github.com/taniarascia/webpack-boilerplate',
-    description:
-      'A sensible Webpack 4 boilerplate with with Babel, Sass, ESLint, HMR, and optimization.',
-  },
-  {
-    icon: '💾',
-    title: 'tania.dev',
-    source: 'https://github.com/taniarascia/taniarascia.com/',
-    description: 'Personal theme for Gatsby (the source of this website).',
-  },
+  // {
+  //   id: 'f',
+  //   category: 'How to',
+  //   title: 'Arrange Your Apple Devices for the Gram',
+  //   pointOfInterest: 120,
+  //   backgroundColor: '#959684',
+  // },
+  // {
+  //   id: 'a',
+  //   category: 'Pedal Power',
+  //   title: 'Map Apps for the Superior Mode of Transport',
+  //   pointOfInterest: 260,
+  //   backgroundColor: '#5DBCD2',
+  // },
+  // {
+  //   id: 'g',
+  //   category: 'Holidays',
+  //   title: 'Our Pick of Apps to Help You Escape From Apps',
+  //   pointOfInterest: 200,
+  //   backgroundColor: '#8F986D',
+  // },
+  // {
+  //   id: 'd',
+  //   category: 'Photography',
+  //   title: 'The Latest Ultra-Specific Photography Editing Apps',
+  //   pointOfInterest: 150,
+  //   backgroundColor: '#FA6779',
+  // },
+  // {
+  //   id: 'h',
+  //   category: "They're all the same",
+  //   title: '100 Cupcake Apps for the Cupcake Connoisseur',
+  //   pointOfInterest: 60,
+  //   backgroundColor: '#282F49',
+  // },
+  // {
+  //   id: 'e',
+  //   category: 'Cats',
+  //   title: 'Yes, They Are Sociopaths',
+  //   pointOfInterest: 200,
+  //   backgroundColor: '#AC7441',
+  // },
+  // {
+  //   id: 'b',
+  //   category: 'Holidays',
+  //   title: 'Seriously the Only Escape is the Stratosphere',
+  //   pointOfInterest: 260,
+  //   backgroundColor: '#CC555B',
+  // },
 ]
