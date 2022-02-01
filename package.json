@@ -6,7 +6,7 @@
   "author": "Jalaj Gupta",
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
+    "build": "npm run gatsby build",
     "develop": "gatsby develop -H 0.0.0.0 -p 8000",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",
