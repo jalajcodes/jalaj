@@ -1,8 +1,8 @@
 export const SITE = {
   title: 'Jalaj Gupta',
-  tagline: 'Fullstack developer from Jaipur, India.',
+  tagline: 'AI-first fullstack developer in Jaipur, India',
   description:
-    'Jalaj Gupta is a fullstack web developer from Jaipur, India. Projects, open source and writing about building on React, Node and Cloudflare.',
+    'Jalaj Gupta is an AI-first fullstack developer from Jaipur, India. Projects like PostDaily, plus writing on Hono, Cloudflare Workers and LLMs.',
   url: 'https://jalaj.fyi',
 }
 

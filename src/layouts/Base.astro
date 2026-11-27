@@ -5,11 +5,22 @@ import Footer from '../components/Footer.astro'
 import Preloader from '../components/Preloader.astro'
 import Blob from '../components/Blob.astro'
 import { SITE } from '../data/site'
+import { abs } from '../seo'
 
-interface Props { title?: string; description?: string; type?: 'website' | 'article' }
-const { title, description = SITE.description, type = 'website' } = Astro.props
+interface Props {
+  title?: string
+  description?: string
+  type?: 'website' | 'article'
+  noindex?: boolean
+  published?: Date
+  tags?: string[]
+  jsonLd?: object
+}
+const { title, description = SITE.description, type = 'website', noindex = false, published, tags = [], jsonLd } = Astro.props
 const fullTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · ${SITE.tagline}`
 const canonical = new URL(Astro.url.pathname, SITE.url)
+const image = abs('/og.png')
+const imageAlt = 'Jalaj Gupta, fullstack developer from Jaipur, India'
 ---
 <!doctype html>
 <html lang="en" data-theme="dark">
@@ -23,13 +34,31 @@ const canonical = new URL(Astro.url.pathname, SITE.url)
     <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
+    <meta name="author" content={SITE.title} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+    <meta name="theme-color" content="#0a0c0d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f4ee" media="(prefers-color-scheme: light)" />
     <meta property="og:site_name" content={SITE.title} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+    {published && <meta property="article:published_time" content={published.toISOString()} />}
+    {type === 'article' && <meta property="article:author" content={SITE.url} />}
+    {tags.map((t) => <meta property="article:tag" content={t} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@jalajcodes" />
     <meta name="twitter:creator" content="@jalajcodes" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <script is:inline>
       (function () {
         var d = document.documentElement
@@ -37,10 +66,32 @@ const canonical = new URL(Astro.url.pathname, SITE.url)
           var t = localStorage.getItem('theme')
           if (t !== 'light' && t !== 'dark') t = 'dark' // dark by default; a saved choice wins
           d.dataset.theme = t
-          var skip = sessionStorage.getItem('jj-intro') || matchMedia('(prefers-reduced-motion: reduce)').matches || location.pathname !== '/'
+          var bot = /bot|crawl|spider|slurp|lighthouse|preview|facebookexternalhit/i.test(navigator.userAgent)
+          var skip = bot || sessionStorage.getItem('jj-intro') || matchMedia('(prefers-reduced-motion: reduce)').matches || location.pathname !== '/'
           d.classList.add(skip ? 'intro-done' : 'intro-run')
         } catch (e) { d.classList.add('intro-done') }
       })()
+      // Double-click the logo to replay the intro. This lives in the head and listens on the document so it is
+      // ready before anything can be clicked. The logo is a link: the first click may already be navigating when
+      // the second one arrives (on the new page), so the time of the last logo click is kept in sessionStorage
+      // and a second click within 600ms counts as the replay.
+      document.addEventListener('click', function (e) {
+        var logo = e.target && e.target.closest && e.target.closest('#logo')
+        if (!logo) return
+        var now = Date.now(), last = 0, home = location.pathname === '/'
+        try { last = Number(sessionStorage.getItem('jj-logo-click')) || 0 } catch (err) {}
+        if (now - last < 600) {
+          e.preventDefault()
+          try { sessionStorage.removeItem('jj-intro'); sessionStorage.removeItem('jj-logo-click') } catch (err) {}
+          if (home) location.reload(); else location.href = '/'
+          return
+        }
+        try { sessionStorage.setItem('jj-logo-click', String(now)) } catch (err) {}
+        if (home) {
+          e.preventDefault()
+          window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+        }
+      })
     </script>
     <noscript><style>[data-reveal],.rise,.ch{opacity:1!important;transform:none!important}</style></noscript>
   </head>

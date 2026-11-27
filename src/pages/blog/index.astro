@@ -7,7 +7,7 @@ import { getPosts } from '../../lib'
 const posts = await getPosts()
 const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort()
 ---
-<Base title="Writing" description="Posts by Jalaj Gupta on building with Hono, Cloudflare Workers, TypeScript and Astro.">
+<Base title="Writing" description="Posts by Jalaj Gupta on building with Hono, Cloudflare Workers, TypeScript and LLM apps, from schedulers and encryption to rate limits.">
   <h1 class="font-display text-[clamp(3rem,10vw,6.5rem)] leading-none"><Chars text="Writing" /></h1>
   <p class="rise mt-6 max-w-2xl text-lg text-muted" style="--d:400ms">Notes on things I built and what went right (and wrong) along the way.</p>
   <ul class="rise mt-8 mb-12 flex flex-wrap gap-2 font-mono text-xs" style="--d:500ms">

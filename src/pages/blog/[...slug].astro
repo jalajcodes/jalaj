@@ -3,6 +3,8 @@ import { render } from 'astro:content'
 import Base from '../../layouts/Base.astro'
 import Chars from '../../components/Chars.astro'
 import { fmtDate, getPosts, readingTime } from '../../lib'
+import { abs, breadcrumbs, graph, PERSON_ID } from '../../seo'
+import { SITE } from '../../data/site'
 
 export async function getStaticPaths() {
   const posts = await getPosts()
@@ -13,8 +15,32 @@ export async function getStaticPaths() {
 }
 const { post, newer, older } = Astro.props
 const { Content } = await render(post)
+const url = abs(`/blog/${post.id}/`)
+const ld = graph(
+  {
+    '@type': 'BlogPosting',
+    '@id': `${url}#post`,
+    headline: post.data.title,
+    description: post.data.description,
+    url,
+    mainEntityOfPage: url,
+    datePublished: post.data.date.toISOString(),
+    dateModified: post.data.date.toISOString(),
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': PERSON_ID },
+    image: abs('/og.png'),
+    keywords: post.data.tags.join(', '),
+    inLanguage: 'en',
+    isPartOf: { '@type': 'Blog', name: `${SITE.title}'s writing`, url: abs('/blog/') },
+  },
+  breadcrumbs([
+    { name: 'Home', path: '/' },
+    { name: 'Writing', path: '/blog/' },
+    { name: post.data.title, path: `/blog/${post.id}/` },
+  ]),
+)
 ---
-<Base title={post.data.title} description={post.data.description} type="article">
+<Base title={post.data.title} description={post.data.description} type="article" published={post.data.date} tags={post.data.tags} jsonLd={ld}>
   <div id="progress" class="fixed top-0 left-0 z-50 h-0.5 w-full origin-left scale-x-0 bg-brand"></div>
   <article class="mx-auto max-w-2xl">
     <a href="/blog" class="sweep font-mono text-sm text-muted hover:text-fg">← All posts</a>
