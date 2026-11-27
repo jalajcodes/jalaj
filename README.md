@@ -9,15 +9,15 @@ Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com)
 
 ## What's in it
 
-- **Pages:** home, projects, about, writing (with tags and RSS), search, a `/play` mini game and a 404.
+- **Pages:** home, projects, about, writing (with tags and RSS), search and a 404.
 - **Writing:** Markdown posts with syntax highlighting, reading time, tags, previous/next links, a reading-progress bar and copy buttons on code blocks.
 - **Search:** Pagefind runs in the visitor's browser and indexes the posts plus the Projects and About pages. It only exists on the built site, not in `npm run dev`.
 - **Whimsy:**
   - a `JJ` hexagon intro that plays once per browser session
-  - letters that squish in a wave when you hover a word
+  - letters that squish as you move the cursor across them
   - a cursor-reactive skills field and a soft glow that trails the pointer
   - a circular theme-switch transition (View Transitions API) and native page transitions
-  - **`/play`:** a small canvas game, catch the code and dodge the bugs
+  - **Shoot the page:** the game icon in the header, the footer button (on every page), or typing the word `shoot` starts an Asteroids-style game where your bullets destroy the page's own words and letters. Fly off the top or bottom edge and the page scrolls. Arrow keys or WASD to fly, Space to fire, Esc to exit, with on-screen buttons on touch screens. The code is `src/scripts/asteroids.ts`, loaded only when you start it, and exiting reloads the page to put everything back.
 - **Theme:** dark by default, with a light mode. A saved choice wins. There is no flash on load.
 - **Accessibility and motion:** all animation respects `prefers-reduced-motion`, and the pointer effects are skipped on touch screens.
 - **Links:** external links open in a new tab.
@@ -44,7 +44,6 @@ To type-check the project: `npx astro check`.
 | Posts | `src/content/blog/*.md` with `title`, `description`, `date`, optional `tags` and `draft` |
 | Projects | `src/data/projects.ts` (set `featured: true` to show one on the home page) |
 | Socials, skills, GitHub facts, nav | `src/data/site.ts` |
-| Logo path data (also used by the game) | `src/data/logo.ts` |
 | Theme colours and effects | `src/styles/global.css` |
 
 A post's `date` is shown as written, so set it to when you actually published it.
@@ -55,9 +54,9 @@ A post's `date` is shown as written, so set it to when you actually published it
 src/
   components/   Header, Footer, Chars (squishy text), Preloader, Blob, SkillField, ...
   content/blog/ Markdown posts
-  data/         site, projects and logo data
+  data/         site and projects data
   layouts/      Base.astro (head, theme script, shared scripts)
-  pages/        index, about, projects, play, search, 404, blog/, tags/, rss.xml
+  pages/        index, about, projects, search, 404, blog/, tags/, rss.xml
   styles/       global.css (Tailwind v4 theme tokens, keyframes)
 public/         favicon.svg, favicon.png, apple-touch-icon.png
 wrangler.jsonc  Worker config and the jalaj.fyi custom domains
