@@ -84,8 +84,16 @@ const imageAlt = 'Jalaj Gupta, fullstack developer from Jaipur, India'
       // the second one arrives (on the new page), so the time of the last logo click is kept in sessionStorage
       // and a second click within 600ms counts as the replay.
       document.addEventListener('click', function (e) {
-        var logo = e.target && e.target.closest && e.target.closest('#logo')
+        var logo = document.getElementById('logo')
         if (!logo) return
+        var onLogo = e.target && e.target.closest && e.target.closest('#logo')
+        if (!onLogo) {
+          // While a page transition is running, the browser sends clicks to the page root instead of the element
+          // under the pointer. The header sits in the same place on every page, so also match by position.
+          var r = logo.getBoundingClientRect()
+          onLogo = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom
+        }
+        if (!onLogo) return
         var now = Date.now(), last = 0, home = location.pathname === '/'
         try { last = Number(sessionStorage.getItem('jj-logo-click')) || 0 } catch (err) {}
         if (now - last < 600) {
