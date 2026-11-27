@@ -1,60 +1,29 @@
 {
-  "name": "jalaj.codes",
+  "name": "jalaj-codes",
   "private": true,
-  "version": "3.0.0",
-  "description": "Personal website running on Gatsby, React, and Node.js.",
-  "author": "Jalaj Gupta",
+  "type": "module",
+  "version": "4.0.0",
+  "description": "Personal site and blog of Jalaj Gupta, built with Astro and deployed on Cloudflare.",
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop -H 0.0.0.0 -p 8000",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean"
-  },
-  "dependencies": {
-    "babel-plugin-styled-components": "^1.12.0",
-    "framer-motion": "^2.7.5",
-    "gatsby": "^2.23.3",
-    "gatsby-image": "^2.4.8",
-    "gatsby-plugin-local-search": "^1.1.1",
-    "gatsby-plugin-netlify": "^2.3.7",
-    "gatsby-plugin-nprogress": "^2.3.9",
-    "gatsby-plugin-react-helmet": "^3.3.5",
-    "gatsby-plugin-sharp": "^2.6.13",
-    "gatsby-plugin-styled-components": "^3.5.0",
-    "gatsby-plugin-theme-switcher": "^1.0.0",
-    "gatsby-plugin-transition-link": "^1.20.5",
-    "gatsby-remark-images": "^3.3.12",
-    "gatsby-remark-normalize-paths": "^1.0.0",
-    "gatsby-remark-prismjs": "^3.5.5",
-    "gatsby-remark-relative-images": "^0.3.0",
-    "gatsby-source-filesystem": "^2.3.13",
-    "gatsby-transformer-remark": "^2.8.18",
-    "gatsby-transformer-sharp": "^2.5.6",
-    "prismjs": "^1.20.0",
-    "react": "^16.12.0",
-    "react-device-detect": "^1.15.0",
-    "react-dom": "^16.12.0",
-    "react-helmet": "^6.1.0",
-    "react-intersection-observer": "^8.30.3",
-    "react-use-flexsearch": "^0.1.1",
-    "styled-components": "^5.2.1",
-    "terser": "^5.6.0-beta"
-  },
-  "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.19.0",
-    "gatsby-plugin-manifest": "^2.4.14",
-    "prettier": "2.0.5"
+    "dev": "astro dev",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "deploy": "npm run build && wrangler deploy"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/jalajcodes/jalaj"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.6",
+    "astro": "^7.4.1",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "pagefind": "^1.6.0",
+    "wrangler": "^4.169.0"
   }
 }
-

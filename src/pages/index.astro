@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro'
+import PostList from '../components/PostList.astro'
+import { getPosts } from '../lib'
+const posts = (await getPosts()).slice(0, 5)
+---
+<Base>
+  <section class="hero">
+    <p class="eyebrow">Fullstack web &amp; mobile developer</p>
+    <h1>Hi, I'm Jalaj.</h1>
+    <p class="lede">I build web and mobile products end to end, and write down what I learn along the way.</p>
+  </section>
+  <h2>Recent writing</h2>
+  <PostList posts={posts} />
+  <p><a href="/blog">All posts →</a></p>
+</Base>

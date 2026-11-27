@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro'
+import PostList from '../../components/PostList.astro'
+import { getPosts } from '../../lib'
+const posts = await getPosts()
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort()
+---
+<Base title="Writing" description="Posts by Jalaj Gupta">
+  <h1>Writing</h1>
+  <div class="tags">{tags.map((t) => <a class="tag" href={`/tags/${t}`}>#{t}</a>)}</div>
+  <PostList posts={posts} />
+</Base>
