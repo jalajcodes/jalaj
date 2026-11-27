@@ -4,6 +4,7 @@ import Chars from '../components/Chars.astro'
 import SkillField from '../components/SkillField.astro'
 import { GITHUB_FACTS, SOCIALS } from '../data/site'
 import { getPosts } from '../lib'
+import { abs, graph, person, PERSON_ID } from '../seo'
 
 const posts = await getPosts()
 const years = new Date().getFullYear() - GITHUB_FACTS.since
@@ -12,9 +13,10 @@ const stats = [
   { n: GITHUB_FACTS.publicRepos, label: 'public repos', suffix: '' },
   { n: posts.length, label: 'posts written', suffix: '' },
 ]
+const aboutLd = graph(person(), { '@type': 'ProfilePage', '@id': abs('/about/'), url: abs('/about/'), name: 'About Jalaj Gupta', mainEntity: { '@id': PERSON_ID }, inLanguage: 'en' })
 const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things for fun']
 ---
-<Base title="About" description="About Jalaj Gupta, an AI-first fullstack developer from Jaipur, India who builds with React, Node and Cloudflare.">
+<Base title="About" description="About Jalaj Gupta, an AI-first fullstack developer from Jaipur, India who builds with React, Node and Cloudflare." jsonLd={aboutLd}>
   <div data-pagefind-body>
   <h1 class="font-display text-[clamp(3rem,10vw,6.5rem)] leading-none"><Chars text="About" /> <Chars text="me" delay={150} class="text-brand" /></h1>
 

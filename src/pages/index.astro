@@ -6,12 +6,13 @@ import PostList from '../components/PostList.astro'
 import { PROJECTS } from '../data/projects'
 import { SKILLS, SOCIALS } from '../data/site'
 import { getPosts } from '../lib'
+import { graph, person, website } from '../seo'
 
 const posts = (await getPosts()).slice(0, 3)
 const featured = PROJECTS.filter((p) => p.featured)
 const [lead, ...rest] = featured
 ---
-<Base>
+<Base jsonLd={graph(website(), person())}>
   <section class="pb-16 sm:pb-24">
     <p class="rise font-mono text-sm text-brand" style="--d:0ms">Fullstack developer · Jaipur, India</p>
     <h1 class="mt-5 font-display leading-[0.95] text-[clamp(3.4rem,13vw,9rem)]">

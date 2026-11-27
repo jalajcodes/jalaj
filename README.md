@@ -1,5 +1,8 @@
 # jalaj.fyi
 
+[![Deploy](https://github.com/jalajcodes/jalaj/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/jalajcodes/jalaj/actions/workflows/deploy.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 The personal site and blog of Jalaj Gupta, a fullstack developer from Jaipur, India. Live at **[jalaj.fyi](https://jalaj.fyi)**.
 
 Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com) v4 and Markdown content collections. Search is [Pagefind](https://pagefind.app). It is hosted on Cloudflare Workers (static assets) and deployed from GitHub Actions.
@@ -18,6 +21,7 @@ Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com)
 - **Theme:** dark by default, with a light mode. A saved choice wins. There is no flash on load.
 - **Accessibility and motion:** all animation respects `prefers-reduced-motion`, and the pointer effects are skipped on touch screens.
 - **Links:** external links open in a new tab.
+- **SEO:** a canonical URL, Open Graph and Twitter tags and a 1200×630 social card (`public/og.png`, made from `scripts/og.html`) on every page. Home and About carry `Person`/`WebSite` structured data, and posts carry `BlogPosting` and breadcrumbs. There is also a sitemap, `robots.txt`, and `noindex` on the search and 404 pages.
 
 ## Develop
 
