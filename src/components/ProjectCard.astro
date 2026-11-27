@@ -13,7 +13,7 @@ const { project: p, big = false, delay = 0 } = Astro.props
     {p.stack.map((s) => <li class="rounded-full border border-line px-2.5 py-0.5 font-mono text-xs text-muted">{s}</li>)}
   </ul>
   <div class="mt-auto flex gap-5 pt-6 font-mono text-sm">
-    {p.live && <a class="sweep text-brand" href={p.live} rel="noopener">Live ↗</a>}
-    <a class="sweep" href={repoUrl(p.slug)} rel="noopener">Code ↗</a>
+    {p.live && <a class="sweep text-brand" href={p.live} target="_blank" rel="noopener noreferrer">Live ↗</a>}
+    <a class="sweep" href={repoUrl(p.slug)} target="_blank" rel="noopener noreferrer">Code ↗</a>
   </div>
 </article>

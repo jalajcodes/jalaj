@@ -35,7 +35,7 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
   <div class="mt-14 grid gap-12 md:grid-cols-[1.4fr_1fr]">
     <div class="space-y-6 text-lg leading-relaxed">
       <p data-reveal>I'm Jalaj, a fullstack developer in <strong>Jaipur, India</strong>. I've been on GitHub since 2016, and what I enjoy most is the whole journey: a rough idea, a React front end, a Node API, a database, and the moment it goes live on the internet.</p>
-      <p data-reveal style="--d:80ms">These days I'm <strong>AI-first</strong>. I build with LLMs (Bedrock, Claude, OpenAI) and wire them into products people actually use. The latest is <a class="sweep text-brand" href="https://postdaily.jalaj.fyi">PostDaily</a>, which writes LinkedIn drafts in your own voice and runs on Cloudflare Workers.</p>
+      <p data-reveal style="--d:80ms">These days I'm <strong>AI-first</strong>. I build with LLMs (Bedrock, Claude, OpenAI) and wire them into products people actually use. The latest is <a class="sweep text-brand" href="https://postdaily.jalaj.fyi" target="_blank" rel="noopener noreferrer">PostDaily</a>, which writes LinkedIn drafts in your own voice and runs on Cloudflare Workers.</p>
       <p data-reveal style="--d:160ms">I write about what I build: how one Hono app runs on both Node and Cloudflare, why a rate limit can be a single SQL statement, and what I got wrong in my own cache API. It's all on the <a class="sweep text-brand" href="/blog">blog</a>.</p>
       <p data-reveal style="--d:240ms">This site started on Gatsby and was rebuilt in late 2026 with Astro and Tailwind. The squishy letters (try hovering a word), the intro and the glow that follows your cursor all carried over from the first version. Need a break? There's a <a class="sweep text-brand" href="/play">tiny game</a>.</p>
     </div>
@@ -43,11 +43,11 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
     <aside class="space-y-6 self-start rounded-2xl border border-line bg-soft/60 p-6 font-mono text-sm" data-reveal>
       <div><p class="text-muted">Based in</p><p>Jaipur, India</p></div>
       <div><p class="text-muted">Working with</p><p>AI (agents, MCP, RAG, Bedrock, Claude, OpenAI), React, Next.js, Node, TypeScript, Cloudflare</p></div>
-      <div><p class="text-muted">Currently building</p><a class="sweep" href="https://postdaily.jalaj.fyi">PostDaily ↗</a></div>
+      <div><p class="text-muted">Currently building</p><a class="sweep" href="https://postdaily.jalaj.fyi" target="_blank" rel="noopener noreferrer">PostDaily ↗</a></div>
       <div>
         <p class="mb-2 text-muted">Elsewhere</p>
         <ul class="space-y-1">
-          {SOCIALS.map((s) => <li><a class="sweep hover:text-brand" href={s.href} rel="me noopener">{s.name} ↗</a></li>)}
+          {SOCIALS.map((s) => <li><a class="sweep hover:text-brand" href={s.href} target="_blank" rel="me noopener noreferrer">{s.name} ↗</a></li>)}
         </ul>
       </div>
     </aside>
