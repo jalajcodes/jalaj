@@ -2,11 +2,13 @@
 import '../styles/global.css'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
+import Preloader from '../components/Preloader.astro'
+import Blob from '../components/Blob.astro'
 import { SITE } from '../data/site'
 
 interface Props { title?: string; description?: string; type?: 'website' | 'article' }
 const { title, description = SITE.description, type = 'website' } = Astro.props
-const fullTitle = title ? `${title} · ${SITE.title}` : SITE.title
+const fullTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · ${SITE.tagline}`
 const canonical = new URL(Astro.url.pathname, SITE.url)
 ---
 <!doctype html>
@@ -19,22 +21,84 @@ const canonical = new URL(Astro.url.pathname, SITE.url)
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.png" />
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
+    <meta property="og:site_name" content={SITE.title} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary" />
+    <meta name="twitter:creator" content="@jalajcodes" />
     <script is:inline>
-      try {
-        var t = localStorage.getItem('theme')
-        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        document.documentElement.dataset.theme = t
-      } catch (e) {}
+      (function () {
+        var d = document.documentElement
+        try {
+          var t = localStorage.getItem('theme')
+          if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          d.dataset.theme = t
+          var skip = sessionStorage.getItem('jj-intro') || matchMedia('(prefers-reduced-motion: reduce)').matches || location.pathname !== '/'
+          d.classList.add(skip ? 'intro-done' : 'intro-run')
+        } catch (e) { d.classList.add('intro-done') }
+      })()
     </script>
+    <noscript><style>[data-reveal],.rise,.ch{opacity:1!important;transform:none!important}</style></noscript>
   </head>
-  <body>
+  <body class="flex min-h-screen flex-col">
+    <Preloader />
+    <Blob />
     <Header />
-    <main class="wrap"><slot /></main>
+    <main class="mx-auto w-full max-w-5xl flex-1 px-5 pt-12 sm:pt-16"><slot /></main>
     <Footer />
+    <script>
+      // Reveal on scroll: anything at or above the bottom of the viewport is shown
+      // (position-based, so jumping or restoring a scroll position never leaves content hidden)
+      let pending = [...document.querySelectorAll<HTMLElement>('[data-reveal]')]
+      let ticking = false
+      const reveal = () => {
+        ticking = false
+        const limit = innerHeight * 0.92
+        pending = pending.filter((el) => {
+          if (el.getBoundingClientRect().top < limit) { el.classList.add('in'); return false }
+          return true
+        })
+        if (!pending.length) removeEventListener('scroll', onScroll)
+      }
+      const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(reveal) } }
+      addEventListener('scroll', onScroll, { passive: true })
+      addEventListener('resize', onScroll)
+      reveal()
+
+      // Spotlight cards follow the cursor
+      document.querySelectorAll<HTMLElement>('.spot').forEach((el) =>
+        el.addEventListener('pointermove', (e) => {
+          const r = el.getBoundingClientRect()
+          el.style.setProperty('--mx', e.clientX - r.left + 'px')
+          el.style.setProperty('--my', e.clientY - r.top + 'px')
+        }),
+      )
+
+      // Copy buttons on code blocks
+      document.querySelectorAll<HTMLPreElement>('.prose pre').forEach((pre) => {
+        const b = document.createElement('button')
+        b.className = 'copy-btn'
+        b.type = 'button'
+        b.textContent = 'Copy'
+        b.addEventListener('click', async () => {
+          try { await navigator.clipboard.writeText(pre.innerText.replace(/Copy$/, '').trimEnd()); b.textContent = 'Copied' } catch { b.textContent = 'Press ⌘C' }
+          setTimeout(() => (b.textContent = 'Copy'), 1500)
+        })
+        pre.appendChild(b)
+      })
+
+      // Reading progress on posts
+      const bar = document.getElementById('progress')
+      if (bar) {
+        const set = () => {
+          const h = document.documentElement
+          bar.style.transform = `scaleX(${Math.min(1, h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight))})`
+        }
+        addEventListener('scroll', set, { passive: true })
+        set()
+      }
+    </script>
   </body>
 </html>

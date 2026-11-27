@@ -1,0 +1,23 @@
+---
+import { SKILLS } from '../data/site'
+---
+<div id="skills" class="flex flex-wrap gap-x-9 gap-y-6 font-display text-2xl sm:text-4xl select-none" aria-label="Technologies I use">
+  {SKILLS.map((s) => <span class="skill">{s}</span>)}
+</div>
+<script>
+  // Words swell and light up as the cursor gets near. Reborn from the old About page.
+  const box = document.getElementById('skills')
+  if (box && matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const words = [...box.querySelectorAll<HTMLElement>('.skill')]
+    let raf = 0, px = 0, py = 0
+    const update = () => {
+      raf = 0
+      for (const w of words) {
+        const r = w.getBoundingClientRect()
+        const d = Math.hypot(r.left + r.width / 2 - px, r.top + r.height / 2 - py)
+        w.style.setProperty('--d', Math.max(0, 1 - d / 260) ** 2 + '')
+      }
+    }
+    addEventListener('pointermove', (e) => { px = e.clientX; py = e.clientY; raf ||= requestAnimationFrame(update) })
+  }
+</script>

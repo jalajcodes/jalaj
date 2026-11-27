@@ -1,12 +1,35 @@
 ---
 import Base from '../layouts/Base.astro'
-import { SITE } from '../data/site'
+import Chars from '../components/Chars.astro'
+import SkillField from '../components/SkillField.astro'
+import { SOCIALS } from '../data/site'
 ---
-<Base title="About" description="About Jalaj Gupta">
-  <h1>About</h1>
-  <div class="prose">
-    <p>I'm Jalaj, a fullstack web and mobile developer.</p>
-    <!-- TODO: write your real bio, what you work on, and how to reach you. -->
-    <p>Find me on <a href={SITE.github}>GitHub</a>.</p>
+<Base title="About" description="About Jalaj Gupta, a fullstack web developer from Jaipur, India who builds with React, Node and Cloudflare.">
+  <h1 class="font-display text-[clamp(3rem,10vw,6.5rem)] leading-none"><Chars text="About" /> <Chars text="me" delay={150} class="text-brand" /></h1>
+
+  <div class="mt-12 grid gap-12 md:grid-cols-[1.4fr_1fr]">
+    <div class="space-y-5 text-lg leading-relaxed rise" style="--d:350ms">
+      <p>I'm Jalaj, a fullstack web developer based in <strong>Jaipur, India</strong>. I like taking an idea all the way to a working product: a React or Next.js front end, a Node API, and a database underneath.</p>
+      <p>Most of what I build is open source. My GitHub has 90-odd public repos, from a Gatsby theme I made for Theme Jam in 2019, through MERN apps and a realtime chat, to a Telegram Mini App game.</p>
+      <p>Lately I've been building <a class="sweep text-brand" href="https://postdaily.jalaj.fyi">PostDaily</a>, a LinkedIn writing companion that runs on Cloudflare Workers and D1. Building it has taught me a lot about running one codebase on two runtimes, so I've been writing those lessons up on the <a class="sweep text-brand" href="/blog">blog</a>.</p>
+      <p>This site started life on Gatsby and was rebuilt in late 2026 with Astro and Tailwind. The squishy letters, the intro and the glow that follows your cursor are carried over from the first version. <span class="text-muted">(Try double-clicking the logo.)</span></p>
+    </div>
+
+    <aside class="rise space-y-6 self-start rounded-2xl border border-line bg-soft/60 p-6 font-mono text-sm" style="--d:500ms">
+      <div><p class="text-muted">Based in</p><p>Jaipur, India</p></div>
+      <div><p class="text-muted">Working with</p><p>React, Next.js, Node, TypeScript, Cloudflare</p></div>
+      <div><p class="text-muted">Currently building</p><a class="sweep" href="https://postdaily.jalaj.fyi">PostDaily ↗</a></div>
+      <div>
+        <p class="mb-2 text-muted">Elsewhere</p>
+        <ul class="space-y-1">
+          {SOCIALS.map((s) => <li><a class="sweep hover:text-brand" href={s.href} rel="me noopener">{s.name} ↗</a></li>)}
+        </ul>
+      </div>
+    </aside>
   </div>
+
+  <section class="mt-24">
+    <h2 class="mb-8 font-display text-3xl sm:text-4xl" data-reveal>Tools I reach for <span class="font-mono text-sm text-muted">(move your cursor around)</span></h2>
+    <SkillField />
+  </section>
 </Base>

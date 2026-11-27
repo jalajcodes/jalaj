@@ -1,0 +1,26 @@
+---
+import LogoMark from './LogoMark.astro'
+---
+<div id="preloader" class="fixed inset-0 z-[100] grid place-items-center bg-bg" aria-hidden="true">
+  <div class="flex flex-col items-center gap-6 text-brand">
+    <LogoMark animate class="size-40 sm:size-52" />
+    <p class="font-display text-sm tracking-[0.5em] text-muted uppercase lg-part" style="animation-delay:1.3s">Jalaj Gupta</p>
+  </div>
+</div>
+<noscript><style>#preloader{display:none}</style></noscript>
+<script>
+  // Runs the intro once per browser session. The head script in Base.astro decides whether it plays.
+  const el = document.getElementById('preloader')
+  if (el) {
+    if (document.documentElement.classList.contains('intro-run')) {
+      el.addEventListener('animationend', (e) => {
+        if ((e as AnimationEvent).animationName !== 'curtain') return
+        el.remove()
+        document.documentElement.classList.replace('intro-run', 'intro-done')
+        try { sessionStorage.setItem('jj-intro', '1') } catch {}
+      })
+    } else {
+      el.remove()
+    }
+  }
+</script>
