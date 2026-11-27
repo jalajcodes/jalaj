@@ -6,6 +6,9 @@ export const SITE = {
   url: 'https://jalaj.fyi',
 }
 
+// Facts about the GitHub account (jalajcodes), checked on 2026-11-27.
+export const GITHUB_FACTS = { since: 2016, publicRepos: 93 }
+
 export const NAV = [
   { href: '/projects', label: 'Projects' },
   { href: '/blog', label: 'Writing' },

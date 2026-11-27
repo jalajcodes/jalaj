@@ -69,6 +69,13 @@ const canonical = new URL(Astro.url.pathname, SITE.url)
       addEventListener('resize', onScroll)
       reveal()
 
+      // External links (including ones inside Markdown posts) open in a new tab
+      document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) => {
+        if (!/^https?:$/.test(a.protocol) || a.hostname === location.hostname || a.target) return
+        a.target = '_blank'
+        a.rel = [...new Set([...a.rel.split(' ').filter(Boolean), 'noopener', 'noreferrer'])].join(' ')
+      })
+
       // Spotlight cards follow the cursor
       document.querySelectorAll<HTMLElement>('.spot').forEach((el) =>
         el.addEventListener('pointermove', (e) => {
