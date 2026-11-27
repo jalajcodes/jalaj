@@ -11,6 +11,7 @@ const RADIUS = { 1: 14, 2: 26, 3: 44 } as const
 const POINTS = { 1: 100, 2: 50, 3: 20 } as const
 const SKIP = 'script,style,noscript,svg,canvas,textarea,input,select,option,.sr-only,.ci,[data-asteroids],#preloader'
 const BEST_KEY = 'jj-asteroids-best'
+const SOUND_KEY = 'jj-asteroids-sound'
 let active = false
 
 export function startAsteroids() {
@@ -66,16 +67,122 @@ export function startAsteroids() {
   status.setAttribute('role', 'status')
   status.className = 'sr-only'
   root.append(status)
-  const exitBtn = document.createElement('button')
-  exitBtn.type = 'button'
-  exitBtn.textContent = 'Exit (Esc)'
-  exitBtn.style.cssText = `position:absolute;top:${innerWidth < 640 ? 106 : 70}px;right:12px;pointer-events:auto;cursor:pointer;font:600 13px ${'"JetBrains Mono Variable", ui-monospace, monospace'};padding:6px 12px;border-radius:999px;border:1px solid ${col('--line')};background:${col('--bg')};color:${col('--fg')}`
-  root.append(exitBtn)
+  const topBar = document.createElement('div')
+  topBar.style.cssText = `position:absolute;top:${innerWidth < 640 ? 106 : 70}px;right:12px;display:flex;gap:8px;pointer-events:none`
+  const pill = (label: string) => {
+    const b = document.createElement('button')
+    b.type = 'button'
+    b.textContent = label
+    b.style.cssText = `pointer-events:auto;cursor:pointer;font:600 13px ${'"JetBrains Mono Variable", ui-monospace, monospace'};padding:6px 12px;border-radius:999px;border:1px solid ${col('--line')};background:${col('--bg')};color:${col('--fg')}`
+    return b
+  }
+  const soundBtn = pill('Sound on (M)')
+  const exitBtn = pill('Exit (Esc)')
+  topBar.append(soundBtn, exitBtn)
+  root.append(topBar)
   document.body.append(root)
   document.documentElement.style.overflow = 'hidden'
   document.body.style.userSelect = 'none'
   ;(document.activeElement as HTMLElement | null)?.blur?.()
   status.textContent = 'Shoot the page started. Use the arrow keys to fly, space to fire, escape to exit.'
+
+
+  // ---- sound: synthesised with Web Audio, so there are no audio files to download ----
+  let soundOn = true
+  try { soundOn = localStorage.getItem(SOUND_KEY) !== 'off' } catch {}
+  const AC = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
+  let ac: AudioContext | null = null
+  let master: GainNode | null = null
+  let noiseBuf: AudioBuffer | null = null
+  let rumble: GainNode | null = null
+  try {
+    if (AC) {
+      ac = new AC()
+      master = ac.createGain()
+      master.gain.value = 0.28
+      master.connect(ac.destination)
+      const len = Math.floor(ac.sampleRate * 1.5)
+      noiseBuf = ac.createBuffer(1, len, ac.sampleRate)
+      const d = noiseBuf.getChannelData(0)
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1
+    }
+  } catch { ac = null }
+  // Browsers only let audio start after a click or key press, so wake it on any input.
+  const awake = () => { if (ac && ac.state === 'suspended') void ac.resume().catch(() => {}) }
+  const can = () => !!ac && !!master && soundOn && ac.state === 'running'
+  const tone = (type: OscillatorType, f0: number, f1: number, dur: number, vol: number, delay = 0) => {
+    if (!can()) return
+    const t = ac!.currentTime + delay
+    const o = ac!.createOscillator(), g = ac!.createGain()
+    o.type = type
+    o.frequency.setValueAtTime(f0, t)
+    o.frequency.exponentialRampToValueAtTime(Math.max(1, f1), t + dur)
+    g.gain.setValueAtTime(vol, t)
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+    o.connect(g).connect(master!)
+    o.start(t)
+    o.stop(t + dur + 0.03)
+  }
+  const noise = (dur: number, vol: number, from: number, to: number, delay = 0) => {
+    if (!can() || !noiseBuf) return
+    const t = ac!.currentTime + delay
+    const src = ac!.createBufferSource(), f = ac!.createBiquadFilter(), g = ac!.createGain()
+    src.buffer = noiseBuf
+    f.type = 'lowpass'
+    f.frequency.setValueAtTime(from, t)
+    f.frequency.exponentialRampToValueAtTime(Math.max(20, to), t + dur)
+    g.gain.setValueAtTime(vol, t)
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+    src.connect(f).connect(g).connect(master!)
+    src.start(t)
+    src.stop(t + dur + 0.03)
+  }
+  // The engine rumble is one looping, filtered noise whose volume follows the thrust key.
+  const thrustSound = (on: boolean) => {
+    if (!ac || !master) return
+    if (!can()) { rumble?.gain.setTargetAtTime(0, ac.currentTime, 0.05); return }
+    if (!rumble && noiseBuf) {
+      const src = ac.createBufferSource(), f = ac.createBiquadFilter()
+      rumble = ac.createGain()
+      rumble.gain.value = 0
+      src.buffer = noiseBuf
+      src.loop = true
+      f.type = 'lowpass'
+      f.frequency.value = 220
+      src.connect(f).connect(rumble).connect(master)
+      src.start()
+    }
+    rumble?.gain.setTargetAtTime(on ? 0.5 : 0, ac.currentTime, 0.06)
+  }
+  const sfx = {
+    start: () => { tone('square', 330, 660, 0.12, 0.2); tone('square', 660, 990, 0.12, 0.18, 0.1) },
+    fire: () => tone('square', 900, 180, 0.11, 0.16),
+    text: () => tone('triangle', 420 + Math.random() * 180, 200, 0.07, 0.22),
+    rock: (size: 1 | 2 | 3) => {
+      const dur = [0.15, 0.28, 0.45][size - 1]
+      noise(dur, 0.8, [1800, 1500, 1200][size - 1], 160)
+      tone('sawtooth', [220, 150, 95][size - 1], 35, dur, 0.4)
+    },
+    ship: () => { noise(0.8, 0.9, 2600, 90); tone('sawtooth', 240, 30, 0.7, 0.35) },
+    wave: () => { tone('square', 200, 200, 0.09, 0.15); tone('square', 260, 260, 0.09, 0.15, 0.12) },
+    over: () => [330, 262, 196, 147].forEach((f, i) => tone('triangle', f, f * 0.97, 0.32, 0.3, i * 0.28)),
+    cleared: () => [392, 494, 587, 784].forEach((f, i) => tone('square', f, f, 0.18, 0.2, i * 0.12)),
+  }
+  const setSound = (on: boolean) => {
+    soundOn = on
+    try { localStorage.setItem(SOUND_KEY, on ? 'on' : 'off') } catch {}
+    soundBtn.textContent = on ? 'Sound on (M)' : 'Sound off (M)'
+    status.textContent = on ? 'Sound on' : 'Sound off'
+    if (on) { awake(); setTimeout(sfx.text, 60) } else thrustSound(false)
+  }
+  soundBtn.textContent = soundOn ? 'Sound on (M)' : 'Sound off (M)'
+  awake()
+  setTimeout(sfx.start, 90)
+  document.addEventListener('visibilitychange', () => {
+    if (!ac) return
+    if (document.hidden) void ac.suspend().catch(() => {})
+    else awake()
+  })
 
   let W = 0, H = 0
   const resize = () => {
@@ -135,18 +242,22 @@ export function startAsteroids() {
     destroyed++
     score += 10
     burst(x, y, col('--brand'), 6)
+    sfx.text()
     return true
   }
 
   const killShip = () => {
     lives--
     burst(ship.x, ship.y, col('--hot'), 24)
+    sfx.ship()
     if (lives <= 0) return finish('over')
     Object.assign(ship, { x: W / 2, y: H / 2, vx: 0, vy: 0, a: -Math.PI / 2, invuln: 2.2 })
   }
 
   const finish = (m: 'over' | 'cleared') => {
     mode = m
+    thrustSound(false)
+    if (m === 'over') sfx.over(); else sfx.cleared()
     if (score > best) { best = score; try { localStorage.setItem(BEST_KEY, String(best)) } catch {} }
     status.textContent = `${m === 'over' ? 'Game over' : 'Page cleared'}. Score ${score}. Best ${best}.`
   }
@@ -180,6 +291,7 @@ export function startAsteroids() {
       const vx = Math.cos(ship.a) * 640 + ship.vx * 0.5, vy = Math.sin(ship.a) * 640 + ship.vy * 0.5
       const nx = ship.x + Math.cos(ship.a) * 16, ny = ship.y + Math.sin(ship.a) * 16
       bullets.push({ x: nx, y: ny, px: nx, py: ny, vx, vy, life: 1.1 })
+      sfx.fire()
     }
 
     // bullets: shoot text and rocks
@@ -194,6 +306,7 @@ export function startAsteroids() {
           b.life = 0
           score += POINTS[r.size]
           burst(r.x, r.y, col('--fg'), 10)
+          sfx.rock(r.size)
           r.r = -1
           if (r.size > 1) { rocks.push(makeRock(r.x, r.y, (r.size - 1) as 1 | 2), makeRock(r.x, r.y, (r.size - 1) as 1 | 2)) }
           break
@@ -211,7 +324,7 @@ export function startAsteroids() {
       if (r.y > H + r.r) r.y = -r.r
       if (!ship.invuln && Math.hypot(r.x - ship.x, r.y - ship.y) < r.r + 9) { killShip(); break }
     }
-    if (!rocks.length && mode === 'play') spawnWave()
+    if (!rocks.length && mode === 'play') { spawnWave(); sfx.wave() }
     if (mode === 'play' && destroyed >= total * 0.97) finish('cleared')
   }
 
@@ -262,7 +375,7 @@ export function startAsteroids() {
     ctx.beginPath(); ctx.roundRect(W / 2 - w / 2, 66, w, 30, 15); ctx.fill(); ctx.globalAlpha = 1
     ctx.strokeStyle = col('--line'); ctx.lineWidth = 1; ctx.stroke()
     centered(hud, 85, mono(13), fg)
-    if (tPlay < 6 && mode === 'play') centered(touch ? 'Use the buttons below to fly and fire' : '← →  rotate     ↑  thrust     Space  fire     Esc  exit', touch ? H - 104 : H - 40, mono(14), muted)
+    if (tPlay < 6 && mode === 'play') centered(touch ? 'Use the buttons below to fly and fire' : '← → rotate    ↑ thrust    Space fire    M sound    Esc exit', touch ? H - 104 : H - 40, mono(14), muted)
 
     if (mode !== 'play') {
       ctx.globalAlpha = 0.86; ctx.fillStyle = bg; ctx.fillRect(0, H / 2 - 90, W, 190); ctx.globalAlpha = 1
@@ -278,6 +391,7 @@ export function startAsteroids() {
     const dt = Math.min(0.05, (t - last) / 1000)
     last = t
     if (mode === 'play') update(dt)
+    thrustSound(mode === 'play' && keys.has('up'))
     for (const b of bits) { b.x += b.vx * dt; b.y += b.vy * dt; b.life -= dt }
     bits = bits.filter((b) => b.life > 0)
     draw()
@@ -292,7 +406,9 @@ export function startAsteroids() {
   const typing = (e: Event) => (e.target as HTMLElement | null)?.matches?.('input,textarea,select')
   const down = (e: KeyboardEvent) => {
     if (typing(e)) return
+    awake()
     if (e.code === 'Escape') { e.preventDefault(); return exit() }
+    if (e.code === 'KeyM') { e.preventDefault(); return setSound(!soundOn) }
     const k = MAP[e.code]
     if (!k) return
     e.preventDefault()
@@ -308,6 +424,8 @@ export function startAsteroids() {
   addEventListener('keydown', down, true)
   addEventListener('keyup', up, true)
   exitBtn.addEventListener('click', exit)
+  soundBtn.addEventListener('click', () => setSound(!soundOn))
+  addEventListener('pointerdown', awake, true)
   addEventListener('blur', () => keys.clear())
 
   if (touch) {

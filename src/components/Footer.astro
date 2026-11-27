@@ -3,7 +3,7 @@ import { SOCIALS } from '../data/site'
 import Chars from './Chars.astro'
 ---
 <footer class="mt-24 overflow-hidden border-t border-line">
-  <div class="mx-auto max-w-5xl px-5 pt-10">
+  <div class="relative z-10 mx-auto max-w-5xl px-5 pt-10">
     <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-muted">
       <p class="font-mono">© {new Date().getFullYear()} Jalaj Gupta · Jaipur, India</p>
       <ul class="flex flex-wrap gap-5 font-mono">
@@ -13,7 +13,7 @@ import Chars from './Chars.astro'
       </ul>
     </div>
   </div>
-  <div class="select-none text-center font-display leading-none outline-text text-[clamp(5rem,26vw,19rem)] -mb-[0.12em] mt-4" aria-hidden="true">
+  <div class="select-none overflow-hidden text-center font-display leading-none outline-text text-[clamp(5rem,26vw,19rem)] -mb-[0.12em] mt-4" aria-hidden="true">
     <Chars text="JALAJ" still />
   </div>
 </footer>
