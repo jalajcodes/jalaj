@@ -70,13 +70,10 @@ html.intro-done #preloader { display: none; }
 html.intro-run #preloader { animation: curtain 800ms 2100ms cubic-bezier(0.76, 0, 0.24, 1) forwards; }
 @keyframes curtain { to { transform: translateY(-101%); visibility: hidden; } }
 .lg-hex { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1000ms 100ms cubic-bezier(0.76, 0, 0.24, 1) forwards; }
-.lg-part { opacity: 0; animation: fade-in 500ms 1000ms forwards; }
-.lg-lt { transform: translateX(26px); animation: fade-in 500ms 1000ms forwards, brk-l 700ms 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-.lg-gt { transform: translateX(-26px); animation: fade-in 500ms 1000ms forwards, brk-r 700ms 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+.lg-part { opacity: 0; transform: scale(0.85); transform-origin: 50% 50%; transform-box: fill-box; animation: fade-in 600ms 1000ms forwards, pop 700ms 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+@keyframes pop { to { transform: scale(1); } }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes fade-in { to { opacity: 1; } }
-@keyframes brk-l { to { transform: translateX(10px); } }
-@keyframes brk-r { to { transform: translateX(-10px); } }
 
 /* ---------- Reveal helpers ---------- */
 .rise { opacity: 0; animation: rise 900ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: calc(var(--intro, 0ms) + var(--d, 0ms)); }
@@ -87,7 +84,7 @@ html.intro-run #preloader { animation: curtain 800ms 2100ms cubic-bezier(0.76, 0
 /* ---------- Characters: staggered entrance + rubber-band on hover (from the old site) ---------- */
 .ch { display: inline-block; opacity: 0; animation: ch-in 800ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: calc(var(--intro, 0ms) + var(--base, 0ms) + var(--i) * var(--step, 28ms)); }
 .ci { display: inline-block; transform-origin: 50% 80%; }
-.ci:hover { animation: rubber 900ms both; color: var(--brand); }
+.ci.bounce { animation: rubber 900ms both; animation-delay: calc(var(--j, 0) * 45ms); color: var(--brand); }
 @keyframes ch-in { from { opacity: 0; transform: translateY(0.6em) rotate(6deg); } to { opacity: 1; transform: none; } }
 @keyframes rubber {
   0% { transform: scale3d(1, 1, 1); }
@@ -118,7 +115,7 @@ html.intro-run #preloader { animation: curtain 800ms 2100ms cubic-bezier(0.76, 0
 
 /* ---------- Footer wordmark ---------- */
 .outline-text { -webkit-text-stroke: 1.5px var(--line); color: transparent; }
-.outline-text .ci:hover { color: var(--brand); -webkit-text-stroke-color: var(--brand); }
+.outline-text .ci.bounce { color: var(--brand); -webkit-text-stroke-color: var(--brand); }
 
 /* ---------- Prose ---------- */
 .prose {

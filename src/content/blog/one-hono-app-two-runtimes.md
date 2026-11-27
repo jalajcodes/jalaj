@@ -1,7 +1,7 @@
 ---
 title: 'One Hono app, two runtimes'
 description: 'How PostDaily runs the same API as a Node server on a Mac and as a Cloudflare Worker.'
-date: 2026-11-27
+date: 2026-11-24
 tags: [hono, cloudflare, typescript, postdaily]
 ---
 

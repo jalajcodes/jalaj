@@ -12,14 +12,16 @@ const fullTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · ${SITE
 const canonical = new URL(Astro.url.pathname, SITE.url)
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
     <meta property="og:site_name" content={SITE.title} />
     <meta property="og:title" content={fullTitle} />
@@ -33,7 +35,7 @@ const canonical = new URL(Astro.url.pathname, SITE.url)
         var d = document.documentElement
         try {
           var t = localStorage.getItem('theme')
-          if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          if (t !== 'light' && t !== 'dark') t = 'dark' // dark by default; a saved choice wins
           d.dataset.theme = t
           var skip = sessionStorage.getItem('jj-intro') || matchMedia('(prefers-reduced-motion: reduce)').matches || location.pathname !== '/'
           d.classList.add(skip ? 'intro-done' : 'intro-run')
