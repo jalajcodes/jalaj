@@ -115,7 +115,6 @@ html.intro-run #preloader { animation: curtain 700ms 1500ms cubic-bezier(0.76, 0
 
 /* ---------- Footer wordmark ---------- */
 .outline-text { -webkit-text-stroke: 1.5px var(--line); color: transparent; }
-.outline-text .ci.bounce { color: var(--brand); -webkit-text-stroke-color: var(--brand); }
 
 /* ---------- Prose ---------- */
 .prose {
