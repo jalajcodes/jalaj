@@ -6,15 +6,15 @@ const path = Astro.url.pathname
 <header class="sticky top-0 z-40 border-b border-line/70 bg-bg/75 backdrop-blur-md">
   <div class="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-5">
     <a href="/" id="logo" class="group flex touch-manipulation items-center gap-2.5" aria-label="Jalaj Gupta, home" title="Double-click to replay the intro">
-      <LogoMark class="size-8 sm:size-9 text-brand transition-transform duration-500 group-hover:rotate-[60deg]" />
-      <span class="hidden font-display text-lg tracking-wide sm:inline">Jalaj Gupta</span>
+      <LogoMark class="size-8 sm:size-9 text-brand" />
+      <span class="hidden font-display text-lg tracking-wide sm:inline"><span class="hjj">J</span>ala<span class="hjj">j</span> Gupta</span>
     </a>
     <nav aria-label="Main" class="flex items-center gap-3 text-[13px] min-[400px]:gap-4 sm:gap-7 sm:text-sm">
       {NAV.map((n) => (
         <a href={n.href} data-scramble class:list={['sweep font-mono', path.startsWith(n.href) ? 'text-fg [background-size:100%_2px]' : 'text-muted hover:text-fg']} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
       ))}
       <button type="button" data-shoot-page aria-label="Shoot the page: a small game (or type shoot)" title="Shoot the page (or type “shoot”)" class="group hidden cursor-pointer text-muted transition-colors hover:text-brand min-[360px]:block">
-        <svg viewBox="0 0 24 24" class="size-5 transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="11" rx="5.5"/><path d="M7 10.5v4M5 12.5h4"/><path d="M15.5 11.5h.01M18 13.5h.01"/></svg>
+        <svg viewBox="0 0 24 24" class="size-5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:-rotate-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(8.5 15.5) rotate(40)"><path d="M0 -8 -5.5 7 0 4 5.5 7z"/><path class="opacity-0 transition-opacity duration-200 group-hover:opacity-100" style="stroke:var(--hot)" d="M-2.6 6.4 0 10.6l2.6-4.2"/></g><path stroke-width="1.7" d="M16 3.6l3.6-.6 2 2.6-1.4 3-3.6-.3L15 5.7z"/></svg>
       </button>
       <a href="/search" aria-label="Search" class="text-muted transition-colors hover:text-brand">
         <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
