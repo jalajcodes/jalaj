@@ -6,6 +6,11 @@ import Preloader from '../components/Preloader.astro'
 import Blob from '../components/Blob.astro'
 import { SITE } from '../data/site'
 import { abs } from '../seo'
+// Preload the three Latin font files every page uses, so the browser fetches them in parallel with the
+// stylesheet instead of discovering them after the first layout (which is what causes the visible swap).
+import righteousFont from '@fontsource/righteous/files/righteous-latin-400-normal.woff2?url'
+import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url'
+import monoFont from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url'
 
 interface Props {
   title?: string
@@ -29,6 +34,9 @@ const imageAlt = 'Jalaj Gupta, fullstack developer from Jaipur, India'
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <link rel="preload" as="font" type="font/woff2" href={righteousFont} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={interFont} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={monoFont} crossorigin="anonymous" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
