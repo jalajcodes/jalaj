@@ -1,9 +1,18 @@
 ---
-import { SITE } from '../data/site'
+import { SOCIALS } from '../data/site'
+import Chars from './Chars.astro'
 ---
-<footer class="site">
-  <div class="wrap">
-    <span>© {new Date().getFullYear()} Jalaj Gupta</span>
-    <span><a href={SITE.github}>GitHub</a> · <a href="/rss.xml">RSS</a></span>
+<footer class="mt-24 overflow-hidden border-t border-line">
+  <div class="mx-auto max-w-5xl px-5 pt-10">
+    <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-muted">
+      <p class="font-mono">© {new Date().getFullYear()} Jalaj Gupta · Jaipur, India</p>
+      <ul class="flex flex-wrap gap-5 font-mono">
+        {SOCIALS.map((s) => <li><a class="sweep hover:text-fg" href={s.href} rel="me noopener">{s.name}</a></li>)}
+        <li><a class="sweep hover:text-fg" href="/rss.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="select-none text-center font-display leading-none outline-text text-[clamp(5rem,26vw,19rem)] -mb-[0.12em] mt-4" aria-hidden="true">
+    <Chars text="JALAJ" step={60} />
   </div>
 </footer>

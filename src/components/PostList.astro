@@ -1,16 +1,18 @@
 ---
-import type { CollectionEntry } from 'astro:content'
-interface Props { posts: CollectionEntry<'blog'>[] }
+import { fmtDate, readingTime, type Post } from '../lib'
+interface Props { posts: Post[] }
 const { posts } = Astro.props
-const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
 ---
-<ul class="post-list">
-  {posts.map((p) => (
-    <li>
-      <a href={`/blog/${p.id}`}>
-        <span class="meta">{fmt(p.data.date)}</span>
-        <span class="title">{p.data.title}</span>
-        <span class="desc">{p.data.description}</span>
+<ul class="divide-y divide-line border-y border-line">
+  {posts.map((p, i) => (
+    <li data-reveal style={`--d:${i * 70}ms`}>
+      <a href={`/blog/${p.id}`} class="group spot grid gap-1 px-2 py-6 sm:grid-cols-[9rem_1fr_auto] sm:items-baseline sm:gap-6">
+        <span class="font-mono text-xs text-muted">{fmtDate(p.data.date)}</span>
+        <span>
+          <span class="block font-display text-2xl leading-tight transition-colors group-hover:text-brand">{p.data.title}</span>
+          <span class="mt-1 block text-sm text-muted">{p.data.description}</span>
+        </span>
+        <span class="font-mono text-xs text-muted">{readingTime(p.body)} min <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span></span>
       </a>
     </li>
   ))}

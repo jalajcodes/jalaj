@@ -1,21 +1,75 @@
 ---
 import { NAV } from '../data/site'
+import LogoMark from './LogoMark.astro'
 const path = Astro.url.pathname
 ---
-<header class="site">
-  <div class="wrap">
-    <a class="brand" href="/">Jalaj Gupta</a>
-    <nav aria-label="Main">
-      {NAV.map((n) => <a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>)}
-      <a href="/search">Search</a>
-      <button id="theme-toggle" type="button" aria-label="Toggle theme">Theme</button>
+<header class="sticky top-0 z-40 border-b border-line/70 bg-bg/75 backdrop-blur-md">
+  <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-3">
+    <a href="/" id="logo" class="group flex items-center gap-2.5" aria-label="Jalaj Gupta, home" title="Double-click to replay the intro">
+      <LogoMark class="size-9 text-brand transition-transform duration-500 group-hover:rotate-[60deg]" />
+      <span class="hidden font-display text-lg tracking-wide sm:inline">Jalaj Gupta</span>
+    </a>
+    <nav aria-label="Main" class="flex items-center gap-5 text-sm sm:gap-7">
+      {NAV.map((n) => (
+        <a href={n.href} data-scramble class:list={['sweep font-mono', path.startsWith(n.href) ? 'text-fg [background-size:100%_2px]' : 'text-muted hover:text-fg']} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
+      ))}
+      <a href="/search" aria-label="Search" class="text-muted transition-colors hover:text-brand">
+        <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </a>
+      <button id="theme-toggle" type="button" aria-label="Toggle light and dark theme" class="text-muted transition-colors hover:text-brand cursor-pointer">
+        <svg viewBox="0 0 24 24" class="size-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg viewBox="0 0 24 24" class="size-5 dark:hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
     </nav>
   </div>
 </header>
 <script>
-  document.getElementById('theme-toggle')?.addEventListener('click', () => {
-    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
-    document.documentElement.dataset.theme = next
-    try { localStorage.setItem('theme', next) } catch {}
+  const root = document.documentElement
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // Theme switch: a circle grows out from the click (View Transitions), with a plain fallback.
+  document.getElementById('theme-toggle')?.addEventListener('click', (e) => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark'
+    const apply = () => {
+      root.dataset.theme = next
+      try { localStorage.setItem('theme', next) } catch {}
+    }
+    if (!document.startViewTransition || reduce) return apply()
+    const { clientX: x, clientY: y } = e as MouseEvent
+    const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))
+    root.classList.add('vt-theme')
+    const t = document.startViewTransition(apply)
+    t.ready.then(() =>
+      root.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
+        { duration: 650, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', pseudoElement: '::view-transition-new(root)' },
+      ),
+    )
+    t.finished.finally(() => root.classList.remove('vt-theme'))
+  })
+
+  // Nav text scramble on hover.
+  const GLYPHS = '!<>-_\\/[]{}=+*^?#abcdefghijklmnopqrstuvwxyz'
+  document.querySelectorAll<HTMLElement>('[data-scramble]').forEach((el) => {
+    const final = el.textContent ?? ''
+    el.setAttribute('aria-label', final)
+    let timer = 0
+    el.addEventListener('pointerenter', () => {
+      if (reduce) return
+      clearInterval(timer)
+      let frame = 0
+      timer = window.setInterval(() => {
+        const settled = Math.floor(frame / 2)
+        el.textContent = [...final].map((c, i) => (i < settled ? c : GLYPHS[Math.floor(Math.random() * GLYPHS.length)])).join('')
+        if (++frame > final.length * 2 + 2) { clearInterval(timer); el.textContent = final }
+      }, 30)
+    })
+  })
+
+  // Double-click the logo to replay the intro.
+  document.getElementById('logo')?.addEventListener('dblclick', (e) => {
+    e.preventDefault()
+    try { sessionStorage.removeItem('jj-intro') } catch {}
+    location.href = '/'
   })
 </script>

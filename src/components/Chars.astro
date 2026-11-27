@@ -1,0 +1,17 @@
+---
+// Splits text into characters: staggered entrance, then a rubber-band squish on hover.
+interface Props { text: string; as?: string; class?: string; delay?: number; step?: number }
+const { text, as = 'span', class: cls = '', delay = 0, step = 28 } = Astro.props
+const Tag = as as 'span'
+let n = 0
+const words = text.split(' ').map((w) => [...w].map((c) => ({ c, i: n++ })))
+---
+<Tag class:list={['chars', cls]} aria-label={text} style={`--base:${delay}ms;--step:${step}ms`}>
+  {words.map((w, wi) => (
+    <>
+      <span class="inline-block whitespace-nowrap" aria-hidden="true">
+        {w.map(({ c, i }) => <span class="ch" style={`--i:${i}`}><span class="ci">{c}</span></span>)}
+      </span>{wi < words.length - 1 && ' '}
+    </>
+  ))}
+</Tag>

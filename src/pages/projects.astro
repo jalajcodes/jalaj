@@ -1,17 +1,34 @@
 ---
 import Base from '../layouts/Base.astro'
-import { PROJECTS } from '../data/projects'
+import Chars from '../components/Chars.astro'
+import ProjectCard from '../components/ProjectCard.astro'
+import { PROJECTS, repoUrl } from '../data/projects'
+
+const featured = PROJECTS.filter((p) => p.featured)
+const archive = PROJECTS.filter((p) => !p.featured)
 ---
-<Base title="Projects" description="Things I've built.">
-  <h1>Projects</h1>
-  <p class="lede">Things I've built.</p>
-  <div class="projects">
-    {PROJECTS.map((p) => (
-      <a class="card" href={p.href}>
-        <h3>{p.name}</h3>
-        <p>{p.description}</p>
-        <div class="tags">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>
-      </a>
+<Base title="Projects" description="Things Jalaj Gupta has built: PostDaily, a cache API, a Telegram Mini App, a Gatsby theme and more.">
+  <h1 class="font-display text-[clamp(3rem,10vw,6.5rem)] leading-none"><Chars text="Projects" /></h1>
+  <p class="rise mt-6 max-w-2xl text-lg text-muted" style="--d:400ms">
+    A mix of products, experiments and things I built to learn. Everything here is open source on <a class="sweep text-fg" href="https://github.com/jalajcodes">GitHub</a>.
+  </p>
+
+  <section class="mt-14 grid gap-5 sm:grid-cols-2">
+    {featured.map((p, i) => <ProjectCard project={p} big={i === 0} delay={i * 70} />)}
+  </section>
+
+  <h2 class="mt-24 mb-6 font-display text-3xl sm:text-4xl" data-reveal>More from the archive</h2>
+  <ul class="divide-y divide-line border-y border-line">
+    {archive.map((p, i) => (
+      <li data-reveal style={`--d:${(i % 6) * 50}ms`} class="group grid gap-1 px-2 py-4 sm:grid-cols-[4rem_14rem_1fr_auto] sm:items-baseline sm:gap-5">
+        <span class="font-mono text-xs text-muted">{p.year}</span>
+        <a href={p.live ?? repoUrl(p.slug)} rel="noopener" class="font-display text-xl transition-colors group-hover:text-brand">{p.name}{p.stars ? <span class="ml-2 font-mono text-xs text-muted">★ {p.stars}</span> : null}</a>
+        <span class="text-sm text-muted">{p.blurb}</span>
+        <span class="flex gap-4 font-mono text-xs">
+          {p.live && <a class="sweep text-brand" href={p.live} rel="noopener">Live</a>}
+          <a class="sweep" href={repoUrl(p.slug)} rel="noopener">Code</a>
+        </span>
+      </li>
     ))}
-  </div>
+  </ul>
 </Base>
