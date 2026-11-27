@@ -1,7 +1,7 @@
 ---
 title: 'Voice notes that work in every browser'
 description: 'Live dictation where the browser supports it, and a recording plus Whisper fallback where it does not.'
-date: 2026-11-27
+date: 2026-11-25
 tags: [typescript, cloudflare, whisper, postdaily]
 ---
 

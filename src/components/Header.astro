@@ -35,7 +35,11 @@ const path = Astro.url.pathname
       try { localStorage.setItem('theme', next) } catch {}
     }
     if (!document.startViewTransition || reduce) return apply()
-    const { clientX: x, clientY: y } = e as MouseEvent
+    // Keyboard activation reports 0,0, so grow from the button's centre instead of the corner.
+    const me = e as MouseEvent
+    const box = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    const x = me.detail === 0 ? box.left + box.width / 2 : me.clientX
+    const y = me.detail === 0 ? box.top + box.height / 2 : me.clientY
     const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))
     root.classList.add('vt-theme')
     const t = document.startViewTransition(apply)

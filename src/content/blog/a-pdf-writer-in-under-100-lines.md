@@ -1,7 +1,7 @@
 ---
 title: 'A PDF writer in under 100 lines'
 description: 'How PostDaily turns canvas slides into a LinkedIn carousel PDF in the browser, with no library.'
-date: 2026-11-27
+date: 2026-11-25
 tags: [typescript, pdf, postdaily]
 ---
 
