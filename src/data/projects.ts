@@ -24,6 +24,25 @@ export const PROJECTS: Project[] = [
     featured: true,
   },
   {
+    slug: 'homesweethome-client',
+    name: 'Home Sweet Home',
+    blurb:
+      'A fullstack home-rental app: sign in with Google, connect Stripe to host listings, and book homes hosted by other people.',
+    year: 2020,
+    stack: ['React', 'TypeScript', 'GraphQL', 'Ant Design', 'Stripe'],
+    live: 'https://homesweethomee.netlify.app',
+    featured: true,
+  },
+  {
+    slug: 'max-connect',
+    name: 'Max Connect',
+    blurb: 'A social media app built with React, Redux, Tailwind and MirageJS.',
+    year: 2022,
+    stack: ['React', 'Redux', 'Tailwind', 'MirageJS'],
+    live: 'https://max-connect.netlify.app',
+    featured: true,
+  },
+  {
     slug: 'cache-api',
     name: 'Cache API',
     blurb: 'A key-value cache API with a configurable size limit, stats and cleanup, documented with Swagger.',
@@ -39,7 +58,6 @@ export const PROJECTS: Project[] = [
     year: 2025,
     stack: ['Next.js', 'Prisma', 'MongoDB', 'TON Connect'],
     live: 'https://click-master-kohl.vercel.app',
-    featured: true,
   },
   {
     slug: 'task-trek',
@@ -57,7 +75,6 @@ export const PROJECTS: Project[] = [
     year: 2019,
     stack: ['Gatsby', 'React'],
     stars: 6,
-    featured: true,
   },
   {
     slug: 'quizzy',
@@ -74,14 +91,6 @@ export const PROJECTS: Project[] = [
     year: 2022,
     stack: ['JavaScript'],
     live: 'https://zoomeet.netlify.app/',
-  },
-  {
-    slug: 'max-connect',
-    name: 'Max Connect',
-    blurb: 'A social media app built with React, Redux and TypeScript.',
-    year: 2022,
-    stack: ['React', 'Redux', 'TypeScript'],
-    live: 'https://max-connect.netlify.app',
   },
   {
     slug: 'max-store-react',
@@ -139,14 +148,6 @@ export const PROJECTS: Project[] = [
     year: 2021,
     stack: ['React', 'Firebase'],
     live: 'https://galleryish-8d74e.web.app/',
-  },
-  {
-    slug: 'homesweethome-client',
-    name: 'Home Sweet Home',
-    blurb: 'A home rental service: the frontend is React, Ant Design and TypeScript, with a TypeScript server.',
-    year: 2020,
-    stack: ['React', 'Ant Design', 'TypeScript'],
-    live: 'https://homesweethomee.netlify.app',
   },
   {
     slug: 'writeandlearn-client',

@@ -1,5 +1,5 @@
 ---
-// Splits text into characters: staggered entrance, then a rubber-band squish on hover.
+// Splits text into characters: staggered entrance, then a rubber-band wave across a word when the pointer enters it.
 interface Props { text: string; as?: string; class?: string; delay?: number; step?: number }
 const { text, as = 'span', class: cls = '', delay = 0, step = 28 } = Astro.props
 const Tag = as as 'span'
@@ -9,9 +9,34 @@ const words = text.split(' ').map((w) => [...w].map((c) => ({ c, i: n++ })))
 <Tag class:list={['chars', cls]} aria-label={text} style={`--base:${delay}ms;--step:${step}ms`}>
   {words.map((w, wi) => (
     <>
-      <span class="inline-block whitespace-nowrap" aria-hidden="true">
+      <span class="w inline-block whitespace-nowrap" aria-hidden="true">
         {w.map(({ c, i }) => <span class="ch" style={`--i:${i}`}><span class="ci">{c}</span></span>)}
       </span>{wi < words.length - 1 && ' '}
     </>
   ))}
 </Tag>
+<script>
+  // Hover (or tap) a word and its letters squish one after another. Move across a sentence and the wave rolls with you.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+  const bounce = (word: HTMLElement) => {
+    if (reduce || word.dataset.busy) return
+    const letters = [...word.querySelectorAll<HTMLElement>('.ci')]
+    if (!letters.length) return
+    word.dataset.busy = '1'
+    letters.forEach((l, j) => { l.style.setProperty('--j', String(j)); l.classList.add('bounce') })
+    // Release the word when the last letter finishes. The timeout is a safety net in case animationend never fires.
+    let released = false
+    const release = () => {
+      if (released) return
+      released = true
+      letters.forEach((l) => l.classList.remove('bounce'))
+      delete word.dataset.busy
+    }
+    letters[letters.length - 1].addEventListener('animationend', release, { once: true })
+    setTimeout(release, 900 + letters.length * 45 + 150)
+  }
+  document.addEventListener('pointerover', (e) => {
+    const word = (e.target as HTMLElement).closest?.('.w') as HTMLElement | null
+    if (word) bounce(word)
+  })
+</script>
