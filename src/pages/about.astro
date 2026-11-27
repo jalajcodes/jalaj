@@ -2,21 +2,45 @@
 import Base from '../layouts/Base.astro'
 import Chars from '../components/Chars.astro'
 import SkillField from '../components/SkillField.astro'
-import { SOCIALS } from '../data/site'
+import { GITHUB_FACTS, SOCIALS } from '../data/site'
+import { getPosts } from '../lib'
+
+const posts = await getPosts()
+const years = new Date().getFullYear() - GITHUB_FACTS.since
+const stats = [
+  { n: years, label: 'years on GitHub', suffix: '' },
+  { n: GITHUB_FACTS.publicRepos, label: 'public repos', suffix: '' },
+  { n: posts.length, label: 'posts written', suffix: '' },
+]
+const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things for fun']
 ---
-<Base title="About" description="About Jalaj Gupta, a fullstack web developer from Jaipur, India who builds with React, Node and Cloudflare.">
+<Base title="About" description="About Jalaj Gupta, an AI-first fullstack developer from Jaipur, India who builds with React, Node and Cloudflare.">
   <div data-pagefind-body>
   <h1 class="font-display text-[clamp(3rem,10vw,6.5rem)] leading-none"><Chars text="About" /> <Chars text="me" delay={150} class="text-brand" /></h1>
 
-  <div class="mt-12 grid gap-12 md:grid-cols-[1.4fr_1fr]">
-    <div class="space-y-5 text-lg leading-relaxed rise" style="--d:350ms">
-      <p>I'm Jalaj, a fullstack web developer based in <strong>Jaipur, India</strong>. I like taking an idea all the way to a working product: a React or Next.js front end, a Node API, and a database underneath.</p>
-      <p>Most of what I build is open source. My GitHub has 90-odd public repos, from MERN apps and a realtime chat to a fullstack home-rental app with Stripe and Google sign-in.</p>
-      <p>Lately I've been building <a class="sweep text-brand" href="https://postdaily.jalaj.fyi">PostDaily</a>, a LinkedIn writing companion that runs on Cloudflare Workers and D1. Building it has taught me a lot about running one codebase on two runtimes, so I've been writing those lessons up on the <a class="sweep text-brand" href="/blog">blog</a>.</p>
-      <p>This site started life on Gatsby and was rebuilt in late 2026 with Astro and Tailwind. The squishy letters, the intro and the glow that follows your cursor are carried over from the first version. <span class="text-muted">(Try double-clicking the logo.)</span></p>
+  <p class="rise mt-10 max-w-3xl font-display text-3xl leading-tight sm:text-5xl" style="--d:400ms">
+    I build <span id="swap" class="inline-block text-brand" data-words={JSON.stringify(WORDS)}>{WORDS[0]}</span> <span class="whitespace-nowrap">end to end.</span>
+    <span class="sr-only"> That includes {WORDS.join(', ')}.</span>
+  </p>
+
+  <ul class="rise mt-10 grid max-w-3xl grid-cols-3 gap-3 sm:gap-5" style="--d:550ms">
+    {stats.map((s) => (
+      <li class="spot rounded-2xl border border-line bg-soft/60 p-4 sm:p-5">
+        <p class="font-display text-4xl text-brand sm:text-6xl"><span data-count={s.n}>{s.n}</span>{s.suffix}</p>
+        <p class="mt-1 font-mono text-[11px] text-muted sm:text-xs">{s.label}</p>
+      </li>
+    ))}
+  </ul>
+
+  <div class="mt-14 grid gap-12 md:grid-cols-[1.4fr_1fr]">
+    <div class="space-y-6 text-lg leading-relaxed">
+      <p data-reveal>I'm Jalaj, a fullstack developer in <strong>Jaipur, India</strong>. I've been on GitHub since 2016, and what I enjoy most is the whole journey: a rough idea, a React front end, a Node API, a database, and the moment it goes live on the internet.</p>
+      <p data-reveal style="--d:80ms">These days I'm <strong>AI-first</strong>. I build with LLMs (Bedrock, Claude, OpenAI) and wire them into products people actually use. The latest is <a class="sweep text-brand" href="https://postdaily.jalaj.fyi">PostDaily</a>, which writes LinkedIn drafts in your own voice and runs on Cloudflare Workers.</p>
+      <p data-reveal style="--d:160ms">I write about what I build: how one Hono app runs on both Node and Cloudflare, why a rate limit can be a single SQL statement, and what I got wrong in my own cache API. It's all on the <a class="sweep text-brand" href="/blog">blog</a>.</p>
+      <p data-reveal style="--d:240ms">This site started on Gatsby and was rebuilt in late 2026 with Astro and Tailwind. The squishy letters (try hovering a word), the intro and the glow that follows your cursor all carried over from the first version. Need a break? There's a <a class="sweep text-brand" href="/play">tiny game</a>.</p>
     </div>
 
-    <aside class="rise space-y-6 self-start rounded-2xl border border-line bg-soft/60 p-6 font-mono text-sm" style="--d:500ms">
+    <aside class="space-y-6 self-start rounded-2xl border border-line bg-soft/60 p-6 font-mono text-sm" data-reveal>
       <div><p class="text-muted">Based in</p><p>Jaipur, India</p></div>
       <div><p class="text-muted">Working with</p><p>AI (agents, MCP, RAG, Bedrock, Claude, OpenAI), React, Next.js, Node, TypeScript, Cloudflare</p></div>
       <div><p class="text-muted">Currently building</p><a class="sweep" href="https://postdaily.jalaj.fyi">PostDaily ↗</a></div>
@@ -35,3 +59,37 @@ import { SOCIALS } from '../data/site'
   </section>
   </div>
 </Base>
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // "I build ___ end to end": the highlighted words take turns.
+  const swap = document.getElementById('swap')
+  if (swap && !reduce) {
+    const words: string[] = JSON.parse(swap.dataset.words ?? '[]')
+    let i = 0
+    setInterval(async () => {
+      i = (i + 1) % words.length
+      await swap.animate([{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(-40%)', opacity: 0 }], { duration: 220, easing: 'ease-in' }).finished
+      swap.textContent = words[i]
+      swap.animate([{ transform: 'translateY(40%)', opacity: 0 }, { transform: 'translateY(0)', opacity: 1 }], { duration: 320, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' })
+    }, 2400)
+  }
+
+  // Numbers count up once they scroll into view.
+  const counters = [...document.querySelectorAll<HTMLElement>('[data-count]')]
+  const run = (el: HTMLElement) => {
+    const to = Number(el.dataset.count)
+    const t0 = performance.now()
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - t0) / 1200)
+      el.textContent = String(Math.round(to * (1 - Math.pow(1 - p, 3))))
+      if (p < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }
+  if (!reduce) {
+    counters.forEach((c) => (c.textContent = '0'))
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { run(e.target as HTMLElement); io.unobserve(e.target) } }), { threshold: 0.6 })
+    counters.forEach((c) => io.observe(c))
+  }
+</script>

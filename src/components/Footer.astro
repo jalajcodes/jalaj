@@ -8,6 +8,7 @@ import Chars from './Chars.astro'
       <p class="font-mono">© {new Date().getFullYear()} Jalaj Gupta · Jaipur, India</p>
       <ul class="flex flex-wrap gap-5 font-mono">
         {SOCIALS.map((s) => <li><a class="sweep hover:text-fg" href={s.href} rel="me noopener">{s.name}</a></li>)}
+        <li><a class="sweep hover:text-fg" href="/play">Play</a></li>
         <li><a class="sweep hover:text-fg" href="/rss.xml">RSS</a></li>
       </ul>
     </div>
