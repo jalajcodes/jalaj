@@ -16,29 +16,19 @@ const words = text.split(' ').map((w) => [...w].map((c) => ({ c, i: n++ })))
   ))}
 </Tag>
 <script>
-  // Hover a letter and just that letter squishes. Enter a word from outside and a ripple runs through the whole
-  // word, starting at the letter you touched.
+  // Hover a letter and just that letter squishes. Sweep the cursor across a word and the letters bounce one after
+  // another as it reaches them, which gives the staggered look without any extra choreography.
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
-  const STEP = 45
-  const squish = (letter: HTMLElement, order: number) => {
+  const squish = (letter: HTMLElement) => {
     if (letter.classList.contains('bounce')) return
-    letter.style.setProperty('--j', String(order))
     letter.classList.add('bounce')
     const done = () => letter.classList.remove('bounce')
     letter.addEventListener('animationend', done, { once: true })
-    setTimeout(done, 900 + order * STEP + 150) // safety net if animationend never fires
+    setTimeout(done, 1050) // safety net if animationend never fires
   }
-  let current: HTMLElement | null = null
   document.addEventListener('pointerover', (e) => {
     if (reduce) return
-    const target = e.target as HTMLElement
-    const letter = target.closest?.('.ci') as HTMLElement | null
-    const word = target.closest?.('.w') as HTMLElement | null
-    if (!letter || !word) { current = null; return }
-    if (word === current) { squish(letter, 0); return } // moving between letters inside a word
-    current = word // entering a word
-    const letters = [...word.querySelectorAll<HTMLElement>('.ci')]
-    const from = letters.indexOf(letter)
-    letters.forEach((l, i) => squish(l, Math.abs(i - from)))
+    const letter = (e.target as HTMLElement).closest?.('.ci') as HTMLElement | null
+    if (letter) squish(letter)
   })
 </script>

@@ -71,6 +71,27 @@ const imageAlt = 'Jalaj Gupta, fullstack developer from Jaipur, India'
           d.classList.add(skip ? 'intro-done' : 'intro-run')
         } catch (e) { d.classList.add('intro-done') }
       })()
+      // Double-click the logo to replay the intro. This lives in the head and listens on the document so it is
+      // ready before anything can be clicked. The logo is a link: the first click may already be navigating when
+      // the second one arrives (on the new page), so the time of the last logo click is kept in sessionStorage
+      // and a second click within 600ms counts as the replay.
+      document.addEventListener('click', function (e) {
+        var logo = e.target && e.target.closest && e.target.closest('#logo')
+        if (!logo) return
+        var now = Date.now(), last = 0, home = location.pathname === '/'
+        try { last = Number(sessionStorage.getItem('jj-logo-click')) || 0 } catch (err) {}
+        if (now - last < 600) {
+          e.preventDefault()
+          try { sessionStorage.removeItem('jj-intro'); sessionStorage.removeItem('jj-logo-click') } catch (err) {}
+          if (home) location.reload(); else location.href = '/'
+          return
+        }
+        try { sessionStorage.setItem('jj-logo-click', String(now)) } catch (err) {}
+        if (home) {
+          e.preventDefault()
+          window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+        }
+      })
     </script>
     <noscript><style>[data-reveal],.rise,.ch{opacity:1!important;transform:none!important}</style></noscript>
   </head>
