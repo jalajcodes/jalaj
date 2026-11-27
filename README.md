@@ -18,7 +18,7 @@ Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com)
   - a cursor-reactive skills field and a soft glow that trails the pointer
   - a circular theme-switch transition (View Transitions API) and native page transitions
   - **`/play`:** a small canvas game, catch the code and dodge the bugs
-  - **Shoot the page:** the footer button (on every page) starts an Asteroids-style game where your bullets destroy the page's own words and letters. Fly off the top or bottom edge and the page scrolls. Arrow keys or WASD to fly, Space to fire, Esc to exit, with on-screen buttons on touch screens. The code is `src/scripts/asteroids.ts`, loaded only when you start it, and exiting reloads the page to put everything back.
+  - **Shoot the page:** the footer button (on every page), or typing the word `shoot`, starts an Asteroids-style game where your bullets destroy the page's own words and letters. Fly off the top or bottom edge and the page scrolls. Arrow keys or WASD to fly, Space to fire, Esc to exit, with on-screen buttons on touch screens. The code is `src/scripts/asteroids.ts`, loaded only when you start it, and exiting reloads the page to put everything back.
 - **Theme:** dark by default, with a light mode. A saved choice wins. There is no flash on load.
 - **Accessibility and motion:** all animation respects `prefers-reduced-motion`, and the pointer effects are skipped on touch screens.
 - **Links:** external links open in a new tab.

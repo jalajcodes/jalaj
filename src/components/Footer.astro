@@ -9,7 +9,7 @@ import Chars from './Chars.astro'
       <ul class="flex flex-wrap gap-5 font-mono">
         {SOCIALS.map((s) => <li><a class="sweep hover:text-fg" href={s.href} target="_blank" rel="me noopener noreferrer">{s.name}</a></li>)}
         <li><a class="sweep hover:text-fg" href="/play">Play</a></li>
-        <li><button type="button" data-shoot-page class="sweep cursor-pointer hover:text-fg">Shoot the page</button></li>
+        <li><button type="button" data-shoot-page title="Or just type “shoot” on your keyboard" class="sweep cursor-pointer hover:text-fg">Shoot the page</button></li>
         <li><a class="sweep hover:text-fg" href="/rss.xml">RSS</a></li>
       </ul>
     </div>
@@ -26,6 +26,19 @@ import Chars from './Chars.astro'
   }
   document.addEventListener('click', (e) => {
     if ((e.target as HTMLElement).closest?.('[data-shoot-page]')) launch()
+  })
+  // Or type the word "shoot" anywhere (not in a text field, and not with Ctrl/Cmd/Alt held).
+  let typed = ''
+  let typedAt = 0
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return
+    const t = e.target as HTMLElement | null
+    if (t?.matches?.('input,textarea,select') || t?.isContentEditable) return
+    const now = Date.now()
+    if (now - typedAt > 1500) typed = ''
+    typedAt = now
+    typed = (typed + e.key.toLowerCase()).slice(-5)
+    if (typed === 'shoot') { typed = ''; launch() }
   })
   // "Play again" reloads the page (to restore the text) and sets this flag, so the game restarts right away.
   try {
