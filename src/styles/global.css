@@ -74,8 +74,8 @@
 
 /* ---------- Page transitions (native, no JS) ---------- */
 @view-transition { navigation: auto; }
-::view-transition-old(root) { animation: 180ms ease-in both vt-out; }
-::view-transition-new(root) { animation: 320ms ease-out both vt-in; }
+::view-transition-old(root) { animation: 90ms ease-in both vt-out; }
+::view-transition-new(root) { animation: 200ms ease-out both vt-in; }
 @keyframes vt-out { to { opacity: 0; transform: translateY(-6px); } }
 @keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
 

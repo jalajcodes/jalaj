@@ -17,7 +17,7 @@ Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com)
   - letters that squish as you move the cursor across them
   - a cursor-reactive skills field and a soft glow that trails the pointer
   - a circular theme-switch transition (View Transitions API) and native page transitions
-  - **Shoot the page:** the game icon in the header, the footer button (on every page), or typing the word `shoot` starts an Asteroids-style game where your bullets destroy the page's own words and letters. Fly off the top or bottom edge and the page scrolls. Arrow keys or WASD to fly, Space to fire, M to mute, Esc to exit, with on-screen buttons on touch screens. Sound is synthesised with the Web Audio API (no audio files) and the mute choice is remembered. The code is `src/scripts/asteroids.ts`, loaded only when you start it, and exiting reloads the page to put everything back.
+  - **Shoot the page:** the footer button (on every page) or typing the word `shoot` starts an Asteroids-style game where your bullets destroy the page's own words and letters. Fly off the top or bottom edge and the page scrolls. Arrow keys or WASD to fly, Space to fire, M to mute, Esc to exit, with on-screen buttons on touch screens. Sound is synthesised with the Web Audio API (no audio files) and the mute choice is remembered. The code is `src/scripts/asteroids.ts`, loaded only when you start it, and exiting reloads the page to put everything back.
 - **Theme:** dark by default, with a light mode. A saved choice wins. There is no flash on load.
 - **Accessibility and motion:** all animation respects `prefers-reduced-motion`, and the pointer effects are skipped on touch screens.
 - **Links:** external links open in a new tab.
