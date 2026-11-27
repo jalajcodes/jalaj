@@ -1,7 +1,7 @@
 export const SITE = {
   title: 'Jalaj Gupta',
   description: 'Fullstack web and mobile developer. Notes, projects and a bit of writing.',
-  url: 'https://jalaj.codes',
+  url: 'https://jalaj.fyi',
   github: 'https://github.com/jalajcodes',
 }
 

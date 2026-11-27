@@ -1,4 +1,4 @@
-# jalaj.codes
+# jalaj.fyi
 
 Personal site and blog. Built with [Astro](https://astro.build), plain CSS, Markdown content collections and [Pagefind](https://pagefind.app) search, hosted on Cloudflare Workers (static assets).
 
