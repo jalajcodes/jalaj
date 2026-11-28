@@ -433,3 +433,51 @@ html.intro-run #preloader {
     animation: none;
   }
 }
+
+/* ---------- Whimsy: disco mode, theme button spin, logo orbit ---------- */
+html.disco {
+  animation: disco 0.9s linear infinite;
+}
+@keyframes disco {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+#theme-toggle svg {
+  transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+#theme-toggle.spin svg {
+  transform: rotate(360deg) scale(1.15);
+}
+.logo-orbit {
+  position: relative;
+  display: inline-flex;
+}
+.logo-orbit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 50% 0, var(--hot) 0 2.5px, transparent 3px);
+  opacity: 0;
+  transition: opacity 250ms;
+}
+#logo:hover .logo-orbit::after,
+#logo:focus-visible .logo-orbit::after {
+  opacity: 1;
+  animation: orbit 1.8s linear infinite;
+}
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.skill[data-note] {
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.disco,
+  #logo:hover .logo-orbit::after {
+    animation: none;
+  }
+}

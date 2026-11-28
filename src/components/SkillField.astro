@@ -1,5 +1,5 @@
 ---
-import { SKILLS } from '../data/site'
+import { SKILLS, SKILL_NOTES } from '../data/site'
 ---
 
 <div
@@ -8,13 +8,33 @@ import { SKILLS } from '../data/site'
   aria-label="Technologies I use"
 >
   {SKILLS.map((s) => (
-    <span class="skill">{s}</span>
+    <span
+      class="skill"
+      data-note={SKILL_NOTES[s]}
+      tabindex={SKILL_NOTES[s] ? 0 : undefined}
+      role={SKILL_NOTES[s] ? 'button' : undefined}
+    >
+      {s}
+    </span>
   ))}
 </div>
+<p id="skill-note" class="mt-6 min-h-[1.5rem] font-mono text-sm text-brand" role="status"></p>
 <script>
   // The words swell and light up around a point. With a mouse, the point is your cursor. On a touch screen there is
   // no cursor, so a soft wave drifts through the words on its own and follows a finger that drags across them.
   const box = document.getElementById('skills')
+  const note = document.getElementById('skill-note')
+  // Click (or press Enter on) a word that has a note to read it.
+  const show = (el: HTMLElement) => {
+    if (el.dataset.note && note) note.textContent = `${el.textContent?.trim()}: ${el.dataset.note}`
+  }
+  box?.addEventListener('click', (e) => show(e.target as HTMLElement))
+  box?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      show(e.target as HTMLElement)
+    }
+  })
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
   if (box) {
     const words = [...box.querySelectorAll<HTMLElement>('.skill')]

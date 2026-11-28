@@ -31,6 +31,17 @@ import Chars from './Chars.astro'
           </a>
         </li>
         <li>
+          <button
+            type="button"
+            id="sfx-toggle"
+            aria-pressed="false"
+            title="Soft sounds on links and the theme switch"
+            class="sweep cursor-pointer hover:text-fg"
+          >
+            Sounds: off
+          </button>
+        </li>
+        <li>
           <a class="sweep hover:text-fg" href="/rss.xml" data-astro-prefetch="false">
             RSS
           </a>
@@ -68,6 +79,36 @@ import Chars from './Chars.astro'
     if (typed === 'shoot') {
       typed = ''
       launch()
+    }
+  })
+  // The Konami code (up up down down left right left right B A) turns the colours disco, then starts the game.
+  const KONAMI = [
+    'ArrowUp',
+    'ArrowUp',
+    'ArrowDown',
+    'ArrowDown',
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowLeft',
+    'ArrowRight',
+    'b',
+    'a',
+  ]
+  let step = 0
+  document.addEventListener('keydown', (e) => {
+    const t = e.target as HTMLElement | null
+    if (t?.matches?.('input,textarea,select') || t?.isContentEditable) return
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key
+    step = k === KONAMI[step] ? step + 1 : k === KONAMI[0] ? 1 : 0
+    if (step === KONAMI.length) {
+      step = 0
+      const root = document.documentElement
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return launch()
+      root.classList.add('disco')
+      setTimeout(() => {
+        root.classList.remove('disco')
+        launch()
+      }, 2600)
     }
   })
   // "Play again" reloads the page (to restore the text) and sets this flag, so the game restarts right away.

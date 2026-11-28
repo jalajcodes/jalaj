@@ -13,7 +13,9 @@ const path = Astro.url.pathname
       aria-label="Jalaj Gupta, home"
       title="Double-click to replay the intro"
     >
-      <LogoMark class="size-8 sm:size-9 text-brand" />
+      <span class="logo-orbit">
+        <LogoMark class="size-8 sm:size-9 text-brand" />
+      </span>
       <span class="hidden font-display text-lg tracking-wide sm:inline">
         <span class="hjj">J</span>ala<span class="hjj">j</span> Gupta
       </span>
@@ -32,7 +34,7 @@ const path = Astro.url.pathname
           {n.label}
         </a>
       ))}
-      <a href="/search" aria-label="Search" class="text-muted transition-colors hover:text-brand">
+      <a href="/search" aria-label="Search" title="Search ( / )" class="text-muted transition-colors hover:text-brand">
         <svg
           viewBox="0 0 24 24"
           class="size-5"
@@ -82,7 +84,21 @@ const path = Astro.url.pathname
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
 
   // Theme switch: a circle grows out from the click (View Transitions), with a plain fallback.
+  // Five quick switches in a row start disco mode for a few seconds.
+  let flips: number[] = []
   document.getElementById('theme-toggle')?.addEventListener('click', (e) => {
+    const btn = e.currentTarget as HTMLElement
+    if (!reduce) {
+      btn.classList.add('spin')
+      setTimeout(() => btn.classList.remove('spin'), 520)
+      const now = Date.now()
+      flips = [...flips.filter((t) => now - t < 3000), now]
+      if (flips.length >= 5) {
+        flips = []
+        root.classList.add('disco')
+        setTimeout(() => root.classList.remove('disco'), 4000)
+      }
+    }
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark'
     const apply = () => {
       root.dataset.theme = next

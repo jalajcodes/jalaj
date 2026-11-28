@@ -87,13 +87,15 @@ interface ScoreRow {
   score: number
   at: number
 }
-const topScores = async (db: D1Database) =>
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000
+// `since` limits the board to recent scores (the weekly board); 0 means all time.
+const topScores = async (db: D1Database, since = 0) =>
   (
     await db
       .prepare(
-        'SELECT name, score, created_at AS at FROM leaderboard_scores ORDER BY score DESC, created_at ASC LIMIT ?',
+        'SELECT name, score, created_at AS at FROM leaderboard_scores WHERE created_at >= ? ORDER BY score DESC, created_at ASC LIMIT ?',
       )
-      .bind(TOP_N)
+      .bind(since, TOP_N)
       .all<ScoreRow>()
   ).results
 
@@ -123,7 +125,10 @@ export default {
 
       // GET /api/scores: the top scores
       if (url.pathname === '/api/scores' && request.method === 'GET') {
-        return json({ min: MIN_SCORE, scores: await topScores(db) }, 200, { 'cache-control': 'public, max-age=15' })
+        const since = url.searchParams.get('period') === 'week' ? now - WEEK_MS : 0
+        return json({ min: MIN_SCORE, scores: await topScores(db, since) }, 200, {
+          'cache-control': 'public, max-age=15',
+        })
       }
 
       // POST /api/scores/start: called when a game begins. The id it returns is needed to submit a score.
