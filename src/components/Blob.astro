@@ -22,10 +22,16 @@
       blob.style.opacity = '0.55'
     })
     document.addEventListener('pointerleave', () => (blob.style.opacity = '0'))
+    // Scrolling stretches the glow for a moment.
+    let lastY = scrollY,
+      grow = 1
     const loop = () => {
       x += (tx - x) * 0.07
       y += (ty - y) * 0.07
-      blob.style.transform = `translate3d(${x - 210}px, ${y - 210}px, 0)`
+      const speed = Math.abs(scrollY - lastY)
+      lastY = scrollY
+      grow += (1 + Math.min(speed / 50, 0.7) - grow) * 0.1
+      blob.style.transform = `translate3d(${x - 210}px, ${y - 210}px, 0) scale(${grow.toFixed(3)})`
       requestAnimationFrame(loop)
     }
     loop()
