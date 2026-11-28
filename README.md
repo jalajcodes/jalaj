@@ -3,13 +3,13 @@
 [![Deploy](https://github.com/jalajcodes/jalaj/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/jalajcodes/jalaj/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-The personal site and blog of Jalaj Gupta, an AI-first fullstack developer from Bengaluru, India. Live at **[jalaj.fyi](https://jalaj.fyi)**.
+The personal site and portfolio of Jalaj Gupta, Lead Software Development Engineer from Bengaluru, India. Live at **[jalaj.fyi](https://jalaj.fyi)**.
 
 Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com) v4 and Markdown content collections. Search is [Pagefind](https://pagefind.app). It is hosted on Cloudflare Workers (static assets) and deployed from GitHub Actions.
 
 ## What's in it
 
-- **Pages:** home, projects, about, writing (with tags and RSS), search and a 404.
+- **Pages:** home (with case studies and flow diagrams), projects, about, resume, writing (with tags and RSS), search, leaderboard and a 404.
 - **Writing:** Markdown posts with reading time, tags, previous/next links and a reading-progress bar. Code blocks use [Expressive Code](https://expressive-code.com) (themes that follow the light/dark switch, a copy button, line highlighting and frames).
 - **Search:** Pagefind runs in the visitor's browser and indexes the posts plus the Projects and About pages. It only exists on the built site, not in `npm run dev`.
 - **Whimsy:**
