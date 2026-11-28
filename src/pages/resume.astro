@@ -11,7 +11,7 @@ import { abs, graph, person, PERSON_ID } from '../seo'
 const ld = graph(
   {
     ...person(),
-    jobTitle: 'Senior Software Development Engineer',
+    jobTitle: RESUME.experience[0]!.role,
     worksFor: { '@type': 'Organization', name: 'HabitNu' },
     alumniOf: [
       { '@type': 'CollegeOrUniversity', name: 'St. Wilfred’s' },
