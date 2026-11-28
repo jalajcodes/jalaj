@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro'
+import Chars from '../components/Chars.astro'
+import { fmtDate } from '../lib'
+import { NOW } from '../data/site'
+
+const updated = fmtDate(new Date(NOW.updated), true).replace(/ \d+,/, '')
+---
+
+<Base
+  title="Now"
+  description="What Jalaj Gupta is working on and learning right now: PostDaily, this site, and agents for the software delivery flow."
+>
+  <div data-pagefind-body>
+    <h1 class="font-display text-[clamp(3rem,10vw,6.5rem)] leading-none">
+      <Chars text="Now" />
+    </h1>
+    <p class="rise mt-6 font-mono text-sm text-muted" style="--d:400ms">
+      Updated {updated} · Bengaluru, India · <span id="local-time" aria-live="off"></span>
+    </p>
+
+    <section class="mt-14 max-w-2xl" aria-labelledby="working">
+      <h2 id="working" class="mb-6 font-display text-3xl sm:text-4xl" data-reveal>
+        Working on
+      </h2>
+      <ul class="divide-y divide-line border-y border-line">
+        {NOW.working.map((w, i) => (
+          <li class="py-5" data-reveal style={`--d:${i * 80}ms`}>
+            <p class="font-display text-2xl">
+              {w.href ? (
+                <a class="sweep hover:text-brand" href={w.href}>
+                  {w.title}
+                </a>
+              ) : (
+                w.title
+              )}
+            </p>
+            <p class="mt-1 text-muted">{w.text}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mt-14 max-w-2xl" aria-labelledby="learning">
+      <h2 id="learning" class="mb-6 font-display text-3xl sm:text-4xl" data-reveal>
+        Learning
+      </h2>
+      <ul class="flex flex-wrap gap-3 font-mono text-sm" data-reveal>
+        {NOW.learning.map((l) => (
+          <li class="rounded-full border border-line px-4 py-1.5">{l}</li>
+        ))}
+      </ul>
+    </section>
+
+    <p class="mt-14 max-w-2xl text-lg" data-reveal>
+      <span class="mr-2 inline-block size-2 rounded-full bg-brand align-middle" aria-hidden="true"></span>
+      Open to freelance and full-time remote work. The easiest way to reach me is on the{' '}
+      <a class="sweep text-brand" href="/about">
+        About page
+      </a>
+      .
+    </p>
+
+    <p class="mt-10 font-mono text-xs text-muted">
+      This is a{' '}
+      <a class="sweep" href="https://nownownow.com/about">
+        now page
+      </a>
+      : what I would tell you over coffee about what I am up to, kept current instead of a changelog.
+    </p>
+  </div>
+</Base>
+
+<script>
+  // Bengaluru's local time, so visitors can tell whether I am likely to be awake.
+  const el = document.getElementById('local-time')
+  const tick = () => {
+    if (el)
+      el.textContent = `${new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase()} there now`
+  }
+  tick()
+  setInterval(tick, 30000)
+</script>
