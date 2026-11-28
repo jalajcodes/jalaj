@@ -72,3 +72,43 @@ export const SKILL_NOTES: Record<string, string> = {
   Gatsby: 'The old version of this site. It lives on the gatsby-legacy branch.',
   TypeScript: 'This whole site, the game and the Worker are TypeScript.',
 }
+
+// The /now page. Edit this when things change and bump `updated`.
+export const NOW = {
+  updated: '2026-11-28',
+  working: [
+    {
+      title: 'PostDaily',
+      text: 'My own product, for LinkedIn creators. I am building and running it end to end.',
+      href: 'https://postdaily.jalaj.fyi',
+    },
+    {
+      title: 'This site',
+      text: 'Rebuilt on Astro and Cloudflare, with a game that blasts the page and a leaderboard to go with it.',
+      href: '/blog/from-gatsby-to-astro-and-cloudflare',
+    },
+    {
+      title: 'At work',
+      text: 'Autonomous agents for the full software delivery flow, taking tickets to production and cutting the time it takes by half.',
+    },
+  ],
+  learning: ['AI in general', 'Inference engineering'],
+  // Things that have actually shipped lately.
+  lately: [
+    'Rebuilt this site from Gatsby to Astro and Cloudflare.',
+    'Added Shoot the page, a game that blasts the site’s own words, with a leaderboard.',
+    'Wrote up an agent-assisted SDLC on Amazon Bedrock AgentCore.',
+  ],
+  // The tools in my hands this month.
+  using: [
+    'Claude',
+    'MCP',
+    'RAG',
+    'Amazon Bedrock AgentCore',
+    'Astro',
+    'Cloudflare Workers',
+    'D1',
+    'TypeScript',
+    'React',
+  ],
+}
