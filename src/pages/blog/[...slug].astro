@@ -2,7 +2,8 @@
 import { render } from 'astro:content'
 import Base from '../../layouts/Base.astro'
 import Chars from '../../components/Chars.astro'
-import { fmtDate, getPosts, readingTime } from '../../lib'
+import PostList from '../../components/PostList.astro'
+import { fmtDate, getPosts, readingTime, relatedPosts } from '../../lib'
 import { abs, breadcrumbs, graph, PERSON_ID } from '../../seo'
 import { SITE } from '../../data/site'
 
@@ -10,10 +11,10 @@ export async function getStaticPaths() {
   const posts = await getPosts()
   return posts.map((post, i) => ({
     params: { slug: post.id },
-    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+    props: { post, newer: posts[i - 1], older: posts[i + 1], related: relatedPosts(post, posts) },
   }))
 }
-const { post, newer, older } = Astro.props
+const { post, newer, older, related } = Astro.props
 const { Content } = await render(post)
 const url = abs(`/blog/${post.id}/`)
 const ld = graph(
@@ -55,6 +56,11 @@ const ld = graph(
     <a href="/blog" class="sweep font-mono text-sm text-muted hover:text-fg">
       ← All posts
     </a>
+    {post.data.draft && (
+      <p class="mt-6 rounded-lg border border-hot px-3 py-2 font-mono text-xs text-hot">
+        Draft: only visible in <code>npm run dev</code>.
+      </p>
+    )}
     <p class="mt-8 font-mono text-xs text-muted">
       {fmtDate(post.data.date, true)} · {readingTime(post.body)} min read
       <span id="read-left" data-min={readingTime(post.body)} aria-hidden="true" />
@@ -89,6 +95,27 @@ const ld = graph(
       </button>
       <span id="share-note" class="text-muted" role="status"></span>
     </div>
+
+    {related.length > 0 && (
+      <section class="mt-16" aria-labelledby="keep-reading">
+        <h2 id="keep-reading" class="mb-4 font-display text-2xl">
+          Keep reading
+        </h2>
+        <PostList posts={related} />
+      </section>
+    )}
+
+    <p class="mt-12 font-mono text-sm text-muted">
+      Enjoyed this? Follow along with the{' '}
+      <a class="sweep text-brand" href="/rss.xml" data-astro-prefetch="false">
+        RSS feed
+      </a>
+      , or find me on{' '}
+      <a class="sweep text-brand" href="https://github.com/jalajcodes">
+        GitHub
+      </a>
+      .
+    </p>
 
     <nav class="mt-10 grid gap-4 border-t border-line pt-8 font-mono text-sm sm:grid-cols-2" aria-label="More posts">
       {newer ? (
