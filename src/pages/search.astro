@@ -2,16 +2,25 @@
 import Base from '../layouts/Base.astro'
 import Chars from '../components/Chars.astro'
 ---
+
 <Base title="Search" description="Search posts on jalaj.fyi" noindex>
-  <h1 class="font-display text-[clamp(3rem,10vw,6rem)] leading-none"><Chars text="Search" /></h1>
-  <div id="search" class="mt-10 [--pagefind-ui-primary:var(--brand)] [--pagefind-ui-text:var(--fg)] [--pagefind-ui-background:var(--bg)] [--pagefind-ui-border:var(--line)] [--pagefind-ui-tag:var(--bg-soft)] [--pagefind-ui-font:var(--font-sans)]"></div>
+  <h1 class="font-display text-[clamp(3rem,10vw,6rem)] leading-none">
+    <Chars text="Search" />
+  </h1>
+  <div
+    id="search"
+    class="mt-10 [--pagefind-ui-primary:var(--brand)] [--pagefind-ui-text:var(--fg)] [--pagefind-ui-background:var(--bg)] [--pagefind-ui-border:var(--line)] [--pagefind-ui-tag:var(--bg-soft)] [--pagefind-ui-font:var(--font-sans)]"
+  ></div>
   <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
   <script is:inline src="/pagefind/pagefind-ui.js"></script>
   <script is:inline>
     addEventListener('DOMContentLoaded', function () {
       var el = document.getElementById('search')
-      if (window.PagefindUI) { new PagefindUI({ element: '#search', showSubResults: true, autofocus: true }) }
-      else { el.textContent = 'Search works on the built site (run npm run build, then npm run preview).' }
+      if (window.PagefindUI) {
+        new PagefindUI({ element: '#search', showSubResults: true, autofocus: true })
+      } else {
+        el.textContent = 'Search works on the built site (run npm run build, then npm run preview).'
+      }
     })
   </script>
 </Base>

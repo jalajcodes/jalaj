@@ -12,20 +12,34 @@ const posts = (await getPosts()).slice(0, 3)
 const featured = PROJECTS.filter((p) => p.featured)
 const [lead, ...rest] = featured
 ---
+
 <Base jsonLd={graph(website(), person())}>
   <section class="pb-16 sm:pb-24">
-    <p class="rise font-mono text-sm text-brand" style="--d:0ms">Fullstack developer · Bengaluru, India</p>
+    <p class="rise font-mono text-sm text-brand" style="--d:0ms">
+      Fullstack developer · Bengaluru, India
+    </p>
     <h1 class="mt-5 font-display leading-[0.95] text-[clamp(3.4rem,13vw,9rem)]">
-      <Chars text="Hey, I'm" /><br /><Chars text="Jalaj." delay={200} class="text-brand" />
+      <Chars text="Hey, I'm" />
+      <br />
+      <Chars text="Jalaj." delay={200} class="text-brand" />
     </h1>
     <p class="rise mt-8 max-w-2xl text-lg text-muted sm:text-xl" style="--d:500ms">
-      I build AI-powered products end to end: agents and APIs on the back, React on the front, shipped to the cloud. This is where I keep my projects and write down what I learn building them.
+      I build AI-powered products end to end: agents and APIs on the back, React on the front, shipped to the cloud.
+      This is where I keep my projects and write down what I learn building them.
     </p>
     <div class="rise mt-9 flex flex-wrap gap-4 font-mono text-sm" style="--d:650ms">
-      <a href="/projects" class="group inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-brand-ink font-medium transition-transform hover:-translate-y-0.5">
+      <a
+        href="/projects"
+        class="group inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-brand-ink font-medium transition-transform hover:-translate-y-0.5"
+      >
         See my work <span class="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
       </a>
-      <a href="/blog" class="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 transition-colors hover:border-brand hover:text-brand">Read the blog</a>
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 transition-colors hover:border-brand hover:text-brand"
+      >
+        Read the blog
+      </a>
     </div>
   </section>
 
@@ -33,7 +47,12 @@ const [lead, ...rest] = featured
     <div class="marquee font-display text-2xl text-muted">
       {[0, 1].map(() => (
         <ul class="flex shrink-0 items-center">
-          {SKILLS.map((s) => <li class="px-6">{s}<span class="ml-12 text-brand">✦</span></li>)}
+          {SKILLS.map((s) => (
+            <li class="px-6">
+              {s}
+              <span class="ml-12 text-brand">✦</span>
+            </li>
+          ))}
         </ul>
       ))}
     </div>
@@ -41,31 +60,51 @@ const [lead, ...rest] = featured
 
   <section class="mt-20">
     <div class="mb-8 flex items-end justify-between" data-reveal>
-      <h2 class="font-display text-4xl sm:text-5xl"><Chars text="Selected work" /></h2>
-      <a href="/projects" class="sweep font-mono text-sm text-muted hover:text-fg">All projects →</a>
+      <h2 class="font-display text-4xl sm:text-5xl">
+        <Chars text="Selected work" />
+      </h2>
+      <a href="/projects" class="sweep font-mono text-sm text-muted hover:text-fg">
+        All projects →
+      </a>
     </div>
     <div class="grid gap-5 sm:grid-cols-2">
       <ProjectCard project={lead} big />
-      {rest.map((p, i) => <ProjectCard project={p} delay={(i + 1) * 80} />)}
+      {rest.map((p, i) => (
+        <ProjectCard project={p} delay={(i + 1) * 80} />
+      ))}
     </div>
   </section>
 
   <section class="mt-24">
     <div class="mb-8 flex items-end justify-between" data-reveal>
-      <h2 class="font-display text-4xl sm:text-5xl"><Chars text="Latest writing" /></h2>
-      <a href="/blog" class="sweep font-mono text-sm text-muted hover:text-fg">All posts →</a>
+      <h2 class="font-display text-4xl sm:text-5xl">
+        <Chars text="Latest writing" />
+      </h2>
+      <a href="/blog" class="sweep font-mono text-sm text-muted hover:text-fg">
+        All posts →
+      </a>
     </div>
     <PostList posts={posts} />
   </section>
 
   <section class="mt-24 rounded-3xl border border-line bg-soft/60 p-8 sm:p-12" data-reveal>
-    <h2 class="font-display text-4xl sm:text-6xl leading-none"><Chars text="Let's talk." /></h2>
-    <p class="mt-4 max-w-lg text-muted">The quickest way to reach me is a message on X or LinkedIn. My code lives on GitHub.</p>
+    <h2 class="font-display text-4xl sm:text-6xl leading-none">
+      <Chars text="Let's talk." />
+    </h2>
+    <p class="mt-4 max-w-lg text-muted">
+      The quickest way to reach me is a message on X or LinkedIn. My code lives on GitHub.
+    </p>
     <ul class="mt-8 grid gap-3 font-mono text-sm sm:grid-cols-2">
       {SOCIALS.map((s) => (
         <li>
-          <a href={s.href} target="_blank" rel="me noopener noreferrer" class="group spot flex items-center justify-between rounded-xl border border-line bg-bg px-5 py-4 transition-colors hover:border-brand">
-            <span>{s.name}</span><span class="text-muted group-hover:text-brand">{s.handle} ↗</span>
+          <a
+            href={s.href}
+            target="_blank"
+            rel="me noopener noreferrer"
+            class="group spot flex items-center justify-between rounded-xl border border-line bg-bg px-5 py-4 transition-colors hover:border-brand"
+          >
+            <span>{s.name}</span>
+            <span class="text-muted group-hover:text-brand">{s.handle} ↗</span>
           </a>
         </li>
       ))}

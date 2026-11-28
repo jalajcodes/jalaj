@@ -1,0 +1,11 @@
+dist
+.astro
+.wrangler
+node_modules
+package-lock.json
+public
+scripts
+.claude
+# Prose is left as written; only code is formatted.
+*.md
+*.mdx

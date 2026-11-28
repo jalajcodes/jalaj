@@ -1,17 +1,30 @@
 ---
 // Splits text into characters: staggered entrance, then a rubber-band wave across a word when the pointer enters it.
-interface Props { text: string; as?: string; class?: string; delay?: number; step?: number; still?: boolean }
+interface Props {
+  text: string
+  as?: string
+  class?: string
+  delay?: number
+  step?: number
+  still?: boolean
+}
 const { text, as = 'span', class: cls = '', delay = 0, step = 28, still = false } = Astro.props
 const Tag = as as 'span'
 let n = 0
 const words = text.split(' ').map((w) => [...w].map((c) => ({ c, i: n++ })))
 ---
+
 <Tag class:list={['chars', cls]} aria-label={text} style={`--base:${delay}ms;--step:${step}ms`}>
   {words.map((w, wi) => (
     <>
       <span class="w inline-block whitespace-nowrap" aria-hidden="true">
-        {w.map(({ c, i }) => <span class={still ? 'ch-still' : 'ch'} style={`--i:${i}`}><span class="ci">{c}</span></span>)}
-      </span>{wi < words.length - 1 && ' '}
+        {w.map(({ c, i }) => (
+          <span class={still ? 'ch-still' : 'ch'} style={`--i:${i}`}>
+            <span class="ci">{c}</span>
+          </span>
+        ))}
+      </span>
+      {wi < words.length - 1 && ' '}
     </>
   ))}
 </Tag>

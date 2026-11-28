@@ -1,15 +1,26 @@
 ---
 ---
-<div id="blob" aria-hidden="true"
+
+<div
+  id="blob"
+  aria-hidden="true"
   class="pointer-events-none fixed top-0 left-0 -z-10 size-[420px] rounded-full opacity-0 blur-3xl transition-opacity duration-700"
-  style="background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--brand) 45%, transparent), color-mix(in srgb, var(--hot) 25%, transparent) 60%, transparent 72%)"></div>
+  style="background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--brand) 45%, transparent), color-mix(in srgb, var(--hot) 25%, transparent) 60%, transparent 72%)"
+></div>
 <script>
   // A soft glow that trails the cursor. Off for touch screens and reduced motion.
   const blob = document.getElementById('blob')
   const ok = matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches
   if (blob && ok) {
-    let x = innerWidth / 2, y = innerHeight / 3, tx = x, ty = y
-    addEventListener('pointermove', (e) => { tx = e.clientX; ty = e.clientY; blob.style.opacity = '0.55' })
+    let x = innerWidth / 2,
+      y = innerHeight / 3,
+      tx = x,
+      ty = y
+    addEventListener('pointermove', (e) => {
+      tx = e.clientX
+      ty = e.clientY
+      blob.style.opacity = '0.55'
+    })
     document.addEventListener('pointerleave', () => (blob.style.opacity = '0'))
     const loop = () => {
       x += (tx - x) * 0.07

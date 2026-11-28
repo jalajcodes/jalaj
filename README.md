@@ -33,20 +33,28 @@ npm run dev       # http://localhost:4321
 npm run build     # build to dist/, then index search with Pagefind
 npm run preview   # serve the built site (search works here)
 npm run deploy    # build and deploy with Wrangler (needs `wrangler login`)
+npm run format    # format the code with Prettier (CI runs `npm run format:check`)
 ```
 
 To type-check the project: `npx astro check`.
 
 If code blocks look unstyled after changing the Expressive Code settings in `astro.config.mjs`, delete `node_modules/.astro` and rebuild. A stale build cache can leave pages pointing at a stylesheet name that no longer exists. A fresh build, like CI, is not affected.
 
+## Tooling
+
+- **Prettier** with `prettier-plugin-astro` and `prettier-plugin-tailwindcss` (which sorts Tailwind classes). The config is `.prettierrc.json`. Markdown and MDX posts are left as written.
+- **MDX** (`@astrojs/mdx`) for posts that need components.
+- **Fonts** use Astro's built-in Fonts API with the installed Fontsource files, so Astro writes the `@font-face` rules, preloads the files and generates metric-matched fallbacks.
+
 ## Content
 
 | What | Where |
 | --- | --- |
-| Posts | `src/content/blog/*.md` with `title`, `description`, `date`, optional `tags` and `draft` |
+| Posts | `src/content/blog/*.md` or `*.mdx` with `title`, `description`, `date`, optional `tags` and `draft`. MDX posts can use components such as `<Callout type="warning" title="Heads up">…</Callout>` (`src/components/Callout.astro`) |
 | Projects | `src/data/projects.ts` (set `featured: true` to show one on the home page) |
 | Socials, skills, GitHub facts, nav | `src/data/site.ts` |
 | Theme colours and effects | `src/styles/global.css` |
+| Fonts (Astro's Fonts API: preloads, fallbacks, `font-display`) | `fonts` in `astro.config.mjs` |
 
 A post's `date` is shown as written, so set it to when you actually published it.
 

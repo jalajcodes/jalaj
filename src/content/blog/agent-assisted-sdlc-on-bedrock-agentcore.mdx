@@ -5,9 +5,16 @@ date: 2026-11-28
 tags: [aws, ai-agents, bedrock, sdlc]
 ---
 
+import Callout from '../../components/Callout.astro'
+
 At work I have built a fully fledged meal planner for users, and alongside that I have been working with Amazon Bedrock AgentCore to build an agent-assisted software delivery flow. The idea is simple to say: describe a change in a GitHub issue, add a label, and an AI coding assistant explores the codebase, implements the change and opens a pull request.
 
-AWS publishes an open-source sample that shows how to wire this up on AgentCore, [sample-agent-assisted-sdlc](https://github.com/aws-samples/sample-agent-assisted-sdlc) (Apache-2.0). It is the starting point I have been building from, so this post walks through its design and the choices in it that I think are worth borrowing. Everything below describes that sample. The sample itself says it is in preview and has not had a production security review, so treat it as a reference architecture, not a drop-in product.
+AWS publishes an open-source sample that shows how to wire this up on AgentCore, [sample-agent-assisted-sdlc](https://github.com/aws-samples/sample-agent-assisted-sdlc) (Apache-2.0). It is the starting point I have been building from, so this post walks through its design and the choices in it that I think are worth borrowing. Everything below describes that sample.
+
+<Callout type="warning" title="Preview sample">
+  The sample's own README says it is in preview and has not had a production security review. Treat it as a reference
+  architecture, not a drop-in product.
+</Callout>
 
 <figure>
   <a href="https://raw.githubusercontent.com/aws-samples/sample-agent-assisted-sdlc/main/images/architecture.png">

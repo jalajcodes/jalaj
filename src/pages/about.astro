@@ -13,52 +13,123 @@ const stats = [
   { n: GITHUB_FACTS.publicRepos, label: 'public repos', suffix: '' },
   { n: posts.length, label: 'posts written', suffix: '' },
 ]
-const aboutLd = graph(person(), { '@type': 'ProfilePage', '@id': abs('/about/'), url: abs('/about/'), name: 'About Jalaj Gupta', mainEntity: { '@id': PERSON_ID }, inLanguage: 'en' })
+const aboutLd = graph(person(), {
+  '@type': 'ProfilePage',
+  '@id': abs('/about/'),
+  url: abs('/about/'),
+  name: 'About Jalaj Gupta',
+  mainEntity: { '@id': PERSON_ID },
+  inLanguage: 'en',
+})
 const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things for fun']
 ---
-<Base title="About" description="About Jalaj Gupta, an AI-first fullstack developer from Bengaluru, India who builds AI agents and web apps with React, Node and AWS." jsonLd={aboutLd}>
+
+<Base
+  title="About"
+  description="About Jalaj Gupta, an AI-first fullstack developer from Bengaluru, India who builds AI agents and web apps with React, Node and AWS."
+  jsonLd={aboutLd}
+>
   <div data-pagefind-body>
-  <h1 class="font-display text-[clamp(3rem,10vw,6.5rem)] leading-none"><Chars text="About" /> <Chars text="me" delay={150} class="text-brand" /></h1>
+    <h1 class="font-display text-[clamp(3rem,10vw,6.5rem)] leading-none">
+      <Chars text="About" /> <Chars text="me" delay={150} class="text-brand" />
+    </h1>
 
-  <p class="rise mt-10 font-display text-[clamp(1.75rem,4.4vw,2.9rem)] leading-tight text-balance sm:whitespace-nowrap" style="--d:400ms">
-    I build <span id="swap" class="inline-block text-brand" data-words={JSON.stringify(WORDS)}>{WORDS[0]}</span> <span class="whitespace-nowrap">end to end.</span>
-    <span class="sr-only"> That includes {WORDS.join(', ')}.</span>
-  </p>
+    <p
+      class="rise mt-10 font-display text-[clamp(1.75rem,4.4vw,2.9rem)] leading-tight text-balance sm:whitespace-nowrap"
+      style="--d:400ms"
+    >
+      I build{' '}
+      <span id="swap" class="inline-block text-brand" data-words={JSON.stringify(WORDS)}>
+        {WORDS[0]}
+      </span>{' '}
+      <span class="whitespace-nowrap">end to end.</span>
+      <span class="sr-only"> That includes {WORDS.join(', ')}.</span>
+    </p>
 
-  <ul class="rise mt-10 grid max-w-3xl grid-cols-3 gap-3 sm:gap-5" style="--d:550ms">
-    {stats.map((s) => (
-      <li class="spot rounded-2xl border border-line bg-soft/60 p-4 sm:p-5">
-        <p class="font-display text-4xl text-brand sm:text-6xl"><span data-count={s.n}>{s.n}</span>{s.suffix}</p>
-        <p class="mt-1 font-mono text-[11px] text-muted sm:text-xs">{s.label}</p>
-      </li>
-    ))}
-  </ul>
+    <ul class="rise mt-10 grid max-w-3xl grid-cols-3 gap-3 sm:gap-5" style="--d:550ms">
+      {stats.map((s) => (
+        <li class="spot rounded-2xl border border-line bg-soft/60 p-4 sm:p-5">
+          <p class="font-display text-4xl text-brand sm:text-6xl">
+            <span data-count={s.n}>{s.n}</span>
+            {s.suffix}
+          </p>
+          <p class="mt-1 font-mono text-[11px] text-muted sm:text-xs">{s.label}</p>
+        </li>
+      ))}
+    </ul>
 
-  <div class="mt-14 grid gap-12 md:grid-cols-[1.4fr_1fr]">
-    <div class="space-y-6 text-lg leading-relaxed">
-      <p data-reveal>I'm Jalaj, a fullstack developer in <strong>Bengaluru, India</strong>. I've been on GitHub since 2016, and what I enjoy most is the whole journey: a rough idea, a React front end, a Node API, a database, and the moment it goes live on the internet.</p>
-      <p data-reveal style="--d:80ms">These days I'm <strong>AI-first</strong>. I build with LLMs (Bedrock, Claude, OpenAI) and wire them into products people actually use. The latest is <a class="sweep text-brand" href="https://postdaily.jalaj.fyi" target="_blank" rel="noopener noreferrer">PostDaily</a>, which writes LinkedIn drafts in your own voice. At work I've built a fully fledged meal planner for users, and I've been using Amazon Bedrock AgentCore to build an agent-assisted software delivery flow, from issue to pull request.</p>
-      <p data-reveal style="--d:160ms">I write about what I build: how one Hono app runs on two runtimes, why a rate limit can be a single SQL statement, and what I got wrong in my own cache API. It's all on the <a class="sweep text-brand" href="/blog">blog</a>.</p>
-      <p data-reveal style="--d:240ms">This site started on Gatsby and was rebuilt in late 2026 with Astro and Tailwind. The squishy letters (try hovering a word), the intro and the glow that follows your cursor all carried over from the first version. Need a break? Type <kbd class="font-mono">shoot</kbd> or use the link in the footer, and <button type="button" data-shoot-page class="sweep cursor-pointer text-brand">blast this page</button> to pieces.</p>
+    <div class="mt-14 grid gap-12 md:grid-cols-[1.4fr_1fr]">
+      <div class="space-y-6 text-lg leading-relaxed">
+        <p data-reveal>
+          I'm Jalaj, a fullstack developer in <strong>Bengaluru, India</strong>. I've been on GitHub since 2016, and
+          what I enjoy most is the whole journey: a rough idea, a React front end, a Node API, a database, and the
+          moment it goes live on the internet.
+        </p>
+        <p data-reveal style="--d:80ms">
+          These days I'm <strong>AI-first</strong>. I build with LLMs (Bedrock, Claude, OpenAI) and wire them into
+          products people actually use. The latest is{' '}
+          <a class="sweep text-brand" href="https://postdaily.jalaj.fyi" target="_blank" rel="noopener noreferrer">
+            PostDaily
+          </a>
+          , which writes LinkedIn drafts in your own voice. At work I've built a fully fledged meal planner for users,
+          and I've been using Amazon Bedrock AgentCore to build an agent-assisted software delivery flow, from issue to
+          pull request.
+        </p>
+        <p data-reveal style="--d:160ms">
+          I write about what I build: how one Hono app runs on two runtimes, why a rate limit can be a single SQL
+          statement, and what I got wrong in my own cache API. It's all on the{' '}
+          <a class="sweep text-brand" href="/blog">
+            blog
+          </a>
+          .
+        </p>
+        <p data-reveal style="--d:240ms">
+          This site started on Gatsby and was rebuilt in late 2026 with Astro and Tailwind. The squishy letters (try
+          hovering a word), the intro and the glow that follows your cursor all carried over from the first version.
+          Need a break? Type <kbd class="font-mono">shoot</kbd> or use the link in the footer, and{' '}
+          <button type="button" data-shoot-page class="sweep cursor-pointer text-brand">
+            blast this page
+          </button>{' '}
+          to pieces.
+        </p>
+      </div>
+
+      <aside class="space-y-6 self-start rounded-2xl border border-line bg-soft/60 p-6 font-mono text-sm" data-reveal>
+        <div>
+          <p class="text-muted">Based in</p>
+          <p>Bengaluru, India</p>
+        </div>
+        <div>
+          <p class="text-muted">Working with</p>
+          <p>AI (agents, MCP, RAG, Bedrock AgentCore, Claude, OpenAI), React, Next.js, Node, TypeScript, AWS</p>
+        </div>
+        <div>
+          <p class="text-muted">Currently building</p>
+          <a class="sweep" href="https://postdaily.jalaj.fyi" target="_blank" rel="noopener noreferrer">
+            PostDaily ↗
+          </a>
+        </div>
+        <div>
+          <p class="mb-2 text-muted">Elsewhere</p>
+          <ul class="space-y-1">
+            {SOCIALS.map((s) => (
+              <li>
+                <a class="sweep hover:text-brand" href={s.href} target="_blank" rel="me noopener noreferrer">
+                  {s.name} ↗
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
     </div>
 
-    <aside class="space-y-6 self-start rounded-2xl border border-line bg-soft/60 p-6 font-mono text-sm" data-reveal>
-      <div><p class="text-muted">Based in</p><p>Bengaluru, India</p></div>
-      <div><p class="text-muted">Working with</p><p>AI (agents, MCP, RAG, Bedrock AgentCore, Claude, OpenAI), React, Next.js, Node, TypeScript, AWS</p></div>
-      <div><p class="text-muted">Currently building</p><a class="sweep" href="https://postdaily.jalaj.fyi" target="_blank" rel="noopener noreferrer">PostDaily ↗</a></div>
-      <div>
-        <p class="mb-2 text-muted">Elsewhere</p>
-        <ul class="space-y-1">
-          {SOCIALS.map((s) => <li><a class="sweep hover:text-brand" href={s.href} target="_blank" rel="me noopener noreferrer">{s.name} ↗</a></li>)}
-        </ul>
-      </div>
-    </aside>
-  </div>
-
-  <section class="mt-24">
-    <h2 class="mb-8 font-display text-3xl sm:text-4xl" data-reveal>Tools I reach for <span class="font-mono text-sm text-muted">(move your cursor around)</span></h2>
-    <SkillField />
-  </section>
+    <section class="mt-24">
+      <h2 class="mb-8 font-display text-3xl sm:text-4xl" data-reveal>
+        Tools I reach for <span class="font-mono text-sm text-muted">(move your cursor around)</span>
+      </h2>
+      <SkillField />
+    </section>
   </div>
 </Base>
 <script>
@@ -71,9 +142,21 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
     let i = 0
     setInterval(async () => {
       i = (i + 1) % words.length
-      await swap.animate([{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(-40%)', opacity: 0 }], { duration: 220, easing: 'ease-in' }).finished
+      await swap.animate(
+        [
+          { transform: 'translateY(0)', opacity: 1 },
+          { transform: 'translateY(-40%)', opacity: 0 },
+        ],
+        { duration: 220, easing: 'ease-in' },
+      ).finished
       swap.textContent = words[i]
-      swap.animate([{ transform: 'translateY(40%)', opacity: 0 }, { transform: 'translateY(0)', opacity: 1 }], { duration: 320, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' })
+      swap.animate(
+        [
+          { transform: 'translateY(40%)', opacity: 0 },
+          { transform: 'translateY(0)', opacity: 1 },
+        ],
+        { duration: 320, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
+      )
     }, 2400)
   }
 
@@ -91,7 +174,16 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
   }
   if (!reduce) {
     counters.forEach((c) => (c.textContent = '0'))
-    const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { run(e.target as HTMLElement); io.unobserve(e.target) } }), { threshold: 0.6 })
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            run(e.target as HTMLElement)
+            io.unobserve(e.target)
+          }
+        }),
+      { threshold: 0.6 },
+    )
     counters.forEach((c) => io.observe(c))
   }
 </script>

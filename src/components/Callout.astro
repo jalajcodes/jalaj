@@ -1,0 +1,17 @@
+---
+// A highlighted aside for posts written in MDX: <Callout type="warning" title="Heads up">…</Callout>
+interface Props {
+  type?: 'note' | 'warning'
+  title?: string
+}
+const { type = 'note', title } = Astro.props
+const edge = { note: 'border-brand/50', warning: 'border-hot/60' }[type]
+const label = { note: 'text-brand', warning: 'text-hot' }[type]
+---
+
+<aside class:list={['not-prose my-8 rounded-2xl border bg-soft/60 p-5 text-[0.95rem] leading-relaxed', edge]}>
+  {title && <p class:list={['mb-1.5 font-mono text-xs tracking-widest uppercase', label]}>{title}</p>}
+  <div class="[&_a]:underline [&_a]:decoration-brand [&_a]:underline-offset-4 [&>p:last-child]:mb-0">
+    <slot />
+  </div>
+</aside>
