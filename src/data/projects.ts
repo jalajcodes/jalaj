@@ -40,7 +40,6 @@ export const PROJECTS: Project[] = [
     year: 2022,
     stack: ['React', 'Redux', 'Tailwind', 'MirageJS'],
     live: 'https://max-connect.netlify.app',
-    featured: true,
   },
   {
     slug: 'cache-api',
@@ -66,7 +65,6 @@ export const PROJECTS: Project[] = [
     year: 2023,
     stack: ['MongoDB', 'Express', 'React', 'Node.js'],
     live: 'https://task-trek.onrender.com/',
-    featured: true,
   },
   {
     slug: 'gatsby-theme-yoyo',

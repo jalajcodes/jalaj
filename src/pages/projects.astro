@@ -17,7 +17,11 @@ const archive = PROJECTS.filter((p) => !p.featured)
       <Chars text="Projects" />
     </h1>
     <p class="rise mt-6 max-w-2xl text-lg text-muted" style="--d:400ms">
-      A mix of products, experiments and things I built to learn. Everything here is open source on{' '}
+      The things I build on my own: products, experiments and things I made to learn. My work at HabitNu is on the{' '}
+      <a class="sweep text-fg" href="/#work">
+        home page
+      </a>
+      ; the code here is open source on{' '}
       <a class="sweep text-fg" href="https://github.com/jalajcodes" target="_blank" rel="noopener noreferrer">
         GitHub
       </a>
@@ -33,39 +37,44 @@ const archive = PROJECTS.filter((p) => !p.featured)
       ))}
     </section>
 
-    <h2 class="mt-24 mb-6 font-display text-3xl sm:text-4xl" data-reveal>
-      More from the archive
-    </h2>
-    <ul class="divide-y divide-line border-y border-line">
-      {archive.map((p, i) => (
-        <li
-          data-reveal
-          style={`--d:${(i % 6) * 50}ms`}
-          class="group grid gap-1 px-2 py-4 sm:grid-cols-[4rem_14rem_1fr_auto] sm:items-baseline sm:gap-5"
-        >
-          <span class="font-mono text-xs text-muted">{p.year}</span>
-          <a
-            href={p.live ?? repoUrl(p.slug)}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="font-display text-xl transition-colors group-hover:text-brand"
+    <details class="group mt-20">
+      <summary class="mb-6 flex cursor-pointer list-none items-center gap-3 font-display text-3xl marker:hidden sm:text-4xl [&::-webkit-details-marker]:hidden">
+        More from the archive
+        <span class="font-mono text-sm text-muted">
+          ({archive.length}) <span class="inline-block transition-transform group-open:rotate-90">→</span>
+        </span>
+      </summary>
+      <ul class="divide-y divide-line border-y border-line">
+        {archive.map((p, i) => (
+          <li
+            data-reveal
+            style={`--d:${(i % 6) * 50}ms`}
+            class="group grid gap-1 px-2 py-4 sm:grid-cols-[4rem_14rem_1fr_auto] sm:items-baseline sm:gap-5"
           >
-            {p.name}
-            {p.stars ? <span class="ml-2 font-mono text-xs text-muted">★ {p.stars}</span> : null}
-          </a>
-          <span class="text-sm text-muted">{p.blurb}</span>
-          <span class="flex gap-4 font-mono text-xs">
-            {p.live && (
-              <a class="sweep text-brand" href={p.live} target="_blank" rel="noopener noreferrer">
-                Live
-              </a>
-            )}
-            <a class="sweep" href={repoUrl(p.slug)} target="_blank" rel="noopener noreferrer">
-              Code
+            <span class="font-mono text-xs text-muted">{p.year}</span>
+            <a
+              href={p.live ?? repoUrl(p.slug)}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-display text-xl transition-colors group-hover:text-brand"
+            >
+              {p.name}
+              {p.stars ? <span class="ml-2 font-mono text-xs text-muted">★ {p.stars}</span> : null}
             </a>
-          </span>
-        </li>
-      ))}
-    </ul>
+            <span class="text-sm text-muted">{p.blurb}</span>
+            <span class="flex gap-4 font-mono text-xs">
+              {p.live && (
+                <a class="sweep text-brand" href={p.live} target="_blank" rel="noopener noreferrer">
+                  Live
+                </a>
+              )}
+              <a class="sweep" href={repoUrl(p.slug)} target="_blank" rel="noopener noreferrer">
+                Code
+              </a>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </details>
   </div>
 </Base>
