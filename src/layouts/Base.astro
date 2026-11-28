@@ -158,6 +158,9 @@ const imageAlt = 'Jalaj Gupta, AI-first fullstack developer from Bengaluru, Indi
     </main>
     <Footer />
     <script>
+      import '../scripts/sfx'
+    </script>
+    <script>
       // Reveal on scroll: anything at or above the bottom of the viewport is shown
       // (position-based, so jumping or restoring a scroll position never leaves content hidden)
       let pending = [...document.querySelectorAll<HTMLElement>('[data-reveal]')]
@@ -191,6 +194,19 @@ const imageAlt = 'Jalaj Gupta, AI-first fullstack developer from Bengaluru, Indi
         a.rel = [...new Set([...a.rel.split(' ').filter(Boolean), 'noopener', 'noreferrer'])].join(' ')
       })
 
+      // "/" or Ctrl/Cmd+K opens search from anywhere (on the search page it focuses the box)
+      addEventListener('keydown', (e) => {
+        const t = e.target as HTMLElement | null
+        if (t?.matches?.('input,textarea,select') || t?.isContentEditable) return
+        const slash = e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey
+        const cmdK = e.key.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey)
+        if (!slash && !cmdK) return
+        e.preventDefault()
+        const box = document.querySelector<HTMLInputElement>('.pagefind-ui__search-input')
+        if (box) box.focus()
+        else location.href = '/search'
+      })
+
       // Spotlight cards follow the cursor
       document.querySelectorAll<HTMLElement>('.spot').forEach((el) =>
         el.addEventListener('pointermove', (e) => {
@@ -200,12 +216,19 @@ const imageAlt = 'Jalaj Gupta, AI-first fullstack developer from Bengaluru, Indi
         }),
       )
 
-      // Reading progress on posts
+      // Reading progress on posts, plus a "minutes left" countdown next to the reading time
       const bar = document.getElementById('progress')
       if (bar) {
+        const left = document.getElementById('read-left')
+        const total = Number(left?.dataset.min) || 0
         const set = () => {
           const h = document.documentElement
-          bar.style.transform = `scaleX(${Math.min(1, h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight))})`
+          const p = Math.min(1, h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight))
+          bar.style.transform = `scaleX(${p})`
+          if (left && total) {
+            const rest = Math.ceil(total * (1 - p))
+            left.textContent = p < 0.02 ? '' : p > 0.98 ? ' · finished' : ` · ${rest} min left`
+          }
         }
         addEventListener('scroll', set, { passive: true })
         set()

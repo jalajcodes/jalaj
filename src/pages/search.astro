@@ -7,6 +7,19 @@ import Chars from '../components/Chars.astro'
   <h1 class="font-display text-[clamp(3rem,10vw,6rem)] leading-none">
     <Chars text="Search" />
   </h1>
+  <p class="mt-6 font-mono text-sm text-muted">
+    Try:
+    {['agents', 'Bedrock', 'Astro', 'Cloudflare', 'RAG'].map((q) => (
+      <button
+        type="button"
+        data-q={q}
+        class="mr-2 cursor-pointer rounded-full border border-line px-3 py-1 transition-colors hover:border-brand hover:text-brand"
+      >
+        {q}
+      </button>
+    ))}
+    <span class="ml-1 hidden sm:inline">· Press / anywhere to search</span>
+  </p>
   <div
     id="search"
     class="mt-10 [--pagefind-ui-primary:var(--brand)] [--pagefind-ui-text:var(--fg)] [--pagefind-ui-background:var(--bg)] [--pagefind-ui-border:var(--line)] [--pagefind-ui-tag:var(--bg-soft)] [--pagefind-ui-font:var(--font-sans)]"
@@ -21,6 +34,14 @@ import Chars from '../components/Chars.astro'
       } else {
         el.textContent = 'Search works on the built site (run npm run build, then npm run preview).'
       }
+    })
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-q]')
+      var input = document.querySelector('.pagefind-ui__search-input')
+      if (!b || !input) return
+      input.value = b.dataset.q
+      input.dispatchEvent(new Event('input', { bubbles: true }))
+      input.focus()
     })
   </script>
 </Base>

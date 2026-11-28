@@ -16,7 +16,7 @@ const [lead, ...rest] = featured
 <Base jsonLd={graph(website(), person())}>
   <section class="pb-16 sm:pb-24">
     <p class="rise font-mono text-sm text-brand" style="--d:0ms">
-      Fullstack developer · Bengaluru, India
+      <span id="greeting">Hello</span> · Fullstack developer · Bengaluru, India
     </p>
     <h1 class="mt-5 font-display leading-[0.95] text-[clamp(3.4rem,13vw,9rem)]">
       <Chars text="Hey, I'm" />
@@ -111,3 +111,21 @@ const [lead, ...rest] = featured
     </ul>
   </section>
 </Base>
+
+<script>
+  // The greeting follows the visitor's own clock.
+  const g = document.getElementById('greeting')
+  if (g) {
+    const h = new Date().getHours()
+    g.textContent =
+      h < 5
+        ? 'Still up?'
+        : h < 12
+          ? 'Good morning'
+          : h < 17
+            ? 'Good afternoon'
+            : h < 22
+              ? 'Good evening'
+              : 'Late night?'
+  }
+</script>

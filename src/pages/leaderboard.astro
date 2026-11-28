@@ -19,7 +19,29 @@ import Chars from '../components/Chars.astro'
     and score more than 50 to put your name here. Arrow keys or WASD to fly, Space to fire.
   </p>
 
-  <div id="board" class="mt-10 max-w-xl" aria-live="polite">
+  <div class="mt-10 flex max-w-xl items-center justify-between gap-4 font-mono text-sm">
+    <div role="group" aria-label="Time range" class="flex gap-2">
+      <button
+        type="button"
+        data-period="all"
+        class="cursor-pointer rounded-full border border-line px-4 py-1.5 transition-colors hover:border-brand aria-pressed:border-brand aria-pressed:text-brand"
+        aria-pressed="true"
+      >
+        All time
+      </button>
+      <button
+        type="button"
+        data-period="week"
+        class="cursor-pointer rounded-full border border-line px-4 py-1.5 transition-colors hover:border-brand aria-pressed:border-brand aria-pressed:text-brand"
+        aria-pressed="false"
+      >
+        This week
+      </button>
+    </div>
+    <p id="mybest" class="hidden text-muted"></p>
+  </div>
+
+  <div id="board" class="mt-4 max-w-xl" aria-live="polite">
     <p class="font-mono text-sm text-muted">Loading the scores…</p>
   </div>
 
@@ -50,22 +72,49 @@ import Chars from '../components/Chars.astro'
     }
     return 'just now'
   }
-  ;(async () => {
+  const MEDALS = ['🥇', '🥈', '🥉']
+  let me = ''
+  let best = 0
+  try {
+    me = (localStorage.getItem('jj-asteroids-name') ?? '').toLowerCase()
+    best = Number(localStorage.getItem('jj-asteroids-best')) || 0
+  } catch {}
+  if (best > 0) {
+    const mine = document.getElementById('mybest')!
+    mine.textContent = `Your best: ${best}`
+    mine.classList.remove('hidden')
+  }
+
+  const load = async (period: 'all' | 'week') => {
     try {
-      const r = await fetch('/api/scores')
+      const r = await fetch(period === 'week' ? '/api/scores?period=week' : '/api/scores')
       if (!r.ok) throw new Error('unavailable')
       const { scores } = (await r.json()) as { scores: { name: string; score: number; at: number }[] }
       root.replaceChildren()
       if (!scores.length) {
-        root.append(el('p', 'font-mono text-sm text-muted', 'No scores yet. Be the first: score 51 or more.'))
+        root.append(
+          el(
+            'p',
+            'font-mono text-sm text-muted',
+            period === 'week'
+              ? 'Nobody has scored this week yet. The crown is free: score 51 or more.'
+              : 'No scores yet. Be the first: score 51 or more.',
+          ),
+        )
         return
       }
       const list = el('ol', 'divide-y divide-line border-y border-line')
       scores.forEach((s, i) => {
-        const row = el('li', 'grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 px-1 py-3 font-mono')
-        row.append(el('span', i < 3 ? 'text-brand' : 'text-muted', String(i + 1)))
+        const mine = !!me && s.name.toLowerCase() === me
+        const row = el(
+          'li',
+          `grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 px-1 py-3 font-mono ${mine ? 'bg-brand/10' : ''}`,
+        )
+        row.append(el('span', i < 3 ? 'text-lg' : 'text-muted', MEDALS[i] ?? String(i + 1)))
         const who = el('span', 'min-w-0 truncate')
-        who.append(el('span', 'text-fg', s.name), el('span', 'ml-3 text-xs text-muted', ago(s.at)))
+        who.append(el('span', mine ? 'font-bold text-brand' : 'text-fg', s.name))
+        if (mine) who.append(el('span', 'ml-2 text-xs text-brand', 'you'))
+        who.append(el('span', 'ml-3 text-xs text-muted', ago(s.at)))
         row.append(who, el('span', 'text-lg font-semibold text-brand', String(s.score)))
         list.append(row)
       })
@@ -75,5 +124,14 @@ import Chars from '../components/Chars.astro'
         el('p', 'font-mono text-sm text-muted', 'The leaderboard is only available on the live site.'),
       )
     }
-  })()
+  }
+
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('[data-period]')]
+  tabs.forEach((t) =>
+    t.addEventListener('click', () => {
+      tabs.forEach((o) => o.setAttribute('aria-pressed', String(o === t)))
+      void load(t.dataset.period as 'all' | 'week')
+    }),
+  )
+  void load('all')
 </script>

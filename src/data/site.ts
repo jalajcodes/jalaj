@@ -58,3 +58,17 @@ export const SKILLS = [
   'Cloudflare Workers',
   'D1',
 ]
+
+// One-liners shown when a skill is clicked on the About page. Only things that are true and checkable are listed;
+// a skill without a note is simply not clickable.
+export const SKILL_NOTES: Record<string, string> = {
+  'Amazon Bedrock': 'Where my agent work runs. See the post on the agent-assisted SDLC.',
+  'Bedrock AgentCore': 'Used to build an agent-assisted software development flow. There is a post about it.',
+  Astro: 'This site is built with Astro.',
+  Tailwind: 'Every style on this site is Tailwind v4.',
+  'Cloudflare Workers': 'Serves this site and the leaderboard API.',
+  D1: 'Stores the Shoot the page scores.',
+  SQLite: 'The engine under D1, so the leaderboard is SQLite.',
+  Gatsby: 'The old version of this site. It lives on the gatsby-legacy branch.',
+  TypeScript: 'This whole site, the game and the Worker are TypeScript.',
+}
