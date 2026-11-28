@@ -86,8 +86,21 @@ const path = Astro.url.pathname
   // Theme switch: a circle grows out from the click (View Transitions), with a plain fallback.
   // Five quick switches in a row start disco mode for a few seconds.
   let flips: number[] = []
-  document.getElementById('theme-toggle')?.addEventListener('click', (e) => {
-    const btn = e.currentTarget as HTMLElement
+  // While a page transition runs the browser sends clicks to the page root instead of the button, so this listens on
+  // the document and also matches by position (as the logo does). Without that, quick clicks never reach the button.
+  const btn = document.getElementById('theme-toggle')
+  let switching = false
+  document.addEventListener('click', (e) => {
+    if (!btn) return
+    const hit = btn.getBoundingClientRect()
+    const onBtn =
+      !!(e.target as HTMLElement | null)?.closest?.('#theme-toggle') ||
+      (e.clientX >= hit.left &&
+        e.clientX <= hit.right &&
+        e.clientY >= hit.top &&
+        e.clientY <= hit.bottom &&
+        e.detail > 0)
+    if (!onBtn) return
     if (!reduce) {
       btn.classList.add('spin')
       setTimeout(() => btn.classList.remove('spin'), 520)
@@ -106,14 +119,16 @@ const path = Astro.url.pathname
         localStorage.setItem('theme', next)
       } catch {}
     }
-    if (!document.startViewTransition || reduce) return apply()
+    // A switch during a running transition just applies at once, so fast clicking stays fast.
+    if (!document.startViewTransition || reduce || switching) return apply()
     // Keyboard activation reports 0,0, so grow from the button's centre instead of the corner.
     const me = e as MouseEvent
-    const box = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    const box = btn.getBoundingClientRect()
     const x = me.detail === 0 ? box.left + box.width / 2 : me.clientX
     const y = me.detail === 0 ? box.top + box.height / 2 : me.clientY
     const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))
     root.classList.add('vt-theme')
+    switching = true
     const t = document.startViewTransition(apply)
     t.ready.then(() =>
       root.animate(
@@ -121,7 +136,10 @@ const path = Astro.url.pathname
         { duration: 650, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', pseudoElement: '::view-transition-new(root)' },
       ),
     )
-    t.finished.finally(() => root.classList.remove('vt-theme'))
+    t.finished.finally(() => {
+      root.classList.remove('vt-theme')
+      switching = false
+    })
   })
 
   // Nav text scramble on hover.
