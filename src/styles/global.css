@@ -491,7 +491,7 @@ html.disco {
 #contact:target {
   background: color-mix(in oklab, var(--color-brand) 10%, transparent);
   box-shadow: 0 0 0 0.6rem color-mix(in oklab, var(--color-brand) 10%, transparent);
-  animation: contact-pulse 1.6s ease-out 0.3s 2;
+  animation: contact-pulse 1.6s ease-in-out 0.3s infinite;
 }
 @keyframes contact-pulse {
   50% {
