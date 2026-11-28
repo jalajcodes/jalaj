@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "deploy": "npm run build && wrangler deploy",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "preview:worker": "npm run build && wrangler dev --local"
   },
   "repository": {
     "type": "git",

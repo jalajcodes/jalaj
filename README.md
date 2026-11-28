@@ -18,6 +18,7 @@ Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com)
   - a cursor-reactive skills field and a soft glow that trails the pointer
   - a circular theme-switch transition (View Transitions API) and native page transitions
   - **Shoot the page:** the footer button (on every page) or typing the word `shoot` starts an Asteroids-style game where your bullets destroy the page's own words and letters. Fly off the top or bottom edge and the page scrolls. Arrow keys or WASD to fly, Space to fire, M to mute, Esc to exit, with on-screen buttons on touch screens. Sound is synthesised with the Web Audio API (no audio files) and the mute choice is remembered. The code is `src/scripts/asteroids.ts`, loaded only when you start it, and exiting reloads the page to put everything back.
+- **Leaderboard:** after a game of Shoot the page, a score above 50 can be posted under a name. The top scores show under the "Game over" panel and on `/leaderboard`. Scores live in a Cloudflare D1 database behind a small Worker (`worker/index.ts`) that only answers `/api/*`; every other request is a plain static file.
 - **Theme:** dark by default, with a light mode. A saved choice wins. There is no flash on load.
 - **Accessibility and motion:** all animation respects `prefers-reduced-motion`, and the pointer effects are skipped on touch screens.
 - **Links:** external links open in a new tab.
@@ -33,6 +34,7 @@ npm run dev       # http://localhost:4321
 npm run build     # build to dist/, then index search with Pagefind
 npm run preview   # serve the built site (search works here)
 npm run deploy    # build and deploy with Wrangler (needs `wrangler login`)
+npm run preview:worker  # build, then run the site with the scores API on a local test database
 npm run format    # format the code with Prettier (CI runs `npm run format:check`)
 ```
 
@@ -81,6 +83,17 @@ wrangler.jsonc  Worker config and the jalaj.fyi custom domains
 - `CLOUDFLARE_ACCOUNT_ID`
 
 `wrangler.jsonc` attaches `jalaj.fyi` and `www.jalaj.fyi` as custom domains. Dependabot opens grouped updates for npm and GitHub Actions once a month.
+
+## Leaderboard (D1 and the scores API)
+
+The Worker in `worker/index.ts` handles `GET /api/scores` (top 20), `POST /api/scores/start` (a game begins and gets an id) and `POST /api/scores` (post a score). It creates its own tables on the first request.
+
+- **What is stored:** the chosen name, the score, the time, and a one-way hash of the IP address that is used only for rate limiting. Nothing else.
+- **Checks:** a score must be above 50, a name is 2 to 16 letters, numbers or spaces without profanity, each game id can be used once, the score has to fit the time played, and each address is limited to 3 posts an hour. Scores come from the visitor's browser, so these checks raise the bar but cannot make the board tamper-proof.
+- **One-time setup:** `npx wrangler d1 create jalaj-leaderboard`, then put the printed `database_id` in `wrangler.jsonc`.
+- **Local testing:** `npm run preview:worker` uses a throwaway local database in `.wrangler/state`.
+- **Removing a score:** `npx wrangler d1 execute jalaj-leaderboard --remote --command "DELETE FROM scores WHERE name = 'SomeName'"`.
+- Without the Worker (for example `npm run dev`), the game and the leaderboard page simply hide the leaderboard.
 
 ## History
 

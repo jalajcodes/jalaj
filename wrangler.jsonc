@@ -1,6 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "jalaj-fyi",
+  // The Worker only answers /api/*. Every other request is served straight from the static assets.
+  "main": "worker/index.ts",
   "routes": [
     { "pattern": "jalaj.fyi", "custom_domain": true },
     { "pattern": "www.jalaj.fyi", "custom_domain": true },
@@ -9,5 +11,10 @@
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"],
   },
+  // Shoot the page leaderboard. LOCAL TESTING ONLY: replace database_id with the real id before deploying.
+  "d1_databases": [
+    { "binding": "DB", "database_name": "jalaj-leaderboard", "database_id": "00000000-0000-0000-0000-000000000000" },
+  ],
 }
