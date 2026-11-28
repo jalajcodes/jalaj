@@ -1,8 +1,8 @@
 export const SITE = {
   title: 'Jalaj Gupta',
-  tagline: 'AI-first fullstack developer in Bengaluru, India',
+  tagline: 'Lead Software Development Engineer in Bengaluru, India',
   description:
-    'Jalaj Gupta is an AI-first fullstack developer from Bengaluru, India. AI agents on AWS Bedrock, React and Node apps, and writing on building with LLMs.',
+    'Jalaj Gupta is a Lead Software Development Engineer from Bengaluru, India. AI agents on AWS Bedrock AgentCore, fullstack engineering across React, Node and cloud infrastructure.',
   url: 'https://jalaj.fyi',
 }
 
