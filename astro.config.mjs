@@ -74,7 +74,7 @@ export default defineConfig({
     }),
     // Expressive Code has to come before MDX. MDX lets posts use components, e.g. <Callout>.
     mdx(),
-    sitemap({ filter: (page) => !page.includes('/search') }),
+    sitemap({ filter: (page) => !page.includes('/search') && !page.includes('/leaderboard') }),
   ],
   vite: { plugins: [tailwindcss()] },
 })

@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro'
+import Chars from '../components/Chars.astro'
+---
+
+<Base
+  title="Leaderboard"
+  description="Top scores in Shoot the page, the game where you blast this site's own words."
+  noindex
+>
+  <h1 class="font-display text-[clamp(2.4rem,9vw,6rem)] leading-none">
+    <Chars text="Leaderboard" />
+  </h1>
+  <p class="rise mt-6 max-w-2xl text-lg text-muted" style="--d:400ms">
+    Play{' '}
+    <button type="button" data-shoot-page class="sweep cursor-pointer text-brand">
+      Shoot the page
+    </button>{' '}
+    and score more than 50 to put your name here. Arrow keys or WASD to fly, Space to fire.
+  </p>
+
+  <div id="board" class="mt-10 max-w-xl" aria-live="polite">
+    <p class="font-mono text-sm text-muted">Loading the scores…</p>
+  </div>
+
+  <p class="mt-8 max-w-xl font-mono text-xs leading-relaxed text-muted">
+    Scores are reported by your browser, so treat the board as a bit of fun. Names and scores are public. A one-way hash
+    of your IP address is kept only to limit spam, and nothing else is stored.
+  </p>
+</Base>
+
+<script>
+  const root = document.getElementById('board')!
+  const el = (tag: string, cls: string, text = '') => {
+    const e = document.createElement(tag)
+    e.className = cls
+    e.textContent = text
+    return e
+  }
+  const ago = (at: number) => {
+    const s = Math.max(1, Math.round((Date.now() - at) / 1000))
+    const units: [number, Intl.RelativeTimeFormatUnit][] = [
+      [86400, 'day'],
+      [3600, 'hour'],
+      [60, 'minute'],
+      [1, 'second'],
+    ]
+    for (const [secs, unit] of units) {
+      if (s >= secs) return new Intl.RelativeTimeFormat('en', { numeric: 'auto' }).format(-Math.floor(s / secs), unit)
+    }
+    return 'just now'
+  }
+  ;(async () => {
+    try {
+      const r = await fetch('/api/scores')
+      if (!r.ok) throw new Error('unavailable')
+      const { scores } = (await r.json()) as { scores: { name: string; score: number; at: number }[] }
+      root.replaceChildren()
+      if (!scores.length) {
+        root.append(el('p', 'font-mono text-sm text-muted', 'No scores yet. Be the first: score 51 or more.'))
+        return
+      }
+      const list = el('ol', 'divide-y divide-line border-y border-line')
+      scores.forEach((s, i) => {
+        const row = el('li', 'grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 px-1 py-3 font-mono')
+        row.append(el('span', i < 3 ? 'text-brand' : 'text-muted', String(i + 1)))
+        const who = el('span', 'min-w-0 truncate')
+        who.append(el('span', 'text-fg', s.name), el('span', 'ml-3 text-xs text-muted', ago(s.at)))
+        row.append(who, el('span', 'text-lg font-semibold text-brand', String(s.score)))
+        list.append(row)
+      })
+      root.append(list)
+    } catch {
+      root.replaceChildren(
+        el('p', 'font-mono text-sm text-muted', 'The leaderboard is only available on the live site.'),
+      )
+    }
+  })()
+</script>

@@ -254,12 +254,123 @@ export function startAsteroids() {
     Object.assign(ship, { x: W / 2, y: H / 2, vx: 0, vy: 0, a: -Math.PI / 2, invuln: 2.2 })
   }
 
+  // ---- leaderboard: a score above 50 can be posted under a name. It needs the scores API, so without it (a plain dev
+  // server, or offline) every part of this stays hidden. ----
+  const SCORES_API = '/api/scores'
+  const NAME_KEY = 'jj-asteroids-name'
+  const MIN_POST = 51
+  type Entry = { name: string; score: number }
+  const FONT = '"JetBrains Mono Variable", ui-monospace, monospace'
+  let runId: string | null = null
+  let board: Entry[] | null = null
+  let posted: { name: string; score: number; rank: number } | null = null
+  let dismissed = false
+
+  const loadBoard = async () => {
+    try {
+      const r = await fetch(SCORES_API)
+      if (r.ok) board = ((await r.json()) as { scores: Entry[] }).scores
+    } catch {}
+  }
+  // Every game gets an id from the server; a score can only be posted against one, once.
+  void (async () => {
+    try {
+      const r = await fetch(`${SCORES_API}/start`, { method: 'POST' })
+      if (r.ok) runId = ((await r.json()) as { runId: string }).runId
+    } catch {}
+  })()
+  void loadBoard()
+
+  const postScore = async (name: string) => {
+    const r = await fetch(SCORES_API, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ runId, name, score }),
+    })
+    const data = (await r.json().catch(() => ({}))) as { error?: string; rank?: number; name?: string; scores?: Entry[] }
+    if (!r.ok) throw new Error(data.error || 'Could not save your score. Try again.')
+    posted = { name: data.name ?? name, score, rank: data.rank ?? 0 }
+    if (data.scores) board = data.scores
+    try { localStorage.setItem(NAME_KEY, posted.name) } catch {}
+    status.textContent = `Saved. You are number ${posted.rank} on the leaderboard.`
+  }
+
+  const panel = document.createElement('div')
+  panel.style.cssText = `position:absolute;left:50%;top:calc(50% + 112px);transform:translateX(-50%);width:min(92vw,360px);max-height:calc(50% - 200px);overflow:auto;pointer-events:auto;display:none;box-sizing:border-box;padding:12px 14px;border-radius:14px;border:1px solid ${col('--line')};background:${col('--bg')};color:${col('--fg')};font:500 13px ${FONT};line-height:1.45`
+  root.append(panel)
+
+  const renderPanel = () => {
+    panel.replaceChildren()
+    const add = (tag: string, css: string, text?: string, parent: HTMLElement = panel) => {
+      const el = document.createElement(tag)
+      el.style.cssText = css
+      if (text) el.textContent = text
+      parent.append(el)
+      return el
+    }
+    const muted = col('--muted')
+    if (mode === 'play') { panel.style.display = 'none'; return }
+
+    if (score >= MIN_POST && runId && !posted && !dismissed) {
+      add('div', 'font-weight:700;margin-bottom:8px', `You scored ${score}. Add your name to the leaderboard?`)
+      const form = add('form', 'display:flex;gap:6px') as HTMLFormElement
+      const input = add('input', `flex:1;min-width:0;padding:7px 10px;border-radius:8px;border:1px solid ${col('--line')};background:${col('--bg-soft')};color:${col('--fg')};font:inherit`, '', form) as HTMLInputElement
+      input.type = 'text'
+      input.maxLength = 16
+      input.placeholder = 'Your name'
+      input.autocomplete = 'off'
+      input.setAttribute('aria-label', 'Your name for the leaderboard')
+      try { input.value = localStorage.getItem(NAME_KEY) ?? '' } catch {}
+      const btn = (label: string, primary: boolean) => {
+        const b = add('button', `padding:7px 12px;border-radius:8px;cursor:pointer;font:inherit;font-weight:700;border:1px solid ${primary ? col('--brand') : col('--line')};background:${primary ? col('--brand') : 'transparent'};color:${primary ? col('--brand-ink') : col('--fg')}`, label, form) as HTMLButtonElement
+        b.type = primary ? 'submit' : 'button'
+        return b
+      }
+      const postBtn = btn('Post', true)
+      const skipBtn = btn('Skip', false)
+      const msg = add('div', `margin-top:6px;min-height:1.2em;color:${col('--hot')}`)
+      add('div', `margin-top:2px;font-size:11px;color:${muted}`, 'Public. Only your name and score are shown.')
+      msg.setAttribute('role', 'alert')
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const name = input.value.trim()
+        if (name.length < 2) { msg.textContent = 'Use at least 2 characters.'; return }
+        postBtn.disabled = true
+        msg.textContent = ''
+        try { await postScore(name) } catch (err) { msg.textContent = (err as Error).message; postBtn.disabled = false; return }
+        renderPanel()
+      })
+      skipBtn.addEventListener('click', () => { dismissed = true; renderPanel() })
+      panel.style.display = 'block'
+      if (!touch) setTimeout(() => input.focus(), 60)
+      return
+    }
+
+    if (!board) { panel.style.display = 'none'; return }
+    add('div', 'font-weight:700;margin-bottom:4px', posted ? `You are number ${posted.rank}. Top players` : 'Top players')
+    if (!board.length) add('div', `color:${muted}`, `No scores yet. Be the first with ${MIN_POST} or more.`)
+    board.slice(0, 5).forEach((e, i) => {
+      const mine = !!posted && e.name === posted.name && e.score === posted.score
+      const row = add('div', `display:flex;justify-content:space-between;gap:12px;${mine ? `color:${col('--brand')};font-weight:700` : ''}`)
+      add('span', 'overflow:hidden;text-overflow:ellipsis;white-space:nowrap', `${i + 1}. ${e.name}`, row)
+      add('span', '', String(e.score), row)
+    })
+    if (!posted && score < MIN_POST) add('div', `margin-top:4px;color:${muted}`, `Score ${MIN_POST} or more to join.`)
+    const link = add('a', `display:inline-block;margin-top:6px;color:${col('--brand')}`, 'Full leaderboard →') as HTMLAnchorElement
+    link.href = '/leaderboard'
+    link.target = '_blank'
+    link.rel = 'noopener noreferrer'
+    panel.style.display = 'block'
+  }
+
   const finish = (m: 'over' | 'cleared') => {
     mode = m
     thrustSound(false)
     if (m === 'over') sfx.over(); else sfx.cleared()
     if (score > best) { best = score; try { localStorage.setItem(BEST_KEY, String(best)) } catch {} }
     status.textContent = `${m === 'over' ? 'Game over' : 'Page cleared'}. Score ${score}. Best ${best}.`
+    renderPanel()
+    void loadBoard().then(() => { if (mode !== 'play' && !panel.querySelector('form')) renderPanel() })
   }
 
   const update = (dt: number) => {

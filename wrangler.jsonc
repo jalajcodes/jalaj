@@ -1,6 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "jalaj-fyi",
+  // The Worker only answers /api/*. Every other request is served straight from the static assets.
+  "main": "worker/index.ts",
   "routes": [
     { "pattern": "jalaj.fyi", "custom_domain": true },
     { "pattern": "www.jalaj.fyi", "custom_domain": true },
@@ -9,5 +11,10 @@
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"],
   },
+  // Shared D1 database for the site (APAC). The leaderboard's tables are prefixed `leaderboard_`.
+  "d1_databases": [
+    { "binding": "DB", "database_name": "jalaj-fyi", "database_id": "130ab120-091c-4e88-90af-cdb50482c48a" },
+  ],
 }
