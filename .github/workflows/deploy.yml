@@ -19,6 +19,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run format:check
       - run: npx astro check
       - run: npm run build
       - uses: actions/upload-artifact@v7

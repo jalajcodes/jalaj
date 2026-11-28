@@ -7,30 +7,62 @@ import { PROJECTS, repoUrl } from '../data/projects'
 const featured = PROJECTS.filter((p) => p.featured)
 const archive = PROJECTS.filter((p) => !p.featured)
 ---
-<Base title="Projects" description="Things Jalaj Gupta has built: PostDaily, a fullstack home-rental app, a cache API, a MERN app and more.">
+
+<Base
+  title="Projects"
+  description="Things Jalaj Gupta has built: PostDaily, a fullstack home-rental app, a cache API, a MERN app and more."
+>
   <div data-pagefind-body>
-  <h1 class="font-display text-[clamp(3rem,10vw,6.5rem)] leading-none"><Chars text="Projects" /></h1>
-  <p class="rise mt-6 max-w-2xl text-lg text-muted" style="--d:400ms">
-    A mix of products, experiments and things I built to learn. Everything here is open source on <a class="sweep text-fg" href="https://github.com/jalajcodes" target="_blank" rel="noopener noreferrer">GitHub</a>.
-  </p>
+    <h1 class="font-display text-[clamp(3rem,10vw,6.5rem)] leading-none">
+      <Chars text="Projects" />
+    </h1>
+    <p class="rise mt-6 max-w-2xl text-lg text-muted" style="--d:400ms">
+      A mix of products, experiments and things I built to learn. Everything here is open source on{' '}
+      <a class="sweep text-fg" href="https://github.com/jalajcodes" target="_blank" rel="noopener noreferrer">
+        GitHub
+      </a>
+      .
+    </p>
 
-  <section class="mt-14 grid gap-5 sm:grid-cols-2">
-    {featured.map((p, i) => <ProjectCard project={p} big={i === 0} delay={i * 70} />)}
-  </section>
+    <section class="mt-14 grid gap-5 sm:grid-cols-2">
+      {featured.map((p, i) => (
+        <ProjectCard project={p} big={i === 0} delay={i * 70} />
+      ))}
+    </section>
 
-  <h2 class="mt-24 mb-6 font-display text-3xl sm:text-4xl" data-reveal>More from the archive</h2>
-  <ul class="divide-y divide-line border-y border-line">
-    {archive.map((p, i) => (
-      <li data-reveal style={`--d:${(i % 6) * 50}ms`} class="group grid gap-1 px-2 py-4 sm:grid-cols-[4rem_14rem_1fr_auto] sm:items-baseline sm:gap-5">
-        <span class="font-mono text-xs text-muted">{p.year}</span>
-        <a href={p.live ?? repoUrl(p.slug)} target="_blank" rel="noopener noreferrer" class="font-display text-xl transition-colors group-hover:text-brand">{p.name}{p.stars ? <span class="ml-2 font-mono text-xs text-muted">★ {p.stars}</span> : null}</a>
-        <span class="text-sm text-muted">{p.blurb}</span>
-        <span class="flex gap-4 font-mono text-xs">
-          {p.live && <a class="sweep text-brand" href={p.live} target="_blank" rel="noopener noreferrer">Live</a>}
-          <a class="sweep" href={repoUrl(p.slug)} target="_blank" rel="noopener noreferrer">Code</a>
-        </span>
-      </li>
-    ))}
-  </ul>
+    <h2 class="mt-24 mb-6 font-display text-3xl sm:text-4xl" data-reveal>
+      More from the archive
+    </h2>
+    <ul class="divide-y divide-line border-y border-line">
+      {archive.map((p, i) => (
+        <li
+          data-reveal
+          style={`--d:${(i % 6) * 50}ms`}
+          class="group grid gap-1 px-2 py-4 sm:grid-cols-[4rem_14rem_1fr_auto] sm:items-baseline sm:gap-5"
+        >
+          <span class="font-mono text-xs text-muted">{p.year}</span>
+          <a
+            href={p.live ?? repoUrl(p.slug)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-display text-xl transition-colors group-hover:text-brand"
+          >
+            {p.name}
+            {p.stars ? <span class="ml-2 font-mono text-xs text-muted">★ {p.stars}</span> : null}
+          </a>
+          <span class="text-sm text-muted">{p.blurb}</span>
+          <span class="flex gap-4 font-mono text-xs">
+            {p.live && (
+              <a class="sweep text-brand" href={p.live} target="_blank" rel="noopener noreferrer">
+                Live
+              </a>
+            )}
+            <a class="sweep" href={repoUrl(p.slug)} target="_blank" rel="noopener noreferrer">
+              Code
+            </a>
+          </span>
+        </li>
+      ))}
+    </ul>
   </div>
 </Base>

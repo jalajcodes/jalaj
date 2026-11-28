@@ -1,0 +1,75 @@
+---
+title: 'From issue to pull request: an agent-assisted SDLC on Amazon Bedrock AgentCore'
+description: 'Notes on building an agent-assisted software delivery flow with Amazon Bedrock AgentCore: isolated sessions, one gateway for tools, and agents that never hold credentials.'
+date: 2026-11-28
+tags: [aws, ai-agents, bedrock, sdlc]
+---
+
+import Callout from '../../components/Callout.astro'
+
+At work I have built a fully fledged meal planner for users, and alongside that I have been working with Amazon Bedrock AgentCore to build an agent-assisted software delivery flow. The idea is simple to say: describe a change in a GitHub issue, add a label, and an AI coding assistant explores the codebase, implements the change and opens a pull request.
+
+AWS publishes an open-source sample that shows how to wire this up on AgentCore, [sample-agent-assisted-sdlc](https://github.com/aws-samples/sample-agent-assisted-sdlc) (Apache-2.0). It is the starting point I have been building from, so this post walks through its design and the choices in it that I think are worth borrowing. Everything below describes that sample.
+
+<Callout type="warning" title="Preview sample">
+  The sample's own README says it is in preview and has not had a production security review. Treat it as a reference
+  architecture, not a drop-in product.
+</Callout>
+
+<figure>
+  <a href="https://raw.githubusercontent.com/aws-samples/sample-agent-assisted-sdlc/main/images/architecture.png">
+    <img
+      src="https://raw.githubusercontent.com/aws-samples/sample-agent-assisted-sdlc/main/images/architecture.png"
+      alt="Architecture diagram from AWS's sample-agent-assisted-sdlc repository, showing the pipeline from a GitHub issue to a pull request on Amazon Bedrock AgentCore"
+      loading="lazy"
+      decoding="async"
+    />
+  </a>
+  <figcaption>Architecture diagram from the <a href="https://github.com/aws-samples/sample-agent-assisted-sdlc">AWS sample</a> (Apache-2.0). Click for the full-size image.</figcaption>
+</figure>
+
+## The flow in one paragraph
+
+A developer writes the work down in a GitHub issue and adds the `agent:start` label. A small connector notices the label, reads the full issue (title, body and comments) over GraphQL, authenticates to AWS with GitHub's OIDC provider, and starts an AWS Step Functions state machine with the issue as its input. That launches a coding assistant inside an AgentCore Runtime session. The assistant runs a pipeline of explore, implement, critique and pull request, posting progress comments and setting labels such as `stage:implementing` and `state:pr-created` as it goes. The assistant is Claude Code in the stable path, with Kiro and Codex marked experimental.
+
+One detail I like already: authenticating through OIDC means there are no long-lived AWS secrets stored in GitHub at all.
+
+## Four design choices worth stealing
+
+### 1. One isolated session per issue
+
+AgentCore Runtime gives each session its own serverless microVM, so an issue gets a clean, isolated machine. A managed session filesystem, mounted at `/mnt/workplace`, keeps the cloned repository, installed packages and build artifacts across stop and resume, so the agent does not reinstall the world every time it pauses. Lifecycle settings add an idle timeout and a maximum lifetime, so sessions clean up after themselves.
+
+### 2. The agent never holds credentials
+
+This is the part that stood out most. The coding assistant never gets git credentials. Every code operation goes through an MCP server that exposes tools such as `create_branch`, `push_files`, `create_pull_request`, `get_file_contents`, `list_commits`, `list_branches` and `search_code`.
+
+That MCP server is the only thing that talks to GitHub. At startup it generates a short-lived GitHub App installation token: it signs a JWT with a private key kept in AWS Secrets Manager and exchanges it for a one-hour installation token. Neither the gateway nor the coding assistant ever sees that token.
+
+The detail that ties it together is lifetimes. The container's maximum lifetime is 55 minutes, so it is recycled before the one-hour token can expire. A model that is tricked into leaking "its credentials" has nothing useful to leak.
+
+### 3. One gateway for every tool
+
+AgentCore Gateway is a single MCP endpoint with IAM or JWT authentication, tool routing and automatic tool discovery. The assistant's configuration contains one gateway URL, and behind it sit the targets: the GitHub code and issue servers, plus MCP servers for AWS documentation and for CloudFormation and CDK docs.
+
+There is a practical wrinkle the sample solves neatly. Claude Code speaks MCP over stdio, while the gateway speaks streamable HTTP with SigV4 signing. So a small proxy runs inside the container, accepts stdio from the assistant, signs each request with the container's IAM role and forwards it to the gateway.
+
+### 4. Instructions in two layers
+
+The assistant's behaviour comes from two sets of plugins. A shared orchestration plugin, deployed to an S3-backed shared mount (`/mnt/plugins`), holds the skills, hooks and MCP configuration that apply to every session and every repository. A repository-specific plugin, committed to the target repo by the developer, tells the assistant how that particular codebase builds and tests, in the form of a `CLAUDE.md` with the stack, the commands and the conventions.
+
+I like that split. The pipeline is owned in one place, and the knowledge about each repository lives in the repository, next to the code it describes.
+
+## A stop button, and a way to see what is running
+
+Autonomous agents need an off switch. The sample uses the `StopRuntimeSession` API as a kill switch: you can terminate any session on demand, from a developer terminal or from an operations Lambda. There is also a small local session inspector, a proof of concept that lists recent sessions from DynamoDB and can probe a container's process table to check whether the assistant is still running, which is useful when an agent stalls.
+
+## What I would take from it
+
+- **Treat each agent run as a disposable, isolated worker.** One issue, one microVM, with state that can persist but a lifetime that is bounded.
+- **Make credentials unreachable from the model.** Put them behind a tool server that the agent can call but not read, and keep their lifetime longer than the container's, never shorter.
+- **Route every tool through one gateway.** One place for authentication, discovery and auditing is easier to reason about than many.
+- **Keep repository knowledge in the repository.** A `CLAUDE.md` that lives with the code stays in step with the code.
+- **Build the stop button first.** Anything that can open pull requests on its own should be stoppable in one call.
+
+The full sample, with CDK stacks, the GitHub connector and both MCP servers, is on GitHub: [aws-samples/sample-agent-assisted-sdlc](https://github.com/aws-samples/sample-agent-assisted-sdlc).

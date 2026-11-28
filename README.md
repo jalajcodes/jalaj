@@ -3,14 +3,14 @@
 [![Deploy](https://github.com/jalajcodes/jalaj/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/jalajcodes/jalaj/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-The personal site and blog of Jalaj Gupta, a fullstack developer from Jaipur, India. Live at **[jalaj.fyi](https://jalaj.fyi)**.
+The personal site and blog of Jalaj Gupta, an AI-first fullstack developer from Bengaluru, India. Live at **[jalaj.fyi](https://jalaj.fyi)**.
 
 Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com) v4 and Markdown content collections. Search is [Pagefind](https://pagefind.app). It is hosted on Cloudflare Workers (static assets) and deployed from GitHub Actions.
 
 ## What's in it
 
 - **Pages:** home, projects, about, writing (with tags and RSS), search and a 404.
-- **Writing:** Markdown posts with syntax highlighting, reading time, tags, previous/next links, a reading-progress bar and copy buttons on code blocks.
+- **Writing:** Markdown posts with reading time, tags, previous/next links and a reading-progress bar. Code blocks use [Expressive Code](https://expressive-code.com) (themes that follow the light/dark switch, a copy button, line highlighting and frames).
 - **Search:** Pagefind runs in the visitor's browser and indexes the posts plus the Projects and About pages. It only exists on the built site, not in `npm run dev`.
 - **Whimsy:**
   - a `JJ` hexagon intro that plays once per browser session
@@ -21,7 +21,7 @@ Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com)
 - **Theme:** dark by default, with a light mode. A saved choice wins. There is no flash on load.
 - **Accessibility and motion:** all animation respects `prefers-reduced-motion`, and the pointer effects are skipped on touch screens.
 - **Links:** external links open in a new tab.
-- **SEO:** a canonical URL, Open Graph and Twitter tags and a 1200×630 social card (`public/og.png`, made from `scripts/og.html`) on every page. Home and About carry `Person`/`WebSite` structured data, and posts carry `BlogPosting` and breadcrumbs. There is also a sitemap, `robots.txt`, and `noindex` on the search and 404 pages.
+- **SEO:** a canonical URL, Open Graph and Twitter tags and a 1200×630 social card on every page. The site-wide card is `public/og.png` (made from `scripts/og.html`), and every post gets its own card, drawn at build time by [astro-og-canvas](https://github.com/delucis/astro-og-canvas) (`src/pages/og/[...route].ts`). Home and About carry `Person`/`WebSite` structured data, and posts carry `BlogPosting` and breadcrumbs. There is also a sitemap, `robots.txt`, and `noindex` on the search and 404 pages.
 
 ## Develop
 
@@ -33,18 +33,28 @@ npm run dev       # http://localhost:4321
 npm run build     # build to dist/, then index search with Pagefind
 npm run preview   # serve the built site (search works here)
 npm run deploy    # build and deploy with Wrangler (needs `wrangler login`)
+npm run format    # format the code with Prettier (CI runs `npm run format:check`)
 ```
 
 To type-check the project: `npx astro check`.
+
+If code blocks look unstyled after changing the Expressive Code settings in `astro.config.mjs`, delete `node_modules/.astro` and rebuild. A stale build cache can leave pages pointing at a stylesheet name that no longer exists. A fresh build, like CI, is not affected.
+
+## Tooling
+
+- **Prettier** with `prettier-plugin-astro` and `prettier-plugin-tailwindcss` (which sorts Tailwind classes). The config is `.prettierrc.json`. Markdown and MDX posts are left as written.
+- **MDX** (`@astrojs/mdx`) for posts that need components.
+- **Fonts** use Astro's built-in Fonts API with the installed Fontsource files, so Astro writes the `@font-face` rules, preloads the files and generates metric-matched fallbacks.
 
 ## Content
 
 | What | Where |
 | --- | --- |
-| Posts | `src/content/blog/*.md` with `title`, `description`, `date`, optional `tags` and `draft` |
+| Posts | `src/content/blog/*.md` or `*.mdx` with `title`, `description`, `date`, optional `tags` and `draft`. MDX posts can use components such as `<Callout type="warning" title="Heads up">…</Callout>` (`src/components/Callout.astro`) |
 | Projects | `src/data/projects.ts` (set `featured: true` to show one on the home page) |
 | Socials, skills, GitHub facts, nav | `src/data/site.ts` |
 | Theme colours and effects | `src/styles/global.css` |
+| Fonts (Astro's Fonts API: preloads, fallbacks, `font-display`) | `fonts` in `astro.config.mjs` |
 
 A post's `date` is shown as written, so set it to when you actually published it.
 

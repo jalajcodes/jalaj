@@ -13,7 +13,7 @@ export const person = () => ({
   image: abs('/og.png'),
   jobTitle: 'Fullstack Developer',
   description: SITE.description,
-  address: { '@type': 'PostalAddress', addressLocality: 'Jaipur', addressCountry: 'IN' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Bengaluru', addressCountry: 'IN' },
   sameAs: SOCIALS.map((s) => s.href),
   knowsAbout: SKILLS,
 })

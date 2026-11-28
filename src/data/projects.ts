@@ -16,7 +16,7 @@ export const PROJECTS: Project[] = [
     slug: 'postdaily',
     name: 'PostDaily',
     blurb:
-      'A LinkedIn writing companion: AI drafts in your own voice, an idea bank, a scheduler, streaks, voice notes and PDF carousels. Runs free on Cloudflare, or on your Mac.',
+      'A LinkedIn writing companion: AI drafts in your own voice, an idea bank, a scheduler, streaks, voice notes and PDF carousels. Runs on your Mac or in the cloud.',
     year: 2026,
     stack: ['React', 'Hono', 'Cloudflare Workers', 'D1', 'TypeScript'],
     stars: 1,

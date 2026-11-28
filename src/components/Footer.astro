@@ -2,18 +2,41 @@
 import { SOCIALS } from '../data/site'
 import Chars from './Chars.astro'
 ---
+
 <footer class="mt-24 overflow-hidden border-t border-line">
   <div class="relative z-10 mx-auto max-w-5xl px-5 pt-10">
     <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-muted">
-      <p class="font-mono">© {new Date().getFullYear()} Jalaj Gupta · Jaipur, India</p>
+      <p class="font-mono">© {new Date().getFullYear()} Jalaj Gupta · Bengaluru, India</p>
       <ul class="flex flex-wrap gap-5 font-mono">
-        {SOCIALS.map((s) => <li><a class="sweep hover:text-fg" href={s.href} target="_blank" rel="me noopener noreferrer">{s.name}</a></li>)}
-        <li><button type="button" data-shoot-page title="Or just type “shoot” on your keyboard" class="sweep cursor-pointer hover:text-fg">Shoot the page</button></li>
-        <li><a class="sweep hover:text-fg" href="/rss.xml" data-astro-prefetch="false">RSS</a></li>
+        {SOCIALS.map((s) => (
+          <li>
+            <a class="sweep hover:text-fg" href={s.href} target="_blank" rel="me noopener noreferrer">
+              {s.name}
+            </a>
+          </li>
+        ))}
+        <li>
+          <button
+            type="button"
+            data-shoot-page
+            title="Or just type “shoot” on your keyboard"
+            class="sweep cursor-pointer hover:text-fg"
+          >
+            Shoot the page
+          </button>
+        </li>
+        <li>
+          <a class="sweep hover:text-fg" href="/rss.xml" data-astro-prefetch="false">
+            RSS
+          </a>
+        </li>
       </ul>
     </div>
   </div>
-  <div class="select-none overflow-hidden text-center font-display leading-none outline-text text-[clamp(5rem,26vw,19rem)] -mb-[0.12em] mt-4" aria-hidden="true">
+  <div
+    class="select-none overflow-hidden text-center font-display leading-none outline-text text-[clamp(5rem,26vw,19rem)] -mb-[0.12em] mt-4"
+    aria-hidden="true"
+  >
     <Chars text="JALAJ" still />
   </div>
 </footer>
@@ -37,7 +60,10 @@ import Chars from './Chars.astro'
     if (now - typedAt > 1500) typed = ''
     typedAt = now
     typed = (typed + e.key.toLowerCase()).slice(-5)
-    if (typed === 'shoot') { typed = ''; launch() }
+    if (typed === 'shoot') {
+      typed = ''
+      launch()
+    }
   })
   // "Play again" reloads the page (to restore the text) and sets this flag, so the game restarts right away.
   try {
