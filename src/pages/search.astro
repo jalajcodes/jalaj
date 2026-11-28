@@ -7,19 +7,19 @@ import Chars from '../components/Chars.astro'
   <h1 class="font-display text-[clamp(3rem,10vw,6rem)] leading-none">
     <Chars text="Search" />
   </h1>
-  <p class="mt-6 font-mono text-sm text-muted">
-    Try:
+  <div class="mt-6 flex flex-wrap items-center gap-2 font-mono text-sm text-muted">
+    <span>Try:</span>
     {['agents', 'Bedrock', 'Astro', 'Cloudflare', 'RAG'].map((q) => (
       <button
         type="button"
         data-q={q}
-        class="mr-2 cursor-pointer rounded-full border border-line px-3 py-1 transition-colors hover:border-brand hover:text-brand"
+        class="cursor-pointer rounded-full border border-line px-3 py-1 transition-colors hover:border-brand hover:text-brand"
       >
         {q}
       </button>
     ))}
-    <span class="ml-1 hidden sm:inline">· Press / anywhere to search</span>
-  </p>
+    <span class="hidden sm:inline">· Press / anywhere to search</span>
+  </div>
   <div
     id="search"
     class="mt-10 [--pagefind-ui-primary:var(--brand)] [--pagefind-ui-text:var(--fg)] [--pagefind-ui-background:var(--bg)] [--pagefind-ui-border:var(--line)] [--pagefind-ui-tag:var(--bg-soft)] [--pagefind-ui-font:var(--font-sans)]"
