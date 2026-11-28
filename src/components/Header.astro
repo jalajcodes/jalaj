@@ -29,7 +29,7 @@ const path = Astro.url.pathname
           href={n.href}
           data-scramble
           class:list={[
-            'sweep font-mono',
+            'sweep font-mono whitespace-nowrap',
             path.startsWith(n.href) ? 'text-fg [background-size:100%_2px]' : 'text-muted hover:text-fg',
           ]}
           aria-current={path.startsWith(n.href) ? 'page' : undefined}
