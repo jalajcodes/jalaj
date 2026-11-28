@@ -2,7 +2,7 @@
 // and the choice is remembered. Browsers only allow audio after a first click or key press, so it stays quiet until then. Everything is synthesised with the Web Audio API (no audio files).
 const KEY = 'jj-sfx'
 const btn = document.getElementById('sfx-toggle')
-let on = false
+let on = true
 try {
   on = localStorage.getItem(KEY) !== '0' // on unless the visitor turned it off
 } catch {}
