@@ -13,8 +13,8 @@
     "not_found_handling": "404-page",
     "run_worker_first": ["/api/*"],
   },
-  // Shoot the page leaderboard. LOCAL TESTING ONLY: replace database_id with the real id before deploying.
+  // Shared D1 database for the site (APAC). The leaderboard's tables are prefixed `leaderboard_`.
   "d1_databases": [
-    { "binding": "DB", "database_name": "jalaj-leaderboard", "database_id": "00000000-0000-0000-0000-000000000000" },
+    { "binding": "DB", "database_name": "jalaj-fyi", "database_id": "130ab120-091c-4e88-90af-cdb50482c48a" },
   ],
 }

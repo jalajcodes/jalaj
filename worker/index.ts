@@ -1,6 +1,9 @@
 // Scores API for "Shoot the page". The site itself is static files; only /api/* runs this Worker
 // (see `run_worker_first` in wrangler.jsonc), so normal page loads never touch it. Scores live in D1.
 //
+// The D1 database (`jalaj-fyi`) is shared by the whole site, so everything this feature creates is prefixed
+// `leaderboard_`. A future feature should create its own prefixed tables the same way.
+//
 // Anyone can call this API, so the scores are self-reported by the visitor's browser. The checks below raise the
 // bar (a server-issued run id, a plausible amount of play time, one use per run, rate limits) but cannot make a
 // leaderboard tamper-proof. What is stored: the chosen name, the score, the time, and a one-way hash of the IP
@@ -45,14 +48,16 @@ const init = (db: D1Database) =>
   (ready ??= db
     .batch([
       db.prepare(
-        'CREATE TABLE IF NOT EXISTS scores (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, score INTEGER NOT NULL, created_at INTEGER NOT NULL, ip_hash TEXT NOT NULL)',
+        'CREATE TABLE IF NOT EXISTS leaderboard_scores (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, score INTEGER NOT NULL, created_at INTEGER NOT NULL, ip_hash TEXT NOT NULL)',
       ),
-      db.prepare('CREATE INDEX IF NOT EXISTS scores_rank ON scores (score DESC, created_at ASC)'),
-      db.prepare('CREATE INDEX IF NOT EXISTS scores_ip ON scores (ip_hash, created_at)'),
       db.prepare(
-        'CREATE TABLE IF NOT EXISTS runs (id TEXT PRIMARY KEY, started_at INTEGER NOT NULL, ip_hash TEXT NOT NULL, used INTEGER NOT NULL DEFAULT 0)',
+        'CREATE INDEX IF NOT EXISTS leaderboard_scores_rank ON leaderboard_scores (score DESC, created_at ASC)',
       ),
-      db.prepare('CREATE INDEX IF NOT EXISTS runs_ip ON runs (ip_hash, started_at)'),
+      db.prepare('CREATE INDEX IF NOT EXISTS leaderboard_scores_ip ON leaderboard_scores (ip_hash, created_at)'),
+      db.prepare(
+        'CREATE TABLE IF NOT EXISTS leaderboard_runs (id TEXT PRIMARY KEY, started_at INTEGER NOT NULL, ip_hash TEXT NOT NULL, used INTEGER NOT NULL DEFAULT 0)',
+      ),
+      db.prepare('CREATE INDEX IF NOT EXISTS leaderboard_runs_ip ON leaderboard_runs (ip_hash, started_at)'),
     ])
     .catch((e) => {
       ready = null
@@ -85,7 +90,9 @@ interface ScoreRow {
 const topScores = async (db: D1Database) =>
   (
     await db
-      .prepare('SELECT name, score, created_at AS at FROM scores ORDER BY score DESC, created_at ASC LIMIT ?')
+      .prepare(
+        'SELECT name, score, created_at AS at FROM leaderboard_scores ORDER BY score DESC, created_at ASC LIMIT ?',
+      )
       .bind(TOP_N)
       .all<ScoreRow>()
   ).results
@@ -123,14 +130,14 @@ export default {
       if (url.pathname === '/api/scores/start' && request.method === 'POST') {
         const ip = await ipHash(request)
         const recent = await db
-          .prepare('SELECT COUNT(*) AS n FROM runs WHERE ip_hash = ? AND started_at > ?')
+          .prepare('SELECT COUNT(*) AS n FROM leaderboard_runs WHERE ip_hash = ? AND started_at > ?')
           .bind(ip, now - HOUR)
           .first<{ n: number }>()
         if ((recent?.n ?? 0) >= RUNS_PER_HOUR) return fail(429, 'Too many games started. Try again later.')
         const runId = crypto.randomUUID()
         await db.batch([
-          db.prepare('INSERT INTO runs (id, started_at, ip_hash) VALUES (?, ?, ?)').bind(runId, now, ip),
-          db.prepare('DELETE FROM runs WHERE started_at < ?').bind(now - 24 * HOUR),
+          db.prepare('INSERT INTO leaderboard_runs (id, started_at, ip_hash) VALUES (?, ?, ?)').bind(runId, now, ip),
+          db.prepare('DELETE FROM leaderboard_runs WHERE started_at < ?').bind(now - 24 * HOUR),
         ])
         return json({ runId })
       }
@@ -148,7 +155,7 @@ export default {
         if (typeof body.runId !== 'string') return fail(400, 'Bad request')
 
         const run = await db
-          .prepare('SELECT started_at, used FROM runs WHERE id = ?')
+          .prepare('SELECT started_at, used FROM leaderboard_runs WHERE id = ?')
           .bind(body.runId)
           .first<{ started_at: number; used: number }>()
         if (!run) return fail(404, 'That game was not found. Play again to post a score.')
@@ -161,21 +168,24 @@ export default {
 
         const ip = await ipHash(request)
         const recent = await db
-          .prepare('SELECT COUNT(*) AS n FROM scores WHERE ip_hash = ? AND created_at > ?')
+          .prepare('SELECT COUNT(*) AS n FROM leaderboard_scores WHERE ip_hash = ? AND created_at > ?')
           .bind(ip, now - HOUR)
           .first<{ n: number }>()
         if ((recent?.n ?? 0) >= SUBMISSIONS_PER_HOUR) return fail(429, 'That is plenty for one hour. Try again later.')
 
         // Claim the run first so the same game cannot be submitted twice, even by parallel requests.
-        const claimed = await db.prepare('UPDATE runs SET used = 1 WHERE id = ? AND used = 0').bind(body.runId).run()
+        const claimed = await db
+          .prepare('UPDATE leaderboard_runs SET used = 1 WHERE id = ? AND used = 0')
+          .bind(body.runId)
+          .run()
         if (claimed.meta.changes !== 1) return fail(409, 'That game was already submitted.')
 
         await db
-          .prepare('INSERT INTO scores (name, score, created_at, ip_hash) VALUES (?, ?, ?, ?)')
+          .prepare('INSERT INTO leaderboard_scores (name, score, created_at, ip_hash) VALUES (?, ?, ?, ?)')
           .bind(name, score, now, ip)
           .run()
         const above = await db
-          .prepare('SELECT COUNT(*) AS n FROM scores WHERE score > ?')
+          .prepare('SELECT COUNT(*) AS n FROM leaderboard_scores WHERE score > ?')
           .bind(score)
           .first<{ n: number }>()
         return json({ ok: true, name, rank: (above?.n ?? 0) + 1, scores: await topScores(db) })

@@ -90,9 +90,9 @@ The Worker in `worker/index.ts` handles `GET /api/scores` (top 20), `POST /api/s
 
 - **What is stored:** the chosen name, the score, the time, and a one-way hash of the IP address that is used only for rate limiting. Nothing else.
 - **Checks:** a score must be above 50, a name is 2 to 16 letters, numbers or spaces without profanity, each game id can be used once, the score has to fit the time played, and each address is limited to 3 posts an hour. Scores come from the visitor's browser, so these checks raise the bar but cannot make the board tamper-proof.
-- **One-time setup:** `npx wrangler d1 create jalaj-leaderboard`, then put the printed `database_id` in `wrangler.jsonc`.
+- **The database:** one shared D1 database, `jalaj-fyi` (APAC), bound as `DB` in `wrangler.jsonc`. It is meant for more than the leaderboard, so each feature prefixes its tables; the leaderboard uses `leaderboard_scores` and `leaderboard_runs`. It was created with `npx wrangler d1 create jalaj-fyi --location apac`.
 - **Local testing:** `npm run preview:worker` uses a throwaway local database in `.wrangler/state`.
-- **Removing a score:** `npx wrangler d1 execute jalaj-leaderboard --remote --command "DELETE FROM scores WHERE name = 'SomeName'"`.
+- **Removing a score:** `npx wrangler d1 execute jalaj-fyi --remote --command "DELETE FROM leaderboard_scores WHERE name = 'SomeName'"`.
 - Without the Worker (for example `npm run dev`), the game and the leaderboard page simply hide the leaderboard.
 
 ## History
