@@ -13,6 +13,8 @@ import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.
 import monoFont from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url'
 
 interface Props {
+  /** Path of this page's social card; defaults to the site-wide one. */
+  ogImage?: string
   title?: string
   description?: string
   type?: 'website' | 'article'
@@ -21,11 +23,11 @@ interface Props {
   tags?: string[]
   jsonLd?: object
 }
-const { title, description = SITE.description, type = 'website', noindex = false, published, tags = [], jsonLd } = Astro.props
+const { title, description = SITE.description, type = 'website', noindex = false, published, tags = [], jsonLd, ogImage } = Astro.props
 const fullTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · ${SITE.tagline}`
 const canonical = new URL(Astro.url.pathname, SITE.url)
-const image = abs('/og.png')
-const imageAlt = 'Jalaj Gupta, fullstack developer from Jaipur, India'
+const image = abs(ogImage ?? '/og.png')
+const imageAlt = 'Jalaj Gupta, AI-first fullstack developer from Bengaluru, India'
 ---
 <!doctype html>
 <html lang="en" data-theme="dark">
@@ -151,19 +153,6 @@ const imageAlt = 'Jalaj Gupta, fullstack developer from Jaipur, India'
           el.style.setProperty('--my', e.clientY - r.top + 'px')
         }),
       )
-
-      // Copy buttons on code blocks
-      document.querySelectorAll<HTMLPreElement>('.prose pre').forEach((pre) => {
-        const b = document.createElement('button')
-        b.className = 'copy-btn'
-        b.type = 'button'
-        b.textContent = 'Copy'
-        b.addEventListener('click', async () => {
-          try { await navigator.clipboard.writeText(pre.innerText.replace(/Copy$/, '').trimEnd()); b.textContent = 'Copied' } catch { b.textContent = 'Press ⌘C' }
-          setTimeout(() => (b.textContent = 'Copy'), 1500)
-        })
-        pre.appendChild(b)
-      })
 
       // Reading progress on posts
       const bar = document.getElementById('progress')

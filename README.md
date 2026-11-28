@@ -3,14 +3,14 @@
 [![Deploy](https://github.com/jalajcodes/jalaj/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/jalajcodes/jalaj/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-The personal site and blog of Jalaj Gupta, a fullstack developer from Jaipur, India. Live at **[jalaj.fyi](https://jalaj.fyi)**.
+The personal site and blog of Jalaj Gupta, an AI-first fullstack developer from Bengaluru, India. Live at **[jalaj.fyi](https://jalaj.fyi)**.
 
 Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com) v4 and Markdown content collections. Search is [Pagefind](https://pagefind.app). It is hosted on Cloudflare Workers (static assets) and deployed from GitHub Actions.
 
 ## What's in it
 
 - **Pages:** home, projects, about, writing (with tags and RSS), search and a 404.
-- **Writing:** Markdown posts with syntax highlighting, reading time, tags, previous/next links, a reading-progress bar and copy buttons on code blocks.
+- **Writing:** Markdown posts with reading time, tags, previous/next links and a reading-progress bar. Code blocks use [Expressive Code](https://expressive-code.com) (themes that follow the light/dark switch, a copy button, line highlighting and frames).
 - **Search:** Pagefind runs in the visitor's browser and indexes the posts plus the Projects and About pages. It only exists on the built site, not in `npm run dev`.
 - **Whimsy:**
   - a `JJ` hexagon intro that plays once per browser session
@@ -21,7 +21,7 @@ Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com)
 - **Theme:** dark by default, with a light mode. A saved choice wins. There is no flash on load.
 - **Accessibility and motion:** all animation respects `prefers-reduced-motion`, and the pointer effects are skipped on touch screens.
 - **Links:** external links open in a new tab.
-- **SEO:** a canonical URL, Open Graph and Twitter tags and a 1200×630 social card (`public/og.png`, made from `scripts/og.html`) on every page. Home and About carry `Person`/`WebSite` structured data, and posts carry `BlogPosting` and breadcrumbs. There is also a sitemap, `robots.txt`, and `noindex` on the search and 404 pages.
+- **SEO:** a canonical URL, Open Graph and Twitter tags and a 1200×630 social card on every page. The site-wide card is `public/og.png` (made from `scripts/og.html`), and every post gets its own card, drawn at build time by [astro-og-canvas](https://github.com/delucis/astro-og-canvas) (`src/pages/og/[...route].ts`). Home and About carry `Person`/`WebSite` structured data, and posts carry `BlogPosting` and breadcrumbs. There is also a sitemap, `robots.txt`, and `noindex` on the search and 404 pages.
 
 ## Develop
 
@@ -36,6 +36,8 @@ npm run deploy    # build and deploy with Wrangler (needs `wrangler login`)
 ```
 
 To type-check the project: `npx astro check`.
+
+If code blocks look unstyled after changing the Expressive Code settings in `astro.config.mjs`, delete `node_modules/.astro` and rebuild. A stale build cache can leave pages pointing at a stylesheet name that no longer exists. A fresh build, like CI, is not affected.
 
 ## Content
 

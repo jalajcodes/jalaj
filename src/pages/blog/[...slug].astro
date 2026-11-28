@@ -28,7 +28,7 @@ const ld = graph(
     dateModified: post.data.date.toISOString(),
     author: { '@id': PERSON_ID },
     publisher: { '@id': PERSON_ID },
-    image: abs('/og.png'),
+    image: abs(`/og/blog/${post.id}.png`),
     keywords: post.data.tags.join(', '),
     inLanguage: 'en',
     isPartOf: { '@type': 'Blog', name: `${SITE.title}'s writing`, url: abs('/blog/') },
@@ -40,7 +40,7 @@ const ld = graph(
   ]),
 )
 ---
-<Base title={post.data.title} description={post.data.description} type="article" published={post.data.date} tags={post.data.tags} jsonLd={ld}>
+<Base title={post.data.title} description={post.data.description} type="article" ogImage={`/og/blog/${post.id}.png`} published={post.data.date} tags={post.data.tags} jsonLd={ld}>
   <div id="progress" class="fixed top-0 left-0 z-50 h-0.5 w-full origin-left scale-x-0 bg-brand"></div>
   <article class="mx-auto max-w-2xl">
     <a href="/blog" class="sweep font-mono text-sm text-muted hover:text-fg">← All posts</a>
