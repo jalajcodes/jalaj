@@ -4,7 +4,7 @@ import { SKILLS } from '../data/site'
 
 <div
   id="skills"
-  class="flex flex-wrap gap-x-9 gap-y-6 font-display text-2xl sm:text-4xl select-none"
+  class="flex flex-wrap gap-x-9 gap-y-6 font-display text-2xl select-none sm:text-4xl"
   aria-label="Technologies I use"
 >
   {SKILLS.map((s) => (
@@ -12,25 +12,107 @@ import { SKILLS } from '../data/site'
   ))}
 </div>
 <script>
-  // Words swell and light up as the cursor gets near. Reborn from the old About page.
+  // The words swell and light up around a point. With a mouse, the point is your cursor. On a touch screen there is
+  // no cursor, so a soft wave drifts through the words on its own and follows a finger that drags across them.
   const box = document.getElementById('skills')
-  if (box && matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (box) {
     const words = [...box.querySelectorAll<HTMLElement>('.skill')]
-    let raf = 0,
-      px = 0,
-      py = 0
-    const update = () => {
-      raf = 0
+    const light = (x: number, y: number, radius: number) => {
       for (const w of words) {
         const r = w.getBoundingClientRect()
-        const d = Math.hypot(r.left + r.width / 2 - px, r.top + r.height / 2 - py)
-        w.style.setProperty('--d', Math.max(0, 1 - d / 260) ** 2 + '')
+        const d = Math.hypot(r.left + r.width / 2 - x, r.top + r.height / 2 - y)
+        w.style.setProperty('--d', Math.max(0, 1 - d / radius) ** 2 + '')
       }
     }
-    addEventListener('pointermove', (e) => {
-      px = e.clientX
-      py = e.clientY
-      raf ||= requestAnimationFrame(update)
-    })
+
+    if (matchMedia('(pointer: fine)').matches) {
+      // Mouse: follow the cursor.
+      if (!reduce) {
+        let raf = 0,
+          px = 0,
+          py = 0
+        addEventListener('pointermove', (e) => {
+          px = e.clientX
+          py = e.clientY
+          raf ||= requestAnimationFrame(() => {
+            raf = 0
+            light(px, py, 260)
+          })
+        })
+      }
+    } else {
+      // Touch: an ambient wave plus finger-follow. Vertical swipes still scroll the page.
+      box.style.touchAction = 'pan-y'
+      let visible = false,
+        raf = 0,
+        touching = false,
+        lastTouch = -1e9,
+        fx = 0,
+        fy = 0,
+        wx = 0,
+        wy = 0,
+        started = false
+
+      const loop = (t: number) => {
+        const r = box.getBoundingClientRect()
+        const followFinger = touching || t - lastTouch < 1800
+        let tx: number, ty: number
+        if (followFinger) {
+          tx = fx
+          ty = fy
+        } else if (!reduce) {
+          // A slow Lissajous path that wanders over the whole block.
+          const k = t / 1000
+          tx = r.left + r.width * (0.5 + 0.44 * Math.sin(k * 0.7))
+          ty = r.top + r.height * (0.5 + 0.44 * Math.sin(k * 1.1 + 1))
+        } else {
+          // Reduced motion: nothing moves on its own, so let the words settle and stop.
+          for (const w of words) w.style.setProperty('--d', '0')
+          raf = 0
+          return
+        }
+        if (!started) {
+          wx = tx
+          wy = ty
+          started = true
+        }
+        wx += (tx - wx) * 0.14
+        wy += (ty - wy) * 0.14
+        light(wx, wy, Math.max(120, Math.min(190, r.width * 0.5)))
+        raf = visible ? requestAnimationFrame(loop) : 0
+      }
+      const wake = () => {
+        if (!raf && visible) raf = requestAnimationFrame(loop)
+      }
+      new IntersectionObserver(
+        ([e]) => {
+          visible = e.isIntersecting
+          wake()
+        },
+        { threshold: 0.1 },
+      ).observe(box)
+
+      const point = (e: PointerEvent) => {
+        fx = e.clientX
+        fy = e.clientY
+        lastTouch = performance.now()
+        wake()
+      }
+      box.addEventListener('pointerdown', (e) => {
+        touching = true
+        point(e)
+      })
+      box.addEventListener('pointermove', (e) => {
+        if (touching) point(e)
+      })
+      const release = () => {
+        touching = false
+        lastTouch = performance.now()
+        wake()
+      }
+      box.addEventListener('pointerup', release)
+      box.addEventListener('pointercancel', release)
+    }
   }
 </script>

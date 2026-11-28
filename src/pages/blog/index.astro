@@ -23,7 +23,7 @@ const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort()
       <li>
         <a
           href={`/tags/${t}`}
-          class="rounded-full border border-line px-3 py-1 text-muted transition-colors hover:border-brand hover:text-brand"
+          class="block rounded-full border border-line px-3 py-1 text-muted transition-colors hover:border-brand hover:text-brand"
         >
           #{t}
         </a>

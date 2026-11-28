@@ -84,13 +84,16 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
           .
         </p>
         <p data-reveal style="--d:240ms">
-          This site started on Gatsby and was rebuilt in late 2026 with Astro and Tailwind. The squishy letters (try
-          hovering a word), the intro and the glow that follows your cursor all carried over from the first version.
-          Need a break? Type <kbd class="font-mono">shoot</kbd> or use the link in the footer, and{' '}
+          This site started on Gatsby and was rebuilt in late 2026 with Astro and Tailwind. The squishy letters (hover
+          or tap a word) and the intro both carried over from the first version, and on a computer a soft glow follows
+          your cursor. Need a break?
           <button type="button" data-shoot-page class="sweep cursor-pointer text-brand">
-            blast this page
-          </button>{' '}
+            Blast this page
+          </button>
           to pieces.
+          <span class="pointer-coarse:hidden">
+            On a keyboard you can also just type <kbd class="font-mono">shoot</kbd>.
+          </span>
         </p>
       </div>
 
@@ -126,7 +129,11 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
 
     <section class="mt-24">
       <h2 class="mb-8 font-display text-3xl sm:text-4xl" data-reveal>
-        Tools I reach for <span class="font-mono text-sm text-muted">(move your cursor around)</span>
+        Tools I reach for
+        <span class="font-mono text-sm text-muted">
+          <span class="pointer-coarse:hidden">(move your cursor around)</span>
+          <span class="hidden pointer-coarse:inline">(tap or drag across them)</span>
+        </span>
       </h2>
       <SkillField />
     </section>
