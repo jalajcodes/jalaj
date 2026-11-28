@@ -19,7 +19,10 @@ export const RESUME = {
       group: 'Integrations',
       items: ['Bluetooth and Wi-Fi smart scales', 'Stripe payments', 'Google sign-in', 'Slack'],
     },
-    { group: 'Cloud and tools', items: ['AWS', 'Cloudflare Workers', 'Docker', 'Git', 'GitHub Actions'] },
+    {
+      group: 'Cloud and tools',
+      items: ['AWS', 'Terraform (infrastructure as code)', 'Cloudflare Workers', 'Docker', 'Git', 'GitHub Actions'],
+    },
   ],
   experience: [
     {
@@ -30,6 +33,7 @@ export const RESUME = {
         'Lead engineer working across the whole stack, responsible for many of the company’s crucial systems.',
         'Built an autonomous agent flow for the full software delivery lifecycle, from ticket to production, on Amazon Bedrock AgentCore, cutting delivery time by half.',
         'Integrated Bluetooth and Wi-Fi smart scales with the app, giving users a full body composition analysis.',
+        'Deployed full applications on AWS using Terraform, built to handle users at scale.',
         'Used AI and LLMs to create a full-fledged meal planner application.',
         'In charge of the billing product: worked on features and wrote code to keep it bug free and scalable.',
         'Deployed and maintained a self-hosted error and bug tracking application on AWS, which helped the team catch errors promptly and fix them.',
