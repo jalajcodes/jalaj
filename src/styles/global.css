@@ -483,6 +483,34 @@ html.disco {
 }
 
 /* ---------- Print: just the content ---------- */
+/* Landing on /about#contact (from "Get in touch") flashes the block so it is easy to spot. */
+#contact {
+  border-radius: 0.75rem;
+  margin: -0.75rem;
+  padding: 0.75rem;
+}
+#contact:target {
+  animation: contact-flash 2.4s ease-out 0.3s both;
+}
+@keyframes contact-flash {
+  0%,
+  35% {
+    background: color-mix(in oklab, var(--color-brand) 16%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-brand) 55%, transparent);
+  }
+  100% {
+    background: transparent;
+    box-shadow: 0 0 0 1px transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #contact:target {
+    animation-duration: 0.01s;
+    animation-delay: 0s;
+    animation-fill-mode: none;
+  }
+}
+
 @media print {
   header,
   footer,
