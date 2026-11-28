@@ -56,6 +56,11 @@ const ld = graph(
       ← All posts
     </a>
     <p class="mt-8 font-mono text-xs text-muted">
+      {post.data.emoji && (
+        <span aria-hidden="true" class="mr-1 text-base">
+          {post.data.emoji}
+        </span>
+      )}
       {fmtDate(post.data.date, true)} · {readingTime(post.body)} min read
       <span id="read-left" data-min={readingTime(post.body)} aria-hidden="true" />
     </p>

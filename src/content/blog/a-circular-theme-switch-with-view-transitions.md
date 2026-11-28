@@ -1,5 +1,6 @@
 ---
 title: 'A circular theme switch with the View Transitions API'
+emoji: '🌗'
 description: 'How the theme toggle on this site grows a circle from your click, plus the fallbacks and the small bugs it needed.'
 date: 2026-11-27
 tags: [css, javascript, astro, ux]

@@ -21,6 +21,7 @@ interface D1Database {
 }
 interface Env {
   DB: D1Database
+  ADMIN_TOKEN?: string // set with `wrangler secret put ADMIN_TOKEN`; the admin routes are off without it
 }
 
 const MIN_SCORE = 51 // a score has to be more than 50 to go on the board
@@ -109,11 +110,45 @@ async function readBody(request: Request) {
   }
 }
 
+// Compare two strings without leaking where they differ (both are hashed first, then compared in full).
+const sameSecret = async (a: string, b: string) => {
+  const h = async (x: string) => new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(x)))
+  const [x, y] = await Promise.all([h(a), h(b)])
+  let diff = 0
+  for (let i = 0; i < x.length; i++) diff |= x[i] ^ y[i]
+  return diff === 0
+}
+
+// /api/admin/*: list recent scores and delete one. Needs `Authorization: Bearer <ADMIN_TOKEN>`.
+async function admin(request: Request, env: Env, url: URL) {
+  if (!env.ADMIN_TOKEN) return fail(503, 'Admin is not set up')
+  const given = (request.headers.get('authorization') ?? '').replace(/^Bearer\s+/i, '')
+  if (!given || !(await sameSecret(given, env.ADMIN_TOKEN))) return fail(401, 'Unauthorized')
+  await init(env.DB)
+  if (url.pathname === '/api/admin/scores' && request.method === 'GET') {
+    const rows = await env.DB.prepare(
+      'SELECT id, name, score, created_at AS at FROM leaderboard_scores ORDER BY created_at DESC LIMIT 200',
+    ).all<ScoreRow & { id: number }>()
+    return json({ scores: rows.results })
+  }
+  const m = url.pathname.match(/^\/api\/admin\/scores\/(\d+)$/)
+  if (m && request.method === 'DELETE') {
+    const r = await env.DB.prepare('DELETE FROM leaderboard_scores WHERE id = ?').bind(Number(m[1])).run()
+    return json({ deleted: r.meta.changes })
+  }
+  return fail(404, 'Not found')
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url)
     const db = env.DB
     try {
+      if (url.pathname.startsWith('/api/admin/')) {
+        const origin = request.headers.get('origin')
+        if (origin && new URL(origin).host !== url.host) return fail(403, 'Forbidden')
+        return await admin(request, env, url)
+      }
       if (!url.pathname.startsWith('/api/scores')) return fail(404, 'Not found')
 
       // Browsers send an Origin header on cross-site requests; refuse any that are not ours.

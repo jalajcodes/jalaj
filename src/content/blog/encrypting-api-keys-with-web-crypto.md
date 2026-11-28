@@ -1,5 +1,6 @@
 ---
 title: 'Storing users'' API keys with Web Crypto'
+emoji: '🔐'
 description: 'AES-GCM, HKDF and a bit of associated data: how PostDaily keeps API keys write-only and safe from a database leak.'
 date: 2026-11-26
 tags: [typescript, security, postdaily, cloudflare]

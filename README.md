@@ -52,7 +52,7 @@ If code blocks look unstyled after changing the Expressive Code settings in `ast
 
 | What | Where |
 | --- | --- |
-| Posts | `src/content/blog/*.md` or `*.mdx` with `title`, `description`, `date`, optional `tags` and `draft`. MDX posts can use components such as `<Callout type="warning" title="Heads up">…</Callout>` (`src/components/Callout.astro`) |
+| Posts | `src/content/blog/*.md` or `*.mdx` with `title`, `description`, `date`, optional `emoji`, `tags` and `draft` (drafts show in `npm run dev` only). MDX posts can use components such as `<Callout type="warning" title="Heads up">…</Callout>` (`src/components/Callout.astro`) |
 | Projects | `src/data/projects.ts` (set `featured: true` to show one on the home page) |
 | Socials, skills, GitHub facts, nav | `src/data/site.ts` |
 | Theme colours and effects | `src/styles/global.css` |
@@ -92,6 +92,7 @@ The Worker in `worker/index.ts` handles `GET /api/scores` (top 20), `POST /api/s
 - **Checks:** a score must be above 50, a name is 2 to 16 letters, numbers or spaces without profanity, each game id can be used once, the score has to fit the time played, and each address is limited to 3 posts an hour. Scores come from the visitor's browser, so these checks raise the bar but cannot make the board tamper-proof.
 - **The database:** one shared D1 database, `jalaj-fyi` (APAC), bound as `DB` in `wrangler.jsonc`. It is meant for more than the leaderboard, so each feature prefixes its tables; the leaderboard uses `leaderboard_scores` and `leaderboard_runs`. It was created with `npx wrangler d1 create jalaj-fyi --location apac`.
 - **Local testing:** `npm run preview:worker` uses a throwaway local database in `.wrangler/state`.
+- **Admin:** `/admin` (not linked, `noindex`) lists recent scores and deletes one. It talks to `/api/admin/*`, which answers only with `Authorization: Bearer <ADMIN_TOKEN>`. Turn it on once with `npx wrangler secret put ADMIN_TOKEN` (pick a long random value); until then the routes return 503.
 - **Removing a score:** `npx wrangler d1 execute jalaj-fyi --remote --command "DELETE FROM leaderboard_scores WHERE name = 'SomeName'"`.
 - Without the Worker (for example `npm run dev`), the game and the leaderboard page simply hide the leaderboard.
 

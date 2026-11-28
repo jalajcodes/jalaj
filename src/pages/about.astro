@@ -117,6 +117,14 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
           </a>
         </div>
         <div>
+          <p class="text-muted">Say hello</p>
+          <p id="email-text">jalaj799 [at] gmail.com</p>
+          <button type="button" id="email-copy" class="sweep mt-1 cursor-pointer text-brand">
+            Copy address
+          </button>
+          <span id="email-note" class="ml-2 text-muted" role="status"></span>
+        </div>
+        <div>
           <p class="mb-2 text-muted">Elsewhere</p>
           <ul class="space-y-1">
             {SOCIALS.map((s) => (
@@ -197,4 +205,22 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
     )
     counters.forEach((c) => io.observe(c))
   }
+</script>
+
+<script>
+  // The address is shown as "name [at] domain" and is only turned into a real address when copied, so there is no
+  // mailto link or plain address in the page for scrapers to collect.
+  const btn = document.getElementById('email-copy')
+  const note = document.getElementById('email-note')
+  btn?.addEventListener('click', async () => {
+    const text = document.getElementById('email-text')?.textContent ?? ''
+    const address = text.replace(/\s*\[at\]\s*/, '@').trim()
+    try {
+      await navigator.clipboard.writeText(address)
+      if (note) note.textContent = 'Copied.'
+    } catch {
+      if (note) note.textContent = 'Copy it from above.'
+    }
+    setTimeout(() => note && (note.textContent = ''), 2500)
+  })
 </script>

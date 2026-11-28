@@ -332,7 +332,7 @@ html.intro-run #preloader {
 .skill {
   --d: 0;
   display: inline-block;
-  opacity: calc(0.3 + var(--d) * 0.7);
+  opacity: calc(0.55 + var(--d) * 0.45);
   transform: scale(calc(1 + var(--d) * 0.4));
   color: color-mix(in srgb, var(--brand) calc(var(--d) * 100%), var(--fg));
   transition: color 200ms linear;

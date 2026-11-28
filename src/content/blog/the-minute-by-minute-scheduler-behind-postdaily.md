@@ -1,5 +1,6 @@
 ---
 title: 'The scheduler behind PostDaily, one minute at a time'
+emoji: '⏱️'
 description: 'Four background jobs, one function that runs every minute, and the small patterns that stop it from double-sending or double-posting.'
 date: 2026-11-25
 tags: [typescript, postdaily, cloudflare, backend]
