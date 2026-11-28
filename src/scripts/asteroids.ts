@@ -358,8 +358,6 @@ export function startAsteroids() {
     if (!posted && score < MIN_POST) add('div', `margin-top:4px;color:${muted}`, `Score ${MIN_POST} or more to join.`)
     const link = add('a', `display:inline-block;margin-top:6px;color:${col('--brand')}`, 'Full leaderboard →') as HTMLAnchorElement
     link.href = '/leaderboard'
-    link.target = '_blank'
-    link.rel = 'noopener noreferrer'
     panel.style.display = 'block'
   }
 
