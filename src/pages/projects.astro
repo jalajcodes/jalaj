@@ -24,7 +24,10 @@ const archive = PROJECTS.filter((p) => !p.featured)
       .
     </p>
 
-    <section class="mt-14 grid gap-5 sm:grid-cols-2">
+    <section class="mt-14 grid gap-5 sm:grid-cols-2" aria-labelledby="featured-projects">
+      <h2 id="featured-projects" class="sr-only">
+        Featured projects
+      </h2>
       {featured.map((p, i) => (
         <ProjectCard project={p} big={i === 0} delay={i * 70} />
       ))}

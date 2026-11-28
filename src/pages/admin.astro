@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro'
+---
+
+<Base title="Admin" description="Private." noindex>
+  <h1 class="font-display text-4xl">Leaderboard admin</h1>
+  <p class="mt-4 max-w-xl font-mono text-sm text-muted">
+    Private. Enter the admin token to list recent scores and delete one. The token stays in this tab only.
+  </p>
+  <form id="login" class="mt-6 flex max-w-xl gap-3 font-mono text-sm">
+    <input
+      id="token"
+      type="password"
+      autocomplete="off"
+      placeholder="Admin token"
+      aria-label="Admin token"
+      class="min-w-0 flex-1 rounded-lg border border-line bg-bg-soft px-3 py-2"
+    />
+    <button type="submit" class="cursor-pointer rounded-lg bg-brand px-4 py-2 font-medium text-brand-ink">
+      Load
+    </button>
+  </form>
+  <p id="msg" class="mt-3 min-h-[1.5rem] font-mono text-sm text-hot" role="alert"></p>
+  <ul id="rows" class="mt-4 max-w-2xl divide-y divide-line border-y border-line font-mono text-sm empty:hidden"></ul>
+</Base>
+
+<script>
+  const input = document.getElementById('token') as HTMLInputElement
+  const msg = document.getElementById('msg')!
+  const rows = document.getElementById('rows')!
+  const auth = () => ({ authorization: `Bearer ${input.value.trim()}` })
+
+  const load = async () => {
+    msg.textContent = ''
+    rows.replaceChildren()
+    const r = await fetch('/api/admin/scores', { headers: auth() })
+    if (!r.ok) {
+      msg.textContent =
+        r.status === 401 ? 'Wrong token.' : r.status === 503 ? 'Admin is not set up yet.' : 'Could not load.'
+      return
+    }
+    try {
+      sessionStorage.setItem('jj-admin', input.value.trim())
+    } catch {}
+    const { scores } = (await r.json()) as { scores: { id: number; name: string; score: number; at: number }[] }
+    if (!scores.length) msg.textContent = 'No scores yet.'
+    for (const s of scores) {
+      const li = document.createElement('li')
+      li.className = 'flex items-center justify-between gap-3 px-1 py-2'
+      const text = document.createElement('span')
+      text.className = 'min-w-0 truncate'
+      text.textContent = `${s.name} · ${s.score} · ${new Date(s.at).toLocaleString()}`
+      const del = document.createElement('button')
+      del.type = 'button'
+      del.textContent = 'Delete'
+      del.className = 'cursor-pointer rounded border border-line px-3 py-1 hover:border-hot hover:text-hot'
+      del.addEventListener('click', async () => {
+        if (!confirm(`Delete ${s.name}'s score of ${s.score}?`)) return
+        const d = await fetch(`/api/admin/scores/${s.id}`, { method: 'DELETE', headers: auth() })
+        if (d.ok) li.remove()
+        else msg.textContent = 'Could not delete.'
+      })
+      li.append(text, del)
+      rows.append(li)
+    }
+  }
+
+  document.getElementById('login')!.addEventListener('submit', (e) => {
+    e.preventDefault()
+    void load()
+  })
+  try {
+    const saved = sessionStorage.getItem('jj-admin')
+    if (saved) {
+      input.value = saved
+      void load()
+    }
+  } catch {}
+</script>

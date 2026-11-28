@@ -1,5 +1,6 @@
 ---
 title: 'Plan my week: parallel LLM calls that don''t sound alike'
+emoji: '🗓️'
 description: 'How PostDaily writes a week of LinkedIn posts at once: rotating themes and formats, small parallel chunks, retries and tolerant parsing.'
 date: 2026-11-25
 tags: [ai, llm, typescript, postdaily]

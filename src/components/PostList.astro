@@ -16,6 +16,7 @@ const { posts } = Astro.props
         <span class="font-mono text-xs text-muted">{fmtDate(p.data.date)}</span>
         <span>
           <span class="block font-display text-2xl leading-tight transition-colors group-hover:text-brand">
+            {p.data.emoji && <span aria-hidden="true">{p.data.emoji} </span>}
             {p.data.title}
           </span>
           <span class="mt-1 block text-sm text-muted">{p.data.description}</span>

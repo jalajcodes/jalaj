@@ -1,5 +1,6 @@
 ---
 title: 'A size-limited cache API, and the race I left in it'
+emoji: '🧊'
 description: 'A review of my own cache-api: what it does well, where it can overfill under load, and how I would fix it.'
 date: 2025-02-09
 tags: [nodejs, api-design, express]

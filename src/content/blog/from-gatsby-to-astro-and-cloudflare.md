@@ -1,5 +1,6 @@
 ---
 title: 'From Gatsby to Astro and Cloudflare'
+emoji: '🚀'
 description: 'Why I rebuilt this site, what I kept from the old one, and the DNS detail that tripped up the cutover.'
 date: 2026-11-27
 tags: [meta, astro, cloudflare]

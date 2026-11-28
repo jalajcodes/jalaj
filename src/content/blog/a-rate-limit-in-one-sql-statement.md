@@ -1,5 +1,6 @@
 ---
 title: 'A rate limit in one SQL statement'
+emoji: '🚦'
 description: 'How PostDaily enforces a daily AI allowance with a single atomic upsert, and why it avoids the race in my cache-api.'
 date: 2026-11-26
 tags: [sql, postdaily, api-design, typescript]

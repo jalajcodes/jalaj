@@ -14,7 +14,7 @@ let n = 0
 const words = text.split(' ').map((w) => [...w].map((c) => ({ c, i: n++ })))
 ---
 
-<Tag class:list={['chars', cls]} aria-label={text} style={`--base:${delay}ms;--step:${step}ms`}>
+<Tag class:list={['chars', cls]} role="img" aria-label={text} style={`--base:${delay}ms;--step:${step}ms`}>
   {words.map((w, wi) => (
     <>
       <span class="w inline-block whitespace-nowrap" aria-hidden="true">
