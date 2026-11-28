@@ -20,13 +20,16 @@ const path = Astro.url.pathname
         <span class="hjj">J</span>ala<span class="hjj">j</span> Gupta
       </span>
     </a>
-    <nav aria-label="Main" class="flex items-center gap-3 text-[13px] min-[400px]:gap-4 sm:gap-7 sm:text-sm">
+    <nav
+      aria-label="Main"
+      class="flex items-center gap-3 text-[13px] max-[419px]:gap-2.5 max-[419px]:text-xs max-[339px]:gap-1.5 min-[420px]:gap-4 sm:gap-5 sm:text-sm lg:gap-7"
+    >
       {NAV.map((n) => (
         <a
           href={n.href}
           data-scramble
           class:list={[
-            'sweep font-mono',
+            'sweep font-mono whitespace-nowrap',
             path.startsWith(n.href) ? 'text-fg [background-size:100%_2px]' : 'text-muted hover:text-fg',
           ]}
           aria-current={path.startsWith(n.href) ? 'page' : undefined}
@@ -34,6 +37,12 @@ const path = Astro.url.pathname
           {n.label}
         </a>
       ))}
+      <a
+        href="/about#contact"
+        class="hidden rounded-full bg-brand px-4 py-1.5 font-mono text-sm font-medium text-brand-ink transition-transform hover:-translate-y-0.5 md:inline-flex"
+      >
+        Get in touch
+      </a>
       <a href="/search" aria-label="Search" title="Search ( / )" class="text-muted transition-colors hover:text-brand">
         <svg
           viewBox="0 0 24 24"

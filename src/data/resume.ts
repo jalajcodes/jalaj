@@ -2,10 +2,10 @@
 // Edit here and bump `updated`.
 export const RESUME = {
   updated: '2026-11-28',
-  title: 'AI-first fullstack developer',
+  title: 'Lead Software Development Engineer · AI-first fullstack',
   profile:
-    'Fullstack developer in Bengaluru, India who builds AI agents and the products around them end to end: React on the front, Node and APIs on the back, shipped on AWS and Cloudflare. Passionate about open source, project architecture and user experience.',
-  available: 'Open to freelance and full-time remote work.',
+    'Lead software engineer in Bengaluru, India who builds AI agents and the products around them end to end: React on the front, Node and APIs on the back, shipped on AWS and Cloudflare. Passionate about open source, project architecture and user experience.',
+  available: 'Looking for a full-time remote lead role; open to freelance and other roles.',
   skills: [
     {
       group: 'AI',

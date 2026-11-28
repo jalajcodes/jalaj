@@ -11,7 +11,7 @@ export const person = () => ({
   name: SITE.title,
   url: SITE.url,
   image: abs('/og.png'),
-  jobTitle: 'Fullstack Developer',
+  jobTitle: 'Lead Software Development Engineer',
   description: SITE.description,
   address: { '@type': 'PostalAddress', addressLocality: 'Bengaluru', addressCountry: 'IN' },
   sameAs: SOCIALS.map((s) => s.href),

@@ -13,6 +13,7 @@ export const NAV = [
   { href: '/projects', label: 'Projects' },
   { href: '/blog', label: 'Writing' },
   { href: '/about', label: 'About' },
+  { href: '/resume', label: 'Resume' },
 ]
 
 export const SOCIALS = [
@@ -72,3 +73,26 @@ export const SKILL_NOTES: Record<string, string> = {
   Gatsby: 'The old version of this site. It lives on the gatsby-legacy branch.',
   TypeScript: 'This whole site, the game and the Worker are TypeScript.',
 }
+
+// The short list shown in the home page marquee: things I can back up with work. The full list is SKILLS.
+export const HEADLINE_SKILLS = [
+  'AI agents',
+  'Amazon Bedrock AgentCore',
+  'MCP',
+  'RAG',
+  'TypeScript',
+  'React',
+  'Node.js',
+  'AWS',
+  'Terraform',
+  'PostgreSQL',
+  'Cloudflare Workers',
+]
+
+// Numbers from my resume, shown under the home page hero.
+export const PROOF = [
+  { n: '5+', label: 'years shipping production software' },
+  { n: '2M+', label: 'users on a system I shipped to' },
+  { n: '75%', label: 'Google sign-up conversion' },
+  { n: '50%', label: 'less time from ticket to production' },
+]
