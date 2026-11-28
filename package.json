@@ -12,7 +12,8 @@
     "deploy": "npm run build && wrangler deploy",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "preview:worker": "npm run build && wrangler dev --local"
+    "preview:worker": "npm run build && wrangler dev --local",
+    "resume:pdf": "node scripts/resume-pdf.mjs"
   },
   "repository": {
     "type": "git",

@@ -4,13 +4,51 @@ import Chars from '../components/Chars.astro'
 import { fmtDate } from '../lib'
 import { RESUME } from '../data/resume'
 import { SOCIALS } from '../data/site'
+import { abs, graph, person, PERSON_ID } from '../seo'
 
+// Structured data: the same Person as everywhere else on the site (same @id) with the work, education and skills
+// from the resume added, plus a ProfilePage that points at it.
+const ld = graph(
+  {
+    ...person(),
+    jobTitle: 'Senior Software Development Engineer',
+    worksFor: { '@type': 'Organization', name: 'HabitNu' },
+    alumniOf: [
+      { '@type': 'CollegeOrUniversity', name: 'St. Wilfred’s' },
+      { '@type': 'CollegeOrUniversity', name: 'University of Helsinki' },
+    ],
+    hasOccupation: RESUME.experience.map((x) => ({
+      '@type': 'Occupation',
+      name: x.role,
+      description: x.points.join(' '),
+      occupationLocation: { '@type': 'Country', name: 'India' },
+    })),
+    knowsAbout: RESUME.skills.flatMap((g) => g.items),
+    seeks: 'Freelance and full-time remote work',
+    subjectOf: {
+      '@type': 'DigitalDocument',
+      name: 'Resume (PDF)',
+      encodingFormat: 'application/pdf',
+      url: abs('/Jalaj-Gupta-Resume.pdf'),
+    },
+  },
+  {
+    '@type': 'ProfilePage',
+    '@id': abs('/resume/'),
+    url: abs('/resume/'),
+    name: 'Resume of Jalaj Gupta',
+    dateModified: RESUME.updated,
+    mainEntity: { '@id': PERSON_ID },
+    inLanguage: 'en',
+  },
+)
 const updated = fmtDate(new Date(RESUME.updated), true).replace(/ \d+,/, '')
 ---
 
 <Base
   title="Resume"
   description="Resume of Jalaj Gupta, an AI-first fullstack developer in Bengaluru, India: AI agents, React, Node and AWS."
+  jsonLd={ld}
 >
   <div data-pagefind-body>
     <div class="flex flex-wrap items-end justify-between gap-4">
@@ -22,13 +60,23 @@ const updated = fmtDate(new Date(RESUME.updated), true).replace(/ \d+,/, '')
           {RESUME.title} · Bengaluru, India
         </p>
       </div>
-      <button
-        type="button"
-        id="print"
-        class="cursor-pointer rounded-full border border-line px-5 py-2 font-mono text-sm transition-colors hover:border-brand hover:text-brand print:hidden"
-      >
-        Save as PDF
-      </button>
+      <div class="flex gap-3 font-mono text-sm print:hidden">
+        <a
+          href="/Jalaj-Gupta-Resume.pdf"
+          download
+          data-astro-prefetch="false"
+          class="rounded-full bg-brand px-5 py-2 font-medium text-brand-ink transition-transform hover:-translate-y-0.5"
+        >
+          Download PDF
+        </a>
+        <button
+          type="button"
+          id="print"
+          class="cursor-pointer rounded-full border border-line px-5 py-2 transition-colors hover:border-brand hover:text-brand"
+        >
+          Print
+        </button>
+      </div>
     </div>
 
     <p class="mt-4 flex flex-wrap gap-x-5 gap-y-1 font-mono text-sm text-muted">

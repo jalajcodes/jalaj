@@ -42,6 +42,10 @@ To type-check the project: `npx astro check`.
 
 If code blocks look unstyled after changing the Expressive Code settings in `astro.config.mjs`, delete `node_modules/.astro` and rebuild. A stale build cache can leave pages pointing at a stylesheet name that no longer exists. A fresh build, like CI, is not affected.
 
+## Security headers
+
+`public/_headers` sets a Content-Security-Policy, `X-Content-Type-Options`, frame, referrer, permissions and HSTS headers on every file. The CSP allows only this site's own scripts, styles, fonts, images and `fetch` calls (plus inline scripts, which Astro and the theme switch need, and WebAssembly for search). If you add anything from another domain (analytics, an embed), add its origin to the matching directive there.
+
 ## Tooling
 
 - **Prettier** with `prettier-plugin-astro` and `prettier-plugin-tailwindcss` (which sorts Tailwind classes). The config is `.prettierrc.json`. Markdown and MDX posts are left as written.
@@ -55,6 +59,7 @@ If code blocks look unstyled after changing the Expressive Code settings in `ast
 | Posts | `src/content/blog/*.md` or `*.mdx` with `title`, `description`, `date`, optional `emoji`, `tags` and `draft` (drafts show in `npm run dev` only). MDX posts can use components such as `<Callout type="warning" title="Heads up">…</Callout>` (`src/components/Callout.astro`) |
 | Projects | `src/data/projects.ts` (set `featured: true` to show one on the home page) |
 | Socials, skills, GitHub facts, nav | `src/data/site.ts` |
+| Resume (page, structured data and the PDF) | `src/data/resume.ts`, then `npm run resume:pdf` rewrites `public/Jalaj-Gupta-Resume.pdf` (single column, plain text, for applicant tracking systems; needs Chrome) |
 | Theme colours and effects | `src/styles/global.css` |
 | Fonts (Astro's Fonts API: preloads, fallbacks, `font-display`) | `fonts` in `astro.config.mjs` |
 
