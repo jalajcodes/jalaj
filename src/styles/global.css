@@ -481,3 +481,42 @@ html.disco {
     animation: none;
   }
 }
+
+/* ---------- Print: just the content ---------- */
+@media print {
+  header,
+  footer,
+  #blob,
+  #progress,
+  #preloader,
+  #share,
+  #share-note,
+  [data-asteroids] {
+    display: none !important;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  .prose {
+    color: #000 !important;
+  }
+  a {
+    color: inherit !important;
+    text-decoration: underline;
+  }
+  .prose a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    word-break: break-all;
+  }
+  pre {
+    white-space: pre-wrap !important;
+    border: 1px solid #ccc;
+  }
+}
