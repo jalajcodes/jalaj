@@ -13,7 +13,6 @@ export const NAV = [
   { href: '/projects', label: 'Projects' },
   { href: '/blog', label: 'Writing' },
   { href: '/about', label: 'About' },
-  { href: '/now', label: 'Now' },
 ]
 
 export const SOCIALS = [
@@ -94,4 +93,22 @@ export const NOW = {
     },
   ],
   learning: ['AI in general', 'Inference engineering'],
+  // Things that have actually shipped lately.
+  lately: [
+    'Rebuilt this site from Gatsby to Astro and Cloudflare.',
+    'Added Shoot the page, a game that blasts the site’s own words, with a leaderboard.',
+    'Wrote up an agent-assisted SDLC on Amazon Bedrock AgentCore.',
+  ],
+  // The tools in my hands this month.
+  using: [
+    'Claude',
+    'MCP',
+    'RAG',
+    'Amazon Bedrock AgentCore',
+    'Astro',
+    'Cloudflare Workers',
+    'D1',
+    'TypeScript',
+    'React',
+  ],
 }

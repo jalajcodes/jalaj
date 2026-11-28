@@ -1,9 +1,11 @@
 ---
 import Base from '../layouts/Base.astro'
 import Chars from '../components/Chars.astro'
-import { fmtDate } from '../lib'
+import PostList from '../components/PostList.astro'
+import { fmtDate, getPosts } from '../lib'
 import { NOW } from '../data/site'
 
+const latest = (await getPosts()).slice(0, 3)
 const updated = fmtDate(new Date(NOW.updated), true).replace(/ \d+,/, '')
 ---
 
@@ -41,6 +43,17 @@ const updated = fmtDate(new Date(NOW.updated), true).replace(/ \d+,/, '')
       </ul>
     </section>
 
+    <section class="mt-14 max-w-2xl" aria-labelledby="lately">
+      <h2 id="lately" class="mb-6 font-display text-3xl sm:text-4xl" data-reveal>
+        Lately
+      </h2>
+      <ul class="list-disc space-y-2 pl-5 marker:text-brand" data-reveal>
+        {NOW.lately.map((l) => (
+          <li>{l}</li>
+        ))}
+      </ul>
+    </section>
+
     <section class="mt-14 max-w-2xl" aria-labelledby="learning">
       <h2 id="learning" class="mb-6 font-display text-3xl sm:text-4xl" data-reveal>
         Learning
@@ -50,6 +63,29 @@ const updated = fmtDate(new Date(NOW.updated), true).replace(/ \d+,/, '')
           <li class="rounded-full border border-line px-4 py-1.5">{l}</li>
         ))}
       </ul>
+    </section>
+
+    <section class="mt-14 max-w-2xl" aria-labelledby="using">
+      <h2 id="using" class="mb-6 font-display text-3xl sm:text-4xl" data-reveal>
+        In my toolbox
+      </h2>
+      <ul class="flex flex-wrap gap-3 font-mono text-sm" data-reveal>
+        {NOW.using.map((l) => (
+          <li class="rounded-full border border-brand/40 px-4 py-1.5 text-brand">{l}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mt-14" aria-labelledby="reading">
+      <h2 id="reading" class="mb-6 font-display text-3xl sm:text-4xl" data-reveal>
+        Latest writing
+      </h2>
+      <PostList posts={latest} />
+      <p class="mt-4 font-mono text-sm">
+        <a class="sweep text-brand" href="/blog">
+          All posts →
+        </a>
+      </p>
     </section>
 
     <p class="mt-14 max-w-2xl text-lg" data-reveal>
