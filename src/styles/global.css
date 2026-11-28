@@ -483,6 +483,28 @@ html.disco {
 }
 
 /* ---------- Print: just the content ---------- */
+/* Landing on /about#contact (from "Get in touch") pulses the block, then leaves a soft glow on it.
+   Only box-shadow is used, so nothing in the layout moves. */
+#contact {
+  border-radius: 0.75rem;
+}
+#contact:target {
+  background: color-mix(in oklab, var(--color-brand) 10%, transparent);
+  box-shadow: 0 0 0 0.6rem color-mix(in oklab, var(--color-brand) 10%, transparent);
+  animation: contact-pulse 1.6s ease-in-out 0.3s infinite;
+}
+@keyframes contact-pulse {
+  50% {
+    background: color-mix(in oklab, var(--color-brand) 24%, transparent);
+    box-shadow: 0 0 0 0.6rem color-mix(in oklab, var(--color-brand) 24%, transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #contact:target {
+    animation: none;
+  }
+}
+
 @media print {
   header,
   footer,
