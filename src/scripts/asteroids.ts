@@ -512,7 +512,12 @@ export function startAsteroids() {
 
   // ---- input ----
   const MAP: Record<string, string> = { ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', ArrowUp: 'up', KeyW: 'up', Space: 'fire' }
-  const exit = () => location.reload() // reloading puts every destroyed word back
+  // Reloading puts every destroyed word back. Quitting mid-game with a postable score ends the game first, so the
+  // name form shows; the next Exit really leaves.
+  const exit = () => {
+    if (mode === 'play' && score >= MIN_POST && runId && !posted && !dismissed) return finish('over')
+    location.reload()
+  }
   const restart = () => { try { sessionStorage.setItem('jj-shoot', '1') } catch {} ; location.reload() }
   const typing = (e: Event) => (e.target as HTMLElement | null)?.matches?.('input,textarea,select')
   const down = (e: KeyboardEvent) => {
