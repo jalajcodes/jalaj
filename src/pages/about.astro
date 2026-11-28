@@ -34,15 +34,14 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
       <Chars text="About" /> <Chars text="me" delay={150} class="text-brand" />
     </h1>
 
-    <p
-      class="rise mt-10 font-display text-[clamp(1.75rem,4.4vw,2.9rem)] leading-tight text-balance sm:whitespace-nowrap"
-      style="--d:400ms"
-    >
-      I build{' '}
-      <span id="swap" class="inline-block text-brand" data-words={JSON.stringify(WORDS)}>
-        {WORDS[0]}
-      </span>{' '}
-      <span class="whitespace-nowrap">end to end.</span>
+    <p class="rise mt-10 font-display text-[clamp(1.35rem,6.2vw,2.9rem)] leading-tight" style="--d:400ms">
+      <span class="block whitespace-nowrap">
+        I build{' '}
+        <span id="swap" class="inline-block text-brand" data-words={JSON.stringify(WORDS)}>
+          {WORDS[0]}
+        </span>
+      </span>
+      <span class="block">end to end.</span>
       <span class="sr-only"> That includes {WORDS.join(', ')}.</span>
     </p>
 
@@ -86,7 +85,7 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
         <p data-reveal style="--d:240ms">
           This site started on Gatsby and was rebuilt in late 2026 with Astro and Tailwind. The squishy letters (hover
           or tap a word) and the intro both carried over from the first version, and on a computer a soft glow follows
-          your cursor. Need a break?
+          your cursor. Need a break?{' '}
           <button type="button" data-shoot-page class="sweep cursor-pointer text-brand">
             Blast this page
           </button>{' '}
@@ -142,8 +141,8 @@ const WORDS = ['web apps', 'APIs', 'AI-powered tools', 'mobile apps', 'things fo
 
     <section class="mt-24">
       <h2 class="mb-8 font-display text-3xl sm:text-4xl" data-reveal>
-        Tools I reach for
-        <span class="font-mono text-sm text-muted">
+        Tools I reach for{' '}
+        <span class="mt-2 block font-mono text-sm leading-normal text-muted sm:mt-0 sm:inline">
           <span class="pointer-coarse:hidden">(move your cursor around)</span>
           <span class="hidden pointer-coarse:inline">(tap or drag across them)</span>
         </span>
